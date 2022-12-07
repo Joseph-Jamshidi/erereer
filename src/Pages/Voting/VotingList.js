@@ -105,6 +105,7 @@ const VotingList = () => {
         e.preventDefault();
         navigate(`../CreateVote/${id}`);
     };
+    console.log("ewqeqw")
 
     return (
         <>
