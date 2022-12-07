@@ -1,0 +1,23 @@
+body {
+    background-color: #EAF8FF;
+    margin: 0;
+    padding: 0;
+}
+
+.css-hyum1k-MuiToolbar-root {
+    min-height: 0 !important;
+    padding: 8px 0;
+}
+
+.muirtl-6hp17o-MuiList-root-MuiMenu-list {
+    padding: 0 !important;
+}
+.muirtl-1t1j96h-MuiPaper-root-MuiDialog-paper{
+    border: 3px solid #425C81;
+}
+.muirtl-yiavyu-MuiBackdrop-root-MuiDialog-backdrop{
+    opacity: 0.3 !important;
+}
+.muirtl-1ex1afd-MuiTableCell-root{
+    padding: 16px 8px !important;
+}
