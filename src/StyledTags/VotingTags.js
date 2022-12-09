@@ -26,11 +26,11 @@ export const Section = styled(Grid2)`
   margin: 8px 6px;
 `;
 export const ElectionButton = styled(Button)`
-  max-width: 100%;
   background-color: #425C81;
-  padding: 3px 4px 3px 0;
+  padding: 3px;
   color: white;
   margin: 4px;
+  min-width: fit-content;
   font-family: 'Vazir FD', sans-serif;
   font-style: normal;
   font-weight: 100;

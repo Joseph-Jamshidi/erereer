@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Box, InputAdornment, TextField, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {HeaderText, LoginButton, LoginLink, MainSection, Pic} from "../../StyledTags/RegisterTags";
@@ -9,21 +9,19 @@ import Vector from "../../images/Vector.png";
 import Ellipse652 from "../../images/Ellipse652.png";
 import UserServices from "../../Services/UserServices";
 import {useLocation, useNavigate} from "react-router-dom";
+import CountDownTimer from "../../Component/CounterDownTimer";
 
 const RegisterVerification = () => {
 
     const [verifyCode, setVerifyCode] = useState('');
+    const [timer, setTimer] = useState({minutes: 2, seconds: 0});
+    const [showTimer, setShowTimer] = useState(true);
     const location = useLocation();
     const navigate = useNavigate();
-    const phoneNumber = location.state.phoneNumber
-
-    useEffect(() => {
-
-    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        UserServices.VerifyUser(verifyCode, phoneNumber).then((r) => {
+        UserServices.VerifyUser(verifyCode, location.state.phoneNumber).then((r) => {
             if (r.statusCode === 'Success') {
                 alert(r.message);
                 navigate("../login");
@@ -35,14 +33,21 @@ const RegisterVerification = () => {
 
     const handleSendCodeAgain = (e) => {
         e.preventDefault();
-        UserServices.SendCodeAgain(phoneNumber).then((r)=>{
-            alert(r.message)
+        UserServices.SendCodeAgain(location.state.phoneNumber).then(() => {
+            alert("کد مجدد برای شما ارسال شد");
+            setShowTimer(true);
+            setTimer({minutes: 2,seconds: 0});
         })
-    }
+    };
+
+    const onFinishTimer = () => {
+
+        setShowTimer(false);
+    };
 
     return (
         <>
-            <Grid2 container justifyContent='center' sx={{mt: '40px', pb: '10px', position: 'relative'}}>
+            <Grid2 container justifyContent='center' sx={{mt: '40px', pb: '365px', position: 'relative'}}>
                 <Grid2 xs={11} sm={8} md={6} lg={4}>
                     <MainSection>
                         <Grid2 container>
@@ -66,9 +71,19 @@ const RegisterVerification = () => {
                                         />
                                     </Grid2>
                                     <Grid2 container sx={{width: '100%'}}>
-                                        <LoginLink onClick={handleSendCodeAgain}>
-                                            <Typography align="center" sx={{color: 'blue'}}>دریافت مجدد کد</Typography>
-                                        </LoginLink>
+                                        {showTimer ?
+                                            <Typography align="center" sx={{color: 'silver', width: '100%'}}>
+                                                دریافت مجدد کد&nbsp;
+                                                <CountDownTimer onFinished={onFinishTimer} timer={timer}
+                                                                setTimer={setTimer}/>
+                                            </Typography>
+                                            :
+                                            <LoginLink onClick={handleSendCodeAgain}>
+                                                <Typography align="center" sx={{color: 'blue'}}>
+                                                    دریافت مجدد کد
+                                                </Typography>
+                                            </LoginLink>
+                                        }
                                     </Grid2>
                                     <Grid2 container sx={{width: '100%', mb: '0', mt: '1%'}}>
                                         <LoginButton variant="contained" type="submit">ثبت نام</LoginButton>

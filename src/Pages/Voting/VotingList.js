@@ -26,6 +26,10 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {DateObject} from "react-multi-date-picker";
 import persian_en from "react-date-object/locales/persian_en";
 import persian from "react-date-object/calendars/persian";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import GroupsIcon from '@mui/icons-material/Groups';
 
 const VotingList = () => {
 
@@ -59,14 +63,14 @@ const VotingList = () => {
             m.persianEndDate = convertTime(m.endDate);
             return m;
         });
-    }
+    };
 
     const convertTime = (date) => {
         const dateObj = new Date(date);
         const object = {dateObj, format: "YYYY-MM-DD"}
         const persianDate = new DateObject(object).convert(persian, persian_en).format();
         return (persianDate)
-    }
+    };
 
     const handleCandidateManagement = (e, id) => {
         e.preventDefault();
@@ -109,49 +113,45 @@ const VotingList = () => {
     return (
         <>
             <TableContainer component={Paper} sx={{display: {xs: 'none', md: 'block'}}}>
-                <Table sx={{minWidth: 650}} aria-label="simple table">
+                <Table size="small">
                     <TableHead>
                         <TableRow>
                             <TableCell>ردیف</TableCell>
                             <TableCell>عنوان انتخابات</TableCell>
                             <TableCell>تاریخ شروع انتخابات</TableCell>
                             <TableCell>تاریخ پایان انتخابات</TableCell>
-                            <TableCell>تعداد کاندیدهای انتخابات</TableCell>
-                            <TableCell>تعداد رأی برای هر کاربر</TableCell>
-                            <TableCell>مدیریت رأی دهنده</TableCell>
-                            <TableCell colSpan={2}>مدیریت کاندیدها</TableCell>
+                            <TableCell align="center">تعداد کاندیدها</TableCell>
+                            <TableCell align="center">تعداد رأی هر کاربر</TableCell>
+                            <TableCell colSpan={4} align="center">علملیات</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {
                             elections.map((el, i) =>
                                 <TableRow key={el.id}>
-                                    <TableCell>{(pageNumber - 1) * 10 + (i + 1)}</TableCell>
+                                    <TableCell sx={{pl: 2}}>{(pageNumber - 1) * 10 + (i + 1)}</TableCell>
                                     <TableCell>{el.name}</TableCell>
-                                    <TableCell>{el.persianStartDate}</TableCell>
-                                    <TableCell>{el.persianEndDate}</TableCell>
-                                    <TableCell>{el.candidateCount}</TableCell>
-                                    <TableCell>{el.userVoteCount}</TableCell>
-                                    <TableCell>
-                                        <LinkButton>
-                                            <ManageButton variant="contained"
-                                                          onClick={(e) => handleCandidateManagement(e, el.id)}>
-                                                مدیریت کاندید ها
-                                            </ManageButton>
-                                        </LinkButton>
-                                    </TableCell>
-                                    <TableCell>
-                                        <LinkButton>
-                                            <ManageButton variant="contained"
-                                                          onClick={(e) => handleVoterManagement(e, el.id)}>
-                                                مدیریت رأی دهنده
-                                            </ManageButton>
-                                        </LinkButton>
-                                    </TableCell>
+                                    <TableCell sx={{pl: 3}}>{el.persianStartDate}</TableCell>
+                                    <TableCell sx={{pl: 3}}>{el.persianEndDate}</TableCell>
+                                    <TableCell align="center">{el.candidateCount}</TableCell>
+                                    <TableCell align="center">{el.userVoteCount}</TableCell>
                                     <TableCell>
                                         <Stack direction="column">
                                             <ElectionButton variant="contained"
-                                                            onClick={(e) => handleSelectedVote(e, el.id)}>حذف
+                                                            onClick={(e) => handleCandidateManagement(e, el.id)}>
+                                                <ManageAccountsIcon/>
+                                            </ElectionButton>
+                                            <ElectionButton variant="contained"
+                                                            onClick={(e) => handleVoterManagement(e, el.id)}>
+                                                <GroupsIcon/>
+                                            </ElectionButton>
+                                        </Stack>
+                                    </TableCell>
+                                    <TableCell sx={{pr:1}}>
+                                        <Stack direction="column">
+                                            <ElectionButton variant="contained"
+                                                            onClick={(e) => handleSelectedVote(e, el.id)}>
+                                                <DeleteIcon fontSize="medium"/>
                                             </ElectionButton>
                                             <Dialog open={openDeleteDialog} onClose={handleCloseDialog}>
                                                 <DialogTitle id="alert-dialog-title">{"اخطار!"}</DialogTitle>
@@ -166,7 +166,7 @@ const VotingList = () => {
                                                 </DialogActions>
                                             </Dialog>
                                             <ElectionButton variant="contained" onClick={(e) => handleEdit(e, el.id)}>
-                                                ویرایش
+                                                <EditIcon fontSize="medium"/>
                                             </ElectionButton>
                                         </Stack>
                                     </TableCell>
@@ -216,7 +216,7 @@ const VotingList = () => {
                                                 <Grid2 xs={6}>
                                                     <LinkButton>
                                                         <ManageButton variant="contained"
-                                                            onClick={(e) => handleCandidateManagement(e, el.id)}>
+                                                                      onClick={(e) => handleCandidateManagement(e, el.id)}>
                                                             مدیریت کاندید ها
                                                         </ManageButton>
                                                     </LinkButton>
@@ -224,7 +224,7 @@ const VotingList = () => {
                                                 <Grid2 xs={6}>
                                                     <LinkButton>
                                                         <ManageButton variant="contained"
-                                                            onClick={(e) => handleVoterManagement(e, el.id)}>
+                                                                      onClick={(e) => handleVoterManagement(e, el.id)}>
                                                             مدیریت رأی دهنده
                                                         </ManageButton>
                                                     </LinkButton>
@@ -235,7 +235,8 @@ const VotingList = () => {
                                 </Grid2>
                                 <Stack direction="column" justifyContent="space-around">
                                     <ElectionButton variant="contained"
-                                                    onClick={(e) => handleSelectedVote(e, el.id)}>حذف
+                                                    onClick={(e) => handleSelectedVote(e, el.id)}>
+                                        <DeleteIcon fontSize="medium"/>
                                     </ElectionButton>
                                     <Dialog open={openDeleteDialog} onClose={handleCloseDialog}>
                                         <DialogTitle id="alert-dialog-title">
@@ -253,7 +254,7 @@ const VotingList = () => {
                                     </Dialog>
                                     <ElectionButton variant="contained"
                                                     onClick={(e) => handleEdit(e, el.id)}>
-                                        ویرایش
+                                        <EditIcon fontSize="medium"/>
                                     </ElectionButton>
                                 </Stack>
                             </Stack>

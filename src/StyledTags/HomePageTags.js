@@ -1,4 +1,4 @@
-import {Box, Button, Paper, styled, Typography} from "@mui/material";
+import {Box, Button, Paper, Stack, styled, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {Link as RouterLink} from "react-router-dom";
 
@@ -50,7 +50,6 @@ export const MidSection = styled(Box)`
   padding: 3% 0;
 `;
 export const NavItem = styled(Button)`
-  color: red;
   background-color: #425C81;
   min-width: 6%;
   margin-left: 8px;
@@ -116,7 +115,45 @@ export const LeftBoxes = styled(Box)`
   right: 0;
   z-index: -1;
 `;
+export const ElectionBox = styled(Stack)`
+  background-color: white;
+  border-radius: 10px;
+  margin: 5px 0;
+  padding: 2px 10px;
+`;
+export const ElectionItems = styled(Typography)`
+  font-family: 'Vazir FD', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 38px;
+  margin: 0 2%;
+`;
+export const ElectionButton=styled(Button)`
+  background-color: white;
+  text-decoration: none;
+  font-family: 'Vazir FD-UI', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 30px;
+  padding: 0;
 
+  :hover {
+    color: black;
+    text-decoration: underline;
+    transition: all 0.3s ease-out;
+  }
+`;
+export const HeaderText = styled(Typography)`
+  font-family: 'Vazir FD', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 30px;
+  color: #425C81;
+  padding-right: 2%;
+`;
 export const Item = styled(Paper)(({theme}) => ({
     backgroundColor: '#425C81',
     boxShadow: '0px 5px 15px rgba(0, 0, 0, 0.35)',

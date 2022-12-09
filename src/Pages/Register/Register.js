@@ -60,7 +60,7 @@ const Register = () => {
 
     return (
         <>
-            <Grid2 container justifyContent='center' sx={{mt: '40px', pb: '10px', position: 'relative'}}>
+            <Grid2 container justifyContent='center' sx={{mt: '40px', pb: '40px', position: 'relative'}}>
                 <Grid2 xs={11} sm={8} md={6} lg={4}>
                     <MainSection>
                         <Grid2 container>

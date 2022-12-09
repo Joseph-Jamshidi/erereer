@@ -1,7 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Dashboard from "../Layout/Dashboard";
-import {MainDashboard, Section, SectionText, SubmitButton, TitleBox, TitleText,} from "../StyledTags/CreateVoteTags";
+import {
+    MainDashboard,
+    Section,
+    SectionText,
+    SubmitButton,
+    TitleBox,
+    TitleText,
+    TitleText2,
+} from "../StyledTags/CreateVoteTags";
 import {
     Box,
     FormControl,
@@ -99,6 +107,9 @@ const CreateVoteTags = () => {
                         <TitleBox>
                             <TitleText>ایجاد انتخابات جدید</TitleText>
                         </TitleBox>
+                        <Box>
+                            <TitleText2>برای ایجاد انتخابات فرم زیر را کامل کنید</TitleText2>
+                        </Box>
                         <Section>
                             <Box component="form" onSubmit={handleCreate}>
                                 <Stack direction='column' spacing={3} sx={{mt: {xs: '5%', sm: '3%', md: '1%'}}}>
