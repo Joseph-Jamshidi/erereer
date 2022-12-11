@@ -21,27 +21,30 @@ const RegisterVerification = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        UserServices.VerifyUser(verifyCode, location.state.phoneNumber).then((r) => {
-            if (r.statusCode === 'Success') {
-                alert(r.message);
+        const response = async () => {
+            const result = await UserServices.VerifyUser(verifyCode, location.state.phoneNumber);
+            if (result.statusCode === 'Success') {
+                alert(result.message);
                 navigate("../login");
             } else {
-                alert(r.message);
+                alert(result.message);
             }
-        })
+        }
+        response();
     };
 
     const handleSendCodeAgain = (e) => {
         e.preventDefault();
-        UserServices.SendCodeAgain(location.state.phoneNumber).then(() => {
+        const response = async () => {
+            await UserServices.SendCodeAgain(location.state.phoneNumber);
             alert("کد مجدد برای شما ارسال شد");
             setShowTimer(true);
-            setTimer({minutes: 2,seconds: 0});
-        })
+            setTimer({minutes: 2, seconds: 0});
+        }
+        response();
     };
 
     const onFinishTimer = () => {
-
         setShowTimer(false);
     };
 

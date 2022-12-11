@@ -9,13 +9,12 @@ import Vector from '../images/Vector.png';
 import Ellipse653 from '../images/Ellipse653.png';
 import Ellipse652 from '../images/Ellipse652.png';
 import Ellipse654 from '../images/Ellipse654.png';
-import UserService from '../Services/UserServices';
+import UserServices from '../Services/UserServices';
 
 const Login = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -24,14 +23,16 @@ const Login = () => {
             userName: username,
             password: password
         };
-        UserService.Login(loginInfo).then((to) => {
-            if (to.access_token) {
+        const response = async () => {
+            const result = await UserServices.Login(loginInfo);
+            if (result.access_token) {
                 window.location.href = "./";
                 alert("خوش آمدید");
             } else {
-                setMessage(message);
+                alert(result.message);
             }
-        })
+        };
+        response();
     };
 
     const usernameInput = (e) => {

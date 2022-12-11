@@ -3,9 +3,8 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {MainDashboard, Section, SubmitButton, Text} from "../StyledTags/UserProfileTags";
 import Dashboard from "../Layout/Dashboard";
 import {Stack, TextField} from "@mui/material";
-import UserService from "../Services/UserServices";
-import {UserInfo} from "../Services/info";
 import UserServices from "../Services/UserServices";
+import {UserInfo} from "../Services/info";
 
 const UserProfile = () => {
 
@@ -13,19 +12,17 @@ const UserProfile = () => {
     const [lastName, setLastName] = useState('');
     const [nationalCode, setNationalCode] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [id, setId] = useState('');
-    const [isActive, setIsActive] = useState('');
 
     useEffect(() => {
-        UserService.Profile(UserInfo.userId).then((r) => {
-            const info = r.data
+        const response = async () => {
+            const result = await UserServices.Profile(UserInfo.userId);
+            const info = result.data
             setFirstName(info.firstName);
             setLastName(info.lastName);
             setNationalCode(info.nationalCode);
             setPhoneNumber(info.phoneNumber);
-            setId(info.id);
-            setIsActive(info.isActive)
-        })
+        };
+        response();
     }, []);
 
     const handleSubmit = (e) => {
@@ -36,13 +33,14 @@ const UserProfile = () => {
             nationalCode: nationalCode,
             gender: "Male",
         };
-
-        UserServices.EditProfile(editedUser).then((r) => {
-            alert(r.message)
+        const response = async () => {
+            const result = await UserServices.EditProfile(editedUser);
+            alert(result.message)
             localStorage.clear();
             window.location.href = "/"
-        })
-    }
+        };
+        response();
+    };
 
     return (
         <>

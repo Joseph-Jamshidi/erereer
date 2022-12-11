@@ -6,7 +6,7 @@ const urls = {
     votableElection: API_BASE_URL + 'Election/VotableElection'
 }
 
-class ElectionService {
+class ElectionServices {
     addElection(createElection) {
         return authedAxios
             .post(urls.election, createElection)
@@ -20,7 +20,7 @@ class ElectionService {
             })
     }
 
-    takeElection(page, size) {
+    async takeElection(page, size) {
         return authedAxios
             .get(urls.election + `?Page=${page}&Size=${size}`)
             .then((response) => {
@@ -86,5 +86,5 @@ class ElectionService {
     }
 }
 
-const instance = new ElectionService();
+const instance = new ElectionServices();
 export default instance;

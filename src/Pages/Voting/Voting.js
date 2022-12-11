@@ -1,11 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {MainDashboard, MainTitleText, TitleBox} from "../../StyledTags/VotingTags";
+import {MainDashboard, MainTitleText, TitleBox, TitleText2} from "../../StyledTags/VotingTags";
 import Dashboard from "../../Layout/Dashboard";
 import VotingList from "./VotingList";
 import {Stack} from "@mui/material";
 
 const Voting = () => {
+
+    const [showList, setShowList] = useState(true);
+    const afterGetVotingList = (fetchedData) => {
+        if (fetchedData === 0) {
+            setShowList(false)
+        }
+    };
 
     return (
         <>
@@ -24,7 +31,11 @@ const Voting = () => {
                                 </MainTitleText>
                             </TitleBox>
                         </Stack>
-                        <VotingList/>
+                        {
+                            showList ?
+                                <VotingList afterGetVotingList={afterGetVotingList}/> :
+                                <TitleText2>انتخاباتی وجود ندارد</TitleText2>
+                        }
                     </Grid2>
                 </Grid2>
             </Grid2>

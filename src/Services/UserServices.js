@@ -13,7 +13,7 @@ const urls = {
     sendCodeAgain: API_BASE_URL + 'Users/SendCodeAgain'
 }
 
-class UserService {
+class UserServices {
     Register(userData) {
         return axios
             .post(urls.register, userData)
@@ -29,7 +29,7 @@ class UserService {
 
     checkUserDuplicate(phoneNumber) {
         return axios
-            .get(urls.userDuplicate, `?PhoneNumber=${phoneNumber}`)
+            .get(urls.userDuplicate + `?PhoneNumber=${phoneNumber}`)
             .then((res) => {
                 return res.data;
             })
@@ -124,14 +124,14 @@ class UserService {
             })
     }
 
-    SendCodeAgain(phoneNumber){
+    SendCodeAgain(phoneNumber) {
         return axios
             .get(urls.sendCodeAgain + `?phoneNumber=${phoneNumber}`)
-            .then((response)=>{
+            .then((response) => {
                 return response.data
             })
-            .catch((error)=>{
-                if (error.data){
+            .catch((error) => {
+                if (error.data) {
                     return Promise.reject(error.data)
                 }
             })
@@ -139,6 +139,6 @@ class UserService {
 
 }
 
-const instance = new UserService();
+const instance = new UserServices();
 
 export default instance;

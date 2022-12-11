@@ -7,7 +7,7 @@ const urls = {
     deleteVoter: API_BASE_URL + 'Election/DeleteVoter'
 }
 
-class VoterService {
+class VoterServices {
 
     deleteVoter(userId, electionId) {
         return authedAxios
@@ -52,5 +52,5 @@ class VoterService {
 
 }
 
-const instance = new VoterService();
+const instance = new VoterServices();
 export default instance;

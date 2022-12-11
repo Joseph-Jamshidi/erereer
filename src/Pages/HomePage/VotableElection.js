@@ -1,21 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import ElectionsServices from "../Services/ElectionServices";
+import ElectionsServices from "../../Services/ElectionServices";
 import {Box, Container} from "@mui/material";
-import {ElectionBox, ElectionButton, ElectionItems, HeaderText, Pic} from "../StyledTags/HomePageTags";
+import {ElectionBox, ElectionButton, ElectionItems, HeaderText, Pic} from "../../StyledTags/HomePageTags";
 import {DateObject} from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_en from "react-date-object/locales/persian_en";
-import Rectangle11082 from "../images/Rectangle11082.png"
+import Rectangle11082 from "../../images/Rectangle11082.png"
 import Grid2 from "@mui/material/Unstable_Grid2";
+import {useNavigate} from "react-router-dom";
 
 const VotableElection = () => {
 
-    const [activeElections, setActiveElections] = useState([])
+    const [activeElections, setActiveElections] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        ElectionsServices.votableElection().then((r) => {
-            setActiveElections(prepareData(r.data));
-        })
+        const response = async () => {
+            const result = await ElectionsServices.votableElection();
+            setActiveElections(prepareData(result.data));
+        };
+        response();
     }, []);
 
     const convertTime = (date) => {
@@ -33,6 +37,11 @@ const VotableElection = () => {
         });
     };
 
+    const handleSelect = (e, id) => {
+        e.preventDefault();
+        navigate(`../Vote/${id}`);
+    };
+
     return (
         <>
             {activeElections.length !== 0 ?
@@ -42,12 +51,12 @@ const VotableElection = () => {
                             <Pic src={Rectangle11082}/>
                         </Grid2>
                         {
-                            activeElections.map((e) =>
-                                <Box key={e.id} sx={{background: '#EAF8FF', p: '3px'}}>
+                            activeElections.map((elec) =>
+                                <Box key={elec.id} sx={{background: '#EAF8FF', p: '3px'}}>
                                     <ElectionBox direction="row" justifyContent="space-between">
-                                        <ElectionItems>عنوان: {e.name}</ElectionItems>
-                                        <ElectionItems>مهلت: {e.persianEndDate}</ElectionItems>
-                                        <ElectionButton>شرکت</ElectionButton>
+                                        <ElectionItems>عنوان: {elec.name}</ElectionItems>
+                                        <ElectionItems>مهلت: {elec.persianEndDate}</ElectionItems>
+                                        <ElectionButton onClick={(e)=>handleSelect(e, elec.id)}>شرکت</ElectionButton>
                                     </ElectionBox>
                                 </Box>
                             )

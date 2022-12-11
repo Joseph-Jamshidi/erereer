@@ -32,17 +32,18 @@ const AddVoter = (props) => {
             ],
             electionId: params.id
         };
-
-        VoteServices.addVoter(addVoter).then((res) => {
-            alert(res.message);
+        const response = async () => {
+            const result = await VoteServices.addVoter(addVoter);
+            alert(result.message);
             props.setIsUpdating(!props.isUpdating);
-            if (res.statusCode === 'Success') {
+            if (result.statusCode === 'Success') {
                 handleClose();
                 props.setIsUpdating(!props.isUpdating);
             } else {
-                alert(res.message)
+                alert(result.message)
             }
-        })
+        };
+        response();
     };
 
     const handleClose = () => {

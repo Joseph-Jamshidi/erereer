@@ -8,7 +8,7 @@ import {
     DialogTitle, FormGroup, Stack, Switch,
     TextField, Typography
 } from "@mui/material";
-import CandidateService from "../../Services/CandidateServices";
+import CandidateServices from "../../Services/CandidateServices";
 import {useParams} from "react-router-dom";
 
 
@@ -36,23 +36,26 @@ const AddCandidateForm = (props) => {
             id: props.selectedCandidate ? props.selectedCandidate.id : 0
         };
         if (props.selectedCandidate.id) {
-            debugger
-            CandidateService.editCandidate(props.selectedCandidate.id, addCandidate).then((res) => {
-                alert(res.message)
-                if (res.statusCode === 'Success') {
+            const response = async () => {
+                const result = await CandidateServices.editCandidate(props.selectedCandidate.id, addCandidate);
+                alert(result.message)
+                if (result.statusCode === 'Success') {
                     handleClose()
                     props.setIsUpdating(!props.isUpdating);
                 }
-            })
+            }
+            response();
         } else {
-            CandidateService.addCandidate(addCandidate).then((res) => {
-                alert(res.message);
-                if (res.statusCode === 'Success') {
+            const response = async () => {
+                const result = await CandidateServices.addCandidate(addCandidate);
+                alert(result.message);
+                if (result.statusCode === 'Success') {
                     props.setIsUpdating(!props.isUpdating);
                 } else {
-                    alert(res.message)
+                    alert(result.message)
                 }
-            })
+            }
+            response();
         }
     }
 
@@ -69,7 +72,7 @@ const AddCandidateForm = (props) => {
         <>
             <Dialog open={props.openAddForm} onClose={handleClose}>
                 <DialogTitle
-                    variant="h5">{props.selectedCandidate ? "ویرایش کاندید" : "اضافه کردن کاندید"}</DialogTitle>
+                    variant="h5">{props.selectedCandidate.id ? "ویرایش کاندید" : "اضافه کردن کاندید"}</DialogTitle>
                 <DialogContent>
                     <Box component="form" onSubmit={handleSubmit}>
                         <TextField margin="dense" label="نام و نام خانوادگی" fullWidth variant="standard"

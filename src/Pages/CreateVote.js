@@ -44,15 +44,17 @@ const CreateVoteTags = () => {
     useEffect(() => {
         if (params.id) {
             //Get Election From server and set it to state
-            ElectionServices.chosenElection(params.id).then((r) => {
-                const selected = r.data;
+            const response = async () => {
+                const result = await ElectionServices.chosenElection(params.id);
+                const selected = result.data;
                 setSelectedElection(selected);
                 setCandidateCount(selected.candidateCount);
                 setUserVoteCount(selected.userVoteCount);
                 setIsEnabled(selected.isEnabled);
                 setIsVoterHidden(selected.isVoterHidden);
                 setOwnerId(selected.ownerId);
-            })
+            }
+            response();
         }
     }, []);
 
@@ -70,14 +72,18 @@ const CreateVoteTags = () => {
             ownerId: params.id ? ownerId : 0
         };
         if (createElection.id) {
-            ElectionServices.editElection(createElection.id, createElection).then(() => {
+            const response = async () => {
+                await ElectionServices.editElection(createElection.id, createElection);
                 alert("edited")
-            });
+            };
+            response();
         } else {
-            ElectionServices.addElection(createElection).then((data) => {
-                alert(data.message)
-                e.target.reset()
-            });
+            const response = async () => {
+                const result = await ElectionServices.addElection(createElection);
+                alert(result.message);
+                e.target.reset();
+            }
+            response();
         }
     };
 

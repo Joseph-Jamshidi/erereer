@@ -21,17 +21,19 @@ const ResetPassword = () => {
             password: password,
             id: UserInfo.userId
         };
-        UserServices.resetPassword(changePassword).then((r) => {
-            if (r.isSuccess === true) {
+        const response = async () => {
+            const result = await UserServices.resetPassword(changePassword);
+            if (result.isSuccess === true) {
                 setTimeout(() => {
                     localStorage.clear();
                     window.location.href = "./login";
                 }, 1000)
-                alert(r.message);
+                alert(result.message);
             } else {
                 alert("رمز عبور باید حداقل 6 کارکتر باشد")
             }
-        })
+        }
+        response();
     };
 
     const handlePassword = (e) => {

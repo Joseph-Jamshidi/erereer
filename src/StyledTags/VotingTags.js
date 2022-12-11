@@ -26,11 +26,11 @@ export const Section = styled(Grid2)`
   margin: 8px 6px;
 `;
 export const ElectionButton = styled(Button)`
-  background-color: #425C81;
   padding: 3px;
-  color: white;
   margin: 4px;
   min-width: fit-content;
+  max-width: fit-content;
+  color: #425C81;
   font-family: 'Vazir FD', sans-serif;
   font-style: normal;
   font-weight: 100;
@@ -93,5 +93,15 @@ export const MainTitleText = styled(Typography)`
   line-height: 18px;
   color: #425C81;
   margin: 5px;
+  padding: 5px;
+`;
+export const TitleText2 = styled(Typography)`
+  font-family: 'Vazir FD', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  font-size: 16px;
+  line-height: 25px;
+  color: #425C81;
+  margin: 15px;
   padding: 5px;
 `;

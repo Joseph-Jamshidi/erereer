@@ -13,21 +13,21 @@ import {
     Paragraph,
     Pic, Pict, RightBoxes,
     TextBox
-} from "../StyledTags/HomePageTags";
-import {token} from "../Services/info";
-import Rectangle10975 from "../images/Rectangle10975.png";
-import Ellipse647 from "../images/Ellipse647.png";
-import Ellipse648 from "../images/Ellipse648.png";
-import Polygon2 from "../images/Polygon 2.png";
-import Polygon1 from "../images/Polygon 1.png";
-import Polygon3 from "../images/Polygon 3.png";
-import Polygon4 from "../images/Polygon 4.png";
-import Vector1 from "../images/Vector1.png";
-import Vector from "../images/Vector.png";
-import Group from "../images/Group.png";
-import r3 from "../images/r3.png";
-import r2 from "../images/r2.png";
-import r1 from "../images/r1.png";
+} from "../../StyledTags/HomePageTags";
+import {token} from "../../Services/info";
+import Rectangle10975 from "../../images/Rectangle10975.png";
+import Ellipse647 from "../../images/Ellipse647.png";
+import Ellipse648 from "../../images/Ellipse648.png";
+import Polygon2 from "../../images/Polygon 2.png";
+import Polygon1 from "../../images/Polygon 1.png";
+import Polygon3 from "../../images/Polygon 3.png";
+import Polygon4 from "../../images/Polygon 4.png";
+import Vector1 from "../../images/Vector1.png";
+import Vector from "../../images/Vector.png";
+import Group from "../../images/Group.png";
+import r3 from "../../images/r3.png";
+import r2 from "../../images/r2.png";
+import r1 from "../../images/r1.png";
 import VotableElection from "./VotableElection";
 
 const HomePage = () => {

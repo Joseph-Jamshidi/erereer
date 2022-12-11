@@ -2,7 +2,7 @@ import React from 'react';
 import Header from "./Layout/Header";
 import "./Styles/App.css";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import HomePage from "./Pages/HomePage";
+import HomePage from "./Pages/HomePage/HomePage";
 import Login from "./Pages/Login";
 import rtlPlugin from 'stylis-plugin-rtl';
 import {CacheProvider} from '@emotion/react';
@@ -41,7 +41,7 @@ const App = () => {
                         <Route path="/VoterManagement/:id" element={<VoterManagement/>}/>
                         <Route path="/UserProfile" element={<UserProfile/>}/>
                         <Route path="/ResetPassword" element={<ResetPassword/>}/>
-                        <Route path="/Vote" element={<Vote/>}/>
+                        <Route path="/Vote/:id" element={<Vote/>}/>
                     </Routes>
                 </BrowserRouter>
             </CacheProvider>

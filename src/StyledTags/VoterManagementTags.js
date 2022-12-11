@@ -87,3 +87,13 @@ export const MainTitleText = styled(Typography)`
   margin: 5px;
   padding: 5px;
 `;
+export const TitleText2 = styled(Typography)`
+  font-family: 'Vazir FD', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  font-size: 16px;
+  line-height: 25px;
+  color: #425C81;
+  margin: 15px;
+  padding: 5px;
+`;

@@ -18,9 +18,9 @@ import {
     MenuItem,
     Pagination, Paper,
     Select,
-    Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+    Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip
 } from "@mui/material";
-import ElectionService from "../../Services/ElectionServices";
+import ElectionServices from "../../Services/ElectionServices";
 import {useNavigate} from "react-router-dom";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {DateObject} from "react-multi-date-picker";
@@ -31,7 +31,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import GroupsIcon from '@mui/icons-material/Groups';
 
-const VotingList = () => {
+const VotingList = ({afterGetVotingList}) => {
 
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const [delId, setDelId] = useState("");
@@ -51,10 +51,13 @@ const VotingList = () => {
     let navigate = useNavigate();
 
     useEffect(() => {
-        ElectionService.takeElection(pageNumber, pageSize).then((r) => {
-            setElections(prepareData(r.data));
-            setPageCount(r.total);
-        })
+        const response = async () => {
+            const result = await ElectionServices.takeElection(pageNumber, pageSize);
+            setElections(prepareData(result.data));
+            setPageCount(result.total);
+            afterGetVotingList(result.count);
+        }
+        response();
     }, [pageNumber, pageSize, isUpdating]);
 
     const prepareData = (elections) => {
@@ -95,14 +98,14 @@ const VotingList = () => {
 
     const handleDelete = (e) => {
         e.preventDefault();
-        ElectionService.deleteElection(delId).then((r) => {
-            const del = elections.filter(elc => delId !== elc.id);
-            setElections(del);
+        const response = async () => {
+            const result = await ElectionServices.deleteElection(delId);
             setDelId("");
-            alert(r.message);
+            alert(result.message);
             setIsUpdating(!isUpdating);
             setOpenDeleteDialog(false);
-        })
+        };
+        response();
     };
 
     const handleEdit = (e, id) => {
@@ -136,38 +139,44 @@ const VotingList = () => {
                                     <TableCell align="center">{el.candidateCount}</TableCell>
                                     <TableCell align="center">{el.userVoteCount}</TableCell>
                                     <TableCell>
-                                        <Stack direction="column">
-                                            <ElectionButton variant="contained"
-                                                            onClick={(e) => handleCandidateManagement(e, el.id)}>
-                                                <ManageAccountsIcon/>
-                                            </ElectionButton>
-                                            <ElectionButton variant="contained"
-                                                            onClick={(e) => handleVoterManagement(e, el.id)}>
-                                                <GroupsIcon/>
-                                            </ElectionButton>
-                                        </Stack>
-                                    </TableCell>
-                                    <TableCell sx={{pr:1}}>
-                                        <Stack direction="column">
-                                            <ElectionButton variant="contained"
-                                                            onClick={(e) => handleSelectedVote(e, el.id)}>
-                                                <DeleteIcon fontSize="medium"/>
-                                            </ElectionButton>
-                                            <Dialog open={openDeleteDialog} onClose={handleCloseDialog}>
-                                                <DialogTitle id="alert-dialog-title">{"اخطار!"}</DialogTitle>
-                                                <DialogContent>
-                                                    <DialogContentText id="alert-dialog-description">
-                                                        آیا از حذف انتخابات مطمئن اید؟
-                                                    </DialogContentText>
-                                                </DialogContent>
-                                                <DialogActions>
-                                                    <Button color="success" onClick={handleCloseDialog}>خیر</Button>
-                                                    <Button color="error" onClick={handleDelete}>بله</Button>
-                                                </DialogActions>
-                                            </Dialog>
-                                            <ElectionButton variant="contained" onClick={(e) => handleEdit(e, el.id)}>
-                                                <EditIcon fontSize="medium"/>
-                                            </ElectionButton>
+                                        <Stack direction="row" justifyContent="center">
+                                            <Stack direction="column" alignItems="center">
+                                                <Tooltip title="مدیریت کاندیدها">
+                                                    <ElectionButton
+                                                        onClick={(e) => handleCandidateManagement(e, el.id)}>
+                                                        <ManageAccountsIcon/>
+                                                    </ElectionButton>
+                                                </Tooltip>
+                                                <Tooltip title="مدیریت رأی دهنده ها">
+                                                    <ElectionButton onClick={(e) => handleVoterManagement(e, el.id)}>
+                                                        <GroupsIcon/>
+                                                    </ElectionButton>
+                                                </Tooltip>
+                                            </Stack>
+                                            <Stack direction="column" alignItems="center">
+                                                <Tooltip title="حذف">
+                                                    <ElectionButton onClick={(e) => handleSelectedVote(e, el.id)}>
+                                                        <DeleteIcon fontSize="medium"/>
+                                                    </ElectionButton>
+                                                </Tooltip>
+                                                <Dialog open={openDeleteDialog} onClose={handleCloseDialog}>
+                                                    <DialogTitle id="alert-dialog-title">{"اخطار!"}</DialogTitle>
+                                                    <DialogContent>
+                                                        <DialogContentText id="alert-dialog-description">
+                                                            آیا از حذف انتخابات مطمئن اید؟
+                                                        </DialogContentText>
+                                                    </DialogContent>
+                                                    <DialogActions>
+                                                        <Button color="success" onClick={handleCloseDialog}>خیر</Button>
+                                                        <Button color="error" onClick={handleDelete}>بله</Button>
+                                                    </DialogActions>
+                                                </Dialog>
+                                                <Tooltip title="ویرایش">
+                                                    <ElectionButton onClick={(e) => handleEdit(e, el.id)}>
+                                                        <EditIcon fontSize="medium"/>
+                                                    </ElectionButton>
+                                                </Tooltip>
+                                            </Stack>
                                         </Stack>
                                     </TableCell>
                                 </TableRow>
@@ -234,8 +243,7 @@ const VotingList = () => {
                                     </Stack>
                                 </Grid2>
                                 <Stack direction="column" justifyContent="space-around">
-                                    <ElectionButton variant="contained"
-                                                    onClick={(e) => handleSelectedVote(e, el.id)}>
+                                    <ElectionButton onClick={(e) => handleSelectedVote(e, el.id)}>
                                         <DeleteIcon fontSize="medium"/>
                                     </ElectionButton>
                                     <Dialog open={openDeleteDialog} onClose={handleCloseDialog}>
@@ -252,8 +260,7 @@ const VotingList = () => {
                                             <Button color="error" onClick={handleDelete}>بله</Button>
                                         </DialogActions>
                                     </Dialog>
-                                    <ElectionButton variant="contained"
-                                                    onClick={(e) => handleEdit(e, el.id)}>
+                                    <ElectionButton onClick={(e) => handleEdit(e, el.id)}>
                                         <EditIcon fontSize="medium"/>
                                     </ElectionButton>
                                 </Stack>

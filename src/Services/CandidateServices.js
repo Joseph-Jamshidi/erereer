@@ -6,7 +6,7 @@ const urls = {
     voters: API_BASE_URL + 'Election/VoterList'
 }
 
-class CandidateService {
+class CandidateServices {
 
     addCandidate(addCandidate) {
         return authedAxios
@@ -75,5 +75,5 @@ class CandidateService {
 
 }
 
-const instance = new CandidateService();
+const instance = new CandidateServices();
 export default instance;

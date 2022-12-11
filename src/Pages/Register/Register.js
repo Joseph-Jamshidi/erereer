@@ -10,7 +10,7 @@ import Vector from "../../images/Vector.png";
 import Ellipse652 from "../../images/Ellipse652.png";
 import Profile1 from '../../images/Profile1.png';
 import {useNavigate} from "react-router-dom";
-import UserService from '../../Services/UserServices';
+import UserServices from '../../Services/UserServices';
 
 const Register = () => {
 
@@ -31,32 +31,32 @@ const Register = () => {
             phoneNumber: phoneNumber,
             password: password
         };
-        UserService.Register(userData).then((r) => {
-            if (r.statusCode === 'Success') {
-                setMessage(r.message);
+        const response = async () => {
+            const result = await UserServices.Register(userData);
+            if (result.statusCode === 'Success') {
+                setMessage(result.message);
                 alert(message)
-                navigate("../RegisterVerification", {state:{phoneNumber: phoneNumber}});
+                navigate("../RegisterVerification", {state: {phoneNumber: phoneNumber}});
             }
-        })
+        }
+        response();
     };
 
     const firstNameInput = (e) => {
         setFirstName(e.target.value);
-    }
+    };
     const lastNameInput = (e) => {
         setLastName(e.target.value)
-    }
+    };
     const nationalCodeInput = (e) => {
         setNationalCode(e.target.value)
-    }
+    };
     const phoneNumberInput = (e) => {
         setPhoneNumber(e.target.value);
-    }
+    };
     const passwordInput = (e) => {
         setPassword(e.target.value);
-    }
-
-    console.log(firstName)
+    };
 
     return (
         <>

@@ -17,7 +17,7 @@ import {
     Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from "@mui/material";
 import Dashboard from "../../Layout/Dashboard";
-import CandidateService from "../../Services/CandidateServices"
+import CandidateServices from "../../Services/CandidateServices"
 import AddUser from "../../images/AddUser.png";
 import AddCandidateForm from "./AddCandidateForm";
 
@@ -36,35 +36,38 @@ const CandidateManagement = () => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const [openAddForm, setOpenAddForm] = useState(false);
-    console.log(selectedCandidate)
     const editRef = useRef(null);
 
     useEffect(() => {
-        CandidateService.getCandidate(pageNumber, pageSize).then((r) => {
-            setCandidate(r.data);
-            setPageCount(r.total);
-        })
+        const response = async () => {
+            const result = await CandidateServices.getCandidate(pageNumber, pageSize);
+            setCandidate(result.data);
+            setPageCount(result.total);
+        }
+        response();
     }, [pageSize, pageNumber, isUpdating]);
 
     const deleteCandidate = (e) => {
         e.preventDefault();
-        CandidateService.deleteCandidate(delId).then((r) => {
-            const del = candidate.filter((d) => delId !== d.id);
-            setCandidate(del);
-            setDelId("");
-            alert(r.message);
+        const response = async () => {
+            const result = await CandidateServices.deleteCandidate(delId);
+            alert(result.message);
             setIsUpdating(!isUpdating);
             setOpenDeleteDialog(false);
-        })
+            setDelId("");
+        }
+        response();
     };
 
     const editVoter = (e, id) => {
         e.preventDefault();
-        CandidateService.chosenCandidate(id).then((res) => {
-            const selectedInfo = res.data
+        const response = async () => {
+            const result = await CandidateServices.chosenCandidate(id);
+            const selectedInfo = result.data
             setSelectedCandidate(selectedInfo)
             editRef.current.click()
-        })
+        }
+        response();
     };
 
     const handleSelectedCandidate = (e, id) => {
@@ -106,11 +109,11 @@ const CandidateManagement = () => {
                             <Table sx={{minWidth: 650}} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>ردیف</TableCell>
-                                        <TableCell>نام و نام خانوادگی</TableCell>
+                                        <TableCell sx={{pl: 2}}>ردیف</TableCell>
+                                        <TableCell align="left">نام و نام خانوادگی</TableCell>
                                         <TableCell>توضیحات</TableCell>
                                         <TableCell>وضعیت</TableCell>
-                                        <TableCell></TableCell>
+                                        <TableCell align="right" sx={{pr: 8}}>عملیات</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -118,14 +121,15 @@ const CandidateManagement = () => {
                                         candidate.map((c, i) =>
                                             <TableRow key={c.id}>
                                                 <TableCell
-                                                    sx={{width: '2%'}}>{(pageNumber - 1) * 10 + (i + 1)}</TableCell>
-                                                <TableCell>{c.name}</TableCell>
+                                                    sx={{pl: 2}}>{(pageNumber - 1) * 10 + (i + 1)}</TableCell>
+                                                <TableCell align="left">{c.name}</TableCell>
                                                 <TableCell>{c.description}</TableCell>
                                                 <TableCell>{c.isEnabled === true ? "فعال" : "غیر فعال"}</TableCell>
-                                                <TableCell>
+                                                <TableCell sx={{pr: 1}}>
                                                     <Stack spacing={2} direction="row" justifyContent="flex-end">
-                                                        <CandidateButton variant="contained"
-                                                                         onClick={(e) => handleSelectedCandidate(e, c.id)}>حذف
+                                                        <CandidateButton
+                                                            variant="contained"
+                                                            onClick={(e) => handleSelectedCandidate(e, c.id)}>حذف
                                                         </CandidateButton>
                                                         <Dialog open={openDeleteDialog} onClose={handleCloseDialog}>
                                                             <DialogTitle id="alert-dialog-title">
