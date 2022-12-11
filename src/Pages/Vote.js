@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Checkbox,  InputBase} from "@mui/material";
+import {Box, Checkbox, InputBase} from "@mui/material";
 import ElectionServices from "../Services/ElectionServices";
 import CandidateServices from "../Services/CandidateServices";
 import Grid2 from "@mui/material/Unstable_Grid2";
@@ -12,7 +12,7 @@ const Vote = () => {
 
     const [selectedElection, setSelectedElection] = useState([]);
     const [candidateList, setCandidateList] = useState([]);
-    const [chosenCandidates, setChosenCandidates] = useState({name: ''});
+    const [chosenCandidates, setChosenCandidates] = useState([]);
     const params = useParams();
 
     useEffect(() => {
@@ -21,18 +21,27 @@ const Vote = () => {
             setSelectedElection(result.data);
             //set voter count
         };
-        getElection();
+
+        getElection().catch(console.error);
 
         const getCandidate = async () => {
             const result = await CandidateServices.getCandidate(1, 25);
             setCandidateList(result.data);
         }
-        getCandidate();
+        getCandidate().catch(console.error);
+
     }, []);
 
-    const handleChoose = (e, names) => {
-        e.preventDefault();
-        setChosenCandidates({...chosenCandidates, [chosenCandidates.name]: names})
+    const handleChoose = (e, id) => {
+        // e.preventDefault();
+
+        // debugger;
+        if (e.target.checked) {
+            setChosenCandidates([...chosenCandidates, id])
+        } else {
+            setChosenCandidates(chosenCandidates.filter(c => c != id));
+        }
+
     };
 
     console.log(chosenCandidates)
@@ -61,7 +70,7 @@ const Vote = () => {
                                         <CandidateBox key={c.id} direction="row" alignItems="center">
                                             <NumberBox>{i + 1}</NumberBox>
                                             <NameBox sx={{flex: 1}}>{c.name}</NameBox>
-                                            <Checkbox onChange={(e) => handleChoose(e, c.name)}></Checkbox>
+                                            <Checkbox onChange={(e) => handleChoose(e, c.id)}></Checkbox>
                                         </CandidateBox>
                                     )
                                 }

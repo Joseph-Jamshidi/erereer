@@ -127,12 +127,13 @@ const CreateVoteTags = () => {
                                                 label="عنوان انتخابات" variant="outlined"/>
                                         </Grid2>
                                         <Grid2 xs={12} sm={4}>
-                                            <SectionText>تاریخ شروع انتخابات:</SectionText>
+                                            {/*<SectionText>تاریخ شروع انتخابات:</SectionText>*/}
                                             <DatePicker
                                                 onChange={onStartDateHandler}
                                                 value={selectedElection ? new Date(selectedElection.startDate) : ""}
                                                 calendar={persian}
                                                 locale={persian_fa}
+                                                placeholder={"تاریخ شروع"}
                                                 format={"YYYY-MM-DD"}
                                                 render={<InputIcon/>}
                                             />
