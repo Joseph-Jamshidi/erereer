@@ -30,7 +30,7 @@ const RegisterVerification = () => {
                 alert(result.message);
             }
         }
-        response();
+        response().catch(console.error);
     };
 
     const handleSendCodeAgain = (e) => {
@@ -41,7 +41,7 @@ const RegisterVerification = () => {
             setShowTimer(true);
             setTimer({minutes: 2, seconds: 0});
         }
-        response();
+        response().catch(console.error);
     };
 
     const onFinishTimer = () => {

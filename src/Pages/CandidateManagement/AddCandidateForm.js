@@ -44,7 +44,7 @@ const AddCandidateForm = (props) => {
                     props.setIsUpdating(!props.isUpdating);
                 }
             }
-            response();
+            response().catch(console.error);
         } else {
             const response = async () => {
                 const result = await CandidateServices.addCandidate(addCandidate);
@@ -55,7 +55,7 @@ const AddCandidateForm = (props) => {
                     alert(result.message)
                 }
             }
-            response();
+            response().catch(console.error);
         }
     }
 

@@ -32,7 +32,7 @@ const Login = () => {
                 alert(result.message);
             }
         };
-        response();
+        response().catch(console.error);
     };
 
     const usernameInput = (e) => {

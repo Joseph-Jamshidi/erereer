@@ -36,6 +36,7 @@ const App = () => {
                         <Route path="/Register" element={<Register/>}/>
                         <Route path="/RegisterVerification" element={<RegisterVerification/>}/>
                         <Route path="/CreateVote" element={<CreateVote/>}/>
+                        <Route path="/CreateVote/:id" element={<CreateVote/>}/>
                         <Route path="/Voting" element={<Voting/>}/>
                         <Route path="/CandidateManagement/:id" element={<CandidateManagement/>}/>
                         <Route path="/VoterManagement/:id" element={<VoterManagement/>}/>

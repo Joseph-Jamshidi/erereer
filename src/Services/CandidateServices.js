@@ -21,9 +21,9 @@ class CandidateServices {
             })
     }
 
-    getCandidate(page, size) {
+    getCandidate(electionId, page, size) {
         return authedAxios
-            .get(urls.candidate + `?Page=${page}&Size=${size}`)
+            .get(urls.candidate + `?ElectionId=${electionId}&Page=${page}&Size=${size}`)
             .then((response) => {
                 return response.data
             })

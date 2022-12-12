@@ -8,7 +8,7 @@ import {
     TextField
 } from "@mui/material";
 import {useParams} from "react-router-dom";
-import VoteServices from "../../Services/VoteServices";
+import VoterServices from "../../Services/VoterServices";
 
 
 const AddVoter = (props) => {
@@ -33,7 +33,7 @@ const AddVoter = (props) => {
             electionId: params.id
         };
         const response = async () => {
-            const result = await VoteServices.addVoter(addVoter);
+            const result = await VoterServices.addVoter(addVoter);
             alert(result.message);
             props.setIsUpdating(!props.isUpdating);
             if (result.statusCode === 'Success') {
@@ -43,7 +43,7 @@ const AddVoter = (props) => {
                 alert(result.message)
             }
         };
-        response();
+        response().catch(console.error);
     };
 
     const handleClose = () => {

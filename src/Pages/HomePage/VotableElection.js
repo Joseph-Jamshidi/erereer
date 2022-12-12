@@ -19,7 +19,7 @@ const VotableElection = () => {
             const result = await ElectionsServices.votableElection();
             setActiveElections(prepareData(result.data));
         };
-        response();
+        response().catch(console.error);
     }, []);
 
     const convertTime = (date) => {

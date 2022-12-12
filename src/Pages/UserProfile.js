@@ -22,7 +22,7 @@ const UserProfile = () => {
             setNationalCode(info.nationalCode);
             setPhoneNumber(info.phoneNumber);
         };
-        response();
+        response().catch(console.error);
     }, []);
 
     const handleSubmit = (e) => {
@@ -39,7 +39,7 @@ const UserProfile = () => {
             localStorage.clear();
             window.location.href = "/"
         };
-        response();
+        response().catch(console.error);
     };
 
     return (

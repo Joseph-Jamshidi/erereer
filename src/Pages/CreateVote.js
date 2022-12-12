@@ -4,7 +4,6 @@ import Dashboard from "../Layout/Dashboard";
 import {
     MainDashboard,
     Section,
-    SectionText,
     SubmitButton,
     TitleBox,
     TitleText,
@@ -47,6 +46,7 @@ const CreateVoteTags = () => {
             const response = async () => {
                 const result = await ElectionServices.chosenElection(params.id);
                 const selected = result.data;
+                setName(selected.name)
                 setSelectedElection(selected);
                 setCandidateCount(selected.candidateCount);
                 setUserVoteCount(selected.userVoteCount);
@@ -54,7 +54,7 @@ const CreateVoteTags = () => {
                 setIsVoterHidden(selected.isVoterHidden);
                 setOwnerId(selected.ownerId);
             }
-            response();
+            response().catch(console.error);
         }
     }, []);
 
@@ -76,14 +76,14 @@ const CreateVoteTags = () => {
                 await ElectionServices.editElection(createElection.id, createElection);
                 alert("edited")
             };
-            response();
+            response().catch(console.error);
         } else {
             const response = async () => {
                 const result = await ElectionServices.addElection(createElection);
                 alert(result.message);
                 e.target.reset();
             }
-            response();
+            response().catch(console.error);
         }
     };
 
@@ -124,18 +124,19 @@ const CreateVoteTags = () => {
                                             <TextField
                                                 onChange={(e) => setName(e.target.value)}
                                                 sx={{background: 'white', width: '100%'}}
-                                                label="عنوان انتخابات" variant="outlined"/>
+                                                label="عنوان انتخابات"
+                                                variant="outlined"
+                                                value={name}
+                                            />
                                         </Grid2>
                                         <Grid2 xs={12} sm={4}>
-                                            {/*<SectionText>تاریخ شروع انتخابات:</SectionText>*/}
                                             <DatePicker
-                                                onChange={onStartDateHandler}
                                                 value={selectedElection ? new Date(selectedElection.startDate) : ""}
+                                                render={<InputIcon placeholder="تاریخ شروع انتخابات"/>}
+                                                onChange={onStartDateHandler}
                                                 calendar={persian}
                                                 locale={persian_fa}
-                                                placeholder={"تاریخ شروع"}
                                                 format={"YYYY-MM-DD"}
-                                                render={<InputIcon/>}
                                             />
                                         </Grid2>
                                     </Stack>
@@ -145,27 +146,32 @@ const CreateVoteTags = () => {
                                                 <TextField
                                                     onChange={(e) => setCandidateCount(e.target.value)}
                                                     sx={{background: 'white', width: {xs: '100%'}}}
-                                                    label="تعداد کاندیدهای انتخابات" type="number"/>
+                                                    label="تعداد کاندیدهای انتخابات"
+                                                    value={candidateCount}
+                                                    type="number"
+                                                />
                                             </Grid2>
                                             <Grid2 xs={12} lg={4} md={5}>
                                                 <TextField
                                                     onChange={(e) => setUserVoteCount(e.target.value)}
                                                     sx={{background: 'white', width: {xs: '100%'}}}
-                                                    label="تعداد رأی برای هر کاربر" type="number"/>
+                                                    label="تعداد رأی برای هر کاربر"
+                                                    value={userVoteCount}
+                                                    type="number"
+                                                />
                                             </Grid2>
                                         </Stack>
                                     </Grid2>
                                     <Grid2 xs={12}>
                                         <Stack direction={{xs: 'column', sm: 'row'}} spacing={4}>
                                             <Grid2 xs={12} sm={6}>
-                                                <SectionText>تاریخ پایان انتخابات:</SectionText>
                                                 <DatePicker
-                                                    onChange={onEndDateHandler}
                                                     value={selectedElection ? new Date(selectedElection.endDate) : ""}
+                                                    render={<InputIcon placeholder={"تاریخ پایان انتخابات"}/>}
+                                                    onChange={onEndDateHandler}
                                                     calendar={persian}
                                                     locale={persian_fa}
                                                     format={"YYYY-MM-DD"}
-                                                    render={<InputIcon/>}
                                                 />
                                             </Grid2>
                                             <Grid2 xs={12} sm={6}>
@@ -174,8 +180,8 @@ const CreateVoteTags = () => {
                                                     <FormGroup>
                                                         <Stack direction="row" spacing={1} alignItems="center">
                                                             <Typography>خیر</Typography>
-                                                            <Switch checked={isVoterHidden === true}
-                                                                    onChange={() => setIsVoterHidden(!isVoterHidden)}/>
+                                                            <Switch onChange={() => setIsVoterHidden(!isVoterHidden)}
+                                                                    checked={isVoterHidden === true}/>
                                                             <Typography>بله</Typography>
                                                         </Stack>
                                                     </FormGroup>
@@ -190,8 +196,8 @@ const CreateVoteTags = () => {
                                                     <FormGroup>
                                                         <Stack direction="row" spacing={1} alignItems="center">
                                                             <Typography>غیر فعال</Typography>
-                                                            <Switch checked={isEnabled === true}
-                                                                    onChange={() => setIsEnabled(!isEnabled)}/>
+                                                            <Switch onChange={() => setIsEnabled(!isEnabled)}
+                                                                    checked={isEnabled === true}/>
                                                             <Typography>فعال</Typography>
                                                         </Stack>
                                                     </FormGroup>

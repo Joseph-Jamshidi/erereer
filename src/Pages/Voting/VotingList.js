@@ -57,7 +57,7 @@ const VotingList = ({afterGetVotingList}) => {
             setPageCount(result.total);
             afterGetVotingList(result.count);
         }
-        response();
+        response().catch(console.error);
     }, [pageNumber, pageSize, isUpdating]);
 
     const prepareData = (elections) => {
@@ -105,7 +105,7 @@ const VotingList = ({afterGetVotingList}) => {
             setIsUpdating(!isUpdating);
             setOpenDeleteDialog(false);
         };
-        response();
+        response().catch(console.error);
     };
 
     const handleEdit = (e, id) => {

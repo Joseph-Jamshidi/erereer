@@ -39,7 +39,7 @@ const Register = () => {
                 navigate("../RegisterVerification", {state: {phoneNumber: phoneNumber}});
             }
         }
-        response();
+        response().catch(console.error);
     };
 
     const firstNameInput = (e) => {

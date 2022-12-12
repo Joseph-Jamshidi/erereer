@@ -36,15 +36,6 @@ export const TitleText2 = styled(Typography)`
   margin: 15px;
   padding: 5px;
 `;
-export const SectionText = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
-  font-style: normal;
-  font-weight: 100;
-  font-size: 16px;
-  line-height: 25px;
-  color: #425C81;
-  margin-bottom: 2px;
-`;
 export const TitleBox=styled(Box)`
   border: 1px dashed #425C81;
   width: fit-content;

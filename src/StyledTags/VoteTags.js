@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {Box, Paper, Stack} from "@mui/material";
+import {Box, Button, Paper, Stack, Typography} from "@mui/material";
 
 export const MainDashboard = styled(Grid2)`
   background-color: white;
@@ -28,21 +28,43 @@ export const CandidateBox = styled(Stack)`
   margin: 4px 0;
   padding: 16px 14px;
 `;
-export const NumberBox=styled(Box)`
+export const NumberBox = styled(Box)`
   border-radius: 30%;
   border: 1px solid #425C81;
   margin-right: 4%;
   padding: 0 5px;
-  font-family: 'Vazir FD',sans-serif;
+  font-family: 'Vazir FD', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 19px;
   line-height: 30px;
 `;
-export const NameBox=styled(Box)`
-  font-family: 'Vazir FD',sans-serif;
+export const NameBox = styled(Box)`
+  font-family: 'Vazir FD', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 19px;
   line-height: 30px;
+`;
+export const TextBox = styled(Typography)`
+  font-family: 'Vazir FD', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 30px;
+  text-align: center;
+  color: #425C81;
+  margin: 8% 0 3%;
+`;
+export const SubmitButton=styled(Button)`
+  background-color: #425C81;
+  color: white;
+  font-family: 'Vazir FD', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 34px;
+  margin: 5% auto;
+  display: flex;
+  justify-content: center;
 `;

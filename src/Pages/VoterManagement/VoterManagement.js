@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {useParams} from "react-router-dom";
-import VoterServices from "../../Services/VoteServices"
+import VoterServices from "../../Services/VoterServices"
 import {
     RowBox,
     RowNumber,
@@ -46,7 +46,7 @@ const VoterManagement = () => {
             setVoter(result.data);
             setPageCount(result.total);
         }
-        response();
+        response().catch(console.error);
     }, [pageNumber, pageSize, isUpdating]);
 
     const deleteVoter = (e) => {
@@ -58,7 +58,7 @@ const VoterManagement = () => {
             setOpenDeleteDialog(false);
             setDelId("");
         }
-        response();
+        response().catch(console.error);
     };
 
     const handleEditVoter = (e) => {

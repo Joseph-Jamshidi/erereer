@@ -33,7 +33,7 @@ const ResetPassword = () => {
                 alert("رمز عبور باید حداقل 6 کارکتر باشد")
             }
         }
-        response();
+        response().catch(console.error);
     };
 
     const handlePassword = (e) => {

@@ -20,6 +20,7 @@ import Dashboard from "../../Layout/Dashboard";
 import CandidateServices from "../../Services/CandidateServices"
 import AddUser from "../../images/AddUser.png";
 import AddCandidateForm from "./AddCandidateForm";
+import {useParams} from "react-router-dom";
 
 const CandidateManagement = () => {
 
@@ -37,14 +38,15 @@ const CandidateManagement = () => {
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const [openAddForm, setOpenAddForm] = useState(false);
     const editRef = useRef(null);
+    const params = useParams();
 
     useEffect(() => {
         const response = async () => {
-            const result = await CandidateServices.getCandidate(pageNumber, pageSize);
+            const result = await CandidateServices.getCandidate(params.id,pageNumber, pageSize);
             setCandidate(result.data);
             setPageCount(result.total);
         }
-        response();
+        response().catch(console.error);
     }, [pageSize, pageNumber, isUpdating]);
 
     const deleteCandidate = (e) => {
@@ -56,7 +58,7 @@ const CandidateManagement = () => {
             setOpenDeleteDialog(false);
             setDelId("");
         }
-        response();
+        response().catch(console.error);
     };
 
     const editVoter = (e, id) => {
@@ -67,7 +69,7 @@ const CandidateManagement = () => {
             setSelectedCandidate(selectedInfo)
             editRef.current.click()
         }
-        response();
+        response().catch(console.error);
     };
 
     const handleSelectedCandidate = (e, id) => {
