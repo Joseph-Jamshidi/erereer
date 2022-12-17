@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {Box, InputAdornment, TextField, Typography} from "@mui/material";
+import {Alert, Box, IconButton, InputAdornment, Snackbar, TextField, Typography} from "@mui/material";
 import {HeaderText, LoginButton, LoginLink, MainSection, Pic} from "../../StyledTags/RegisterTags";
 import Stroke from '../../images/Stroke.png';
 import Lock from '../../images/Lock.png';
@@ -11,6 +11,7 @@ import Ellipse652 from "../../images/Ellipse652.png";
 import Profile1 from '../../images/Profile1.png';
 import {useNavigate} from "react-router-dom";
 import UserServices from '../../Services/UserServices';
+import CloseIcon from "@mui/icons-material/Close";
 
 const Register = () => {
 
@@ -20,6 +21,8 @@ const Register = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alertType, setAlertType] = useState("");
     let navigate = useNavigate();
 
     const handleSubmit = (e) => {
@@ -34,9 +37,12 @@ const Register = () => {
         const response = async () => {
             const result = await UserServices.Register(userData);
             if (result.statusCode === 'Success') {
+                setOpenAlert(true);
                 setMessage(result.message);
-                alert(message)
-                navigate("../RegisterVerification", {state: {phoneNumber: phoneNumber}});
+                setAlertType("success");
+                setTimeout(()=>{
+                    navigate("../RegisterVerification", {state: {phoneNumber: phoneNumber}});
+                },4000)
             }
         }
         response().catch(console.error);
@@ -58,6 +64,20 @@ const Register = () => {
         setPassword(e.target.value);
     };
 
+    const handleCloseAlert = (e, reason) => {
+        if (reason === "clickaway") {
+            return
+        }
+        setOpenAlert(false)
+        navigate("../RegisterVerification", {state: {phoneNumber: phoneNumber}});
+    };
+
+    const closeIcon = (
+        <IconButton sx={{p: 0}} onClick={() => setOpenAlert(false)}>
+            <CloseIcon/>
+        </IconButton>
+    );
+
     return (
         <>
             <Grid2 container justifyContent='center' sx={{mt: '40px', pb: '40px', position: 'relative'}}>
@@ -77,8 +97,9 @@ const Register = () => {
                                             sx={{m: 1, width: '100%'}}
                                             InputProps={{
                                                 startAdornment:
-                                                    <InputAdornment position="start"><Pic
-                                                        src={Profile1}/></InputAdornment>,
+                                                    <InputAdornment position="start">
+                                                        <Pic src={Profile1}/>
+                                                    </InputAdornment>,
                                             }}
                                         />
                                     </Grid2>
@@ -90,8 +111,7 @@ const Register = () => {
                                             sx={{m: 1, width: '100%'}}
                                             InputProps={{
                                                 startAdornment:
-                                                    <InputAdornment position="start"><Pic
-                                                        src={Profile1}/></InputAdornment>,
+                                                    <InputAdornment position="start"><Pic src={Profile1}/></InputAdornment>,
                                             }}
                                         />
                                     </Grid2>
@@ -148,6 +168,14 @@ const Register = () => {
                             </Box>
                         </Grid2>
                     </MainSection>
+                    <Snackbar
+                        anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                        open={openAlert}
+                        autoHideDuration={3000}
+                        onClose={handleCloseAlert}
+                    >
+                        <Alert severity={alertType} action={closeIcon}>{message}</Alert>
+                    </Snackbar>
                 </Grid2>
                 <Box sx={{position: 'absolute', bottom: '0', left: 0, display: {md: 'block', xs: 'none'}}}>
                     <Pic src={Ellipse653} alt=""/>

@@ -1,9 +1,18 @@
 import React, {useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {MainDashboard, MainTitleText, TitleBox, TitleText2} from "../../StyledTags/VotingTags";
+import {
+    AddButton,
+    LinkButton,
+    MainDashboard,
+    MainTitleText,
+    Pic,
+    TitleBox,
+    TitleText2
+} from "../../StyledTags/VotingTags";
 import Dashboard from "../../Layout/Dashboard";
 import VotingList from "./VotingList";
 import {Stack} from "@mui/material";
+import HowToVoteIcon from '@mui/icons-material/HowToVote';
 
 const Voting = () => {
 
@@ -30,6 +39,12 @@ const Voting = () => {
                                     انتخابات های من
                                 </MainTitleText>
                             </TitleBox>
+                            <LinkButton to="../CreateVote">
+                                <AddButton variant="contained">
+                                    <HowToVoteIcon sx={{pr: "2px"}}/>
+                                    ایجاد انتخابات جدید
+                                </AddButton>
+                            </LinkButton>
                         </Stack>
                         {
                             showList ?

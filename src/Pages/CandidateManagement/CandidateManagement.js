@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {
-    AddTextButton, CandidateButton, CandidateText,
+    AddTextButton, CandidateButton, CandidateIcon, CandidateText,
     MainDashboard, MainTitleText,
     Pic, RowBox, RowNumber,
     Section, TitleBox,
@@ -14,13 +14,15 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle, FormControl, MenuItem, Pagination, Paper, Select,
-    Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+    Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip
 } from "@mui/material";
 import Dashboard from "../../Layout/Dashboard";
 import CandidateServices from "../../Services/CandidateServices"
 import AddUser from "../../images/AddUser.png";
 import AddCandidateForm from "./AddCandidateForm";
 import {useParams} from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 const CandidateManagement = () => {
 
@@ -42,7 +44,7 @@ const CandidateManagement = () => {
 
     useEffect(() => {
         const response = async () => {
-            const result = await CandidateServices.getCandidate(params.id,pageNumber, pageSize);
+            const result = await CandidateServices.getCandidate(params.id, pageNumber, pageSize);
             setCandidate(result.data);
             setPageCount(result.total);
         }
@@ -115,7 +117,7 @@ const CandidateManagement = () => {
                                         <TableCell align="left">نام و نام خانوادگی</TableCell>
                                         <TableCell>توضیحات</TableCell>
                                         <TableCell>وضعیت</TableCell>
-                                        <TableCell align="right" sx={{pr: 8}}>عملیات</TableCell>
+                                        <TableCell align="right" sx={{pr: 4}}>عملیات</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -128,11 +130,14 @@ const CandidateManagement = () => {
                                                 <TableCell>{c.description}</TableCell>
                                                 <TableCell>{c.isEnabled === true ? "فعال" : "غیر فعال"}</TableCell>
                                                 <TableCell sx={{pr: 1}}>
-                                                    <Stack spacing={2} direction="row" justifyContent="flex-end">
-                                                        <CandidateButton
-                                                            variant="contained"
-                                                            onClick={(e) => handleSelectedCandidate(e, c.id)}>حذف
-                                                        </CandidateButton>
+                                                    <Stack direction="row" justifyContent="flex-end">
+                                                        <Tooltip title="حذف">
+                                                            <CandidateIcon
+                                                                onClick={(e) => handleSelectedCandidate(e, c.id)}
+                                                            >
+                                                                <DeleteIcon fontSize="medium"/>
+                                                            </CandidateIcon>
+                                                        </Tooltip>
                                                         <Dialog open={openDeleteDialog} onClose={handleCloseDialog}>
                                                             <DialogTitle id="alert-dialog-title">
                                                                 {"اخطار!"}
@@ -150,10 +155,11 @@ const CandidateManagement = () => {
                                                                         onClick={deleteCandidate}>بله</Button>
                                                             </DialogActions>
                                                         </Dialog>
-                                                        <CandidateButton variant="contained"
-                                                                         onClick={(e) => editVoter(e, c.id)}>
-                                                            ویرایش
-                                                        </CandidateButton>
+                                                        <Tooltip title="ویرایش">
+                                                            <CandidateIcon onClick={(e) => editVoter(e, c.id)}>
+                                                                <EditIcon fontSize="medium"/>
+                                                            </CandidateIcon>
+                                                        </Tooltip>
                                                     </Stack>
                                                 </TableCell>
                                             </TableRow>

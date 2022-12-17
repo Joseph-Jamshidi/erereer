@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {
+    Alert,
     Button,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle, FormControl, MenuItem,
-    Pagination, Paper, Select,
-    Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+    DialogTitle, FormControl, IconButton, MenuItem,
+    Pagination, Paper, Select, Snackbar,
+    Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip
 } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {useParams} from "react-router-dom";
@@ -21,11 +22,14 @@ import {
     VoterButton,
     VoterText,
     MainDashboard,
-    Pic, TitleBox, MainTitleText, TitleText2
+    Pic, TitleBox, MainTitleText, TitleText2, VoterIcon
 } from "../../StyledTags/VoterManagementTags";
 import Dashboard from "../../Layout/Dashboard";
 import AddUser from "../../images/AddUser.png";
 import AddVoter from "./AddVoter";
+import CloseIcon from "@mui/icons-material/Close";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 
 const VoterManagement = () => {
@@ -38,6 +42,9 @@ const VoterManagement = () => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const [openAddForm, setOpenAddForm] = useState(false);
+    const [message, setMessage] = useState('');
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alertType, setAlertType] = useState("");
     const params = useParams();
 
     useEffect(() => {
@@ -52,18 +59,22 @@ const VoterManagement = () => {
     const deleteVoter = (e) => {
         e.preventDefault();
         const response = async () => {
-            const result = await VoterServices.deleteVoter(delId, params.id);
-            alert(result.message);
+            await VoterServices.deleteVoter(delId, params.id);
             setIsUpdating(!isUpdating);
             setOpenDeleteDialog(false);
             setDelId("");
+            setMessage("رإی دهنده انتخاب شده حذف گردید")
+            setOpenAlert(true);
+            setAlertType("success");
         }
         response().catch(console.error);
     };
 
     const handleEditVoter = (e) => {
         e.preventDefault();
-        alert("این سرویس هنوز راه اندازی نشده است")
+        setMessage("سرویس ویرایش راه انداری نشده است")
+        setOpenAlert(true);
+        setAlertType("error");
     };
 
     const handleSelectedVoter = (e, id) => {
@@ -77,6 +88,19 @@ const VoterManagement = () => {
         setOpenDeleteDialog(false);
         setDelId("");
     };
+
+    const handleCloseAlert = (e, reason) => {
+        if (reason === "clickaway") {
+            return
+        }
+        setOpenAlert(false)
+    };
+
+    const closeIcon = (
+        <IconButton sx={{p: 0}} onClick={() => setOpenAlert(false)}>
+            <CloseIcon/>
+        </IconButton>
+    );
 
     return (
         <>
@@ -112,7 +136,7 @@ const VoterManagement = () => {
                                             <TableCell>کد ملی</TableCell>
                                             <TableCell>شماره تلفن</TableCell>
                                             <TableCell>وضعیت</TableCell>
-                                            <TableCell align="right" sx={{pr: 5}}>عملیات</TableCell>
+                                            <TableCell align="right" sx={{pr: 4}}>عملیات</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -127,11 +151,14 @@ const VoterManagement = () => {
                                                     <TableCell>{v.phoneNumber}</TableCell>
                                                     <TableCell>{v.isActive === true ? "فعال" : "غیر فعال"}</TableCell>
                                                     <TableCell sx={{pr: 1}}>
-                                                        <Stack spacing={1} direction="row" justifyContent="flex-end">
-                                                            <VoterButton
-                                                                variant="contained"
-                                                                onClick={(e) => handleSelectedVoter(e, v.id)}>حذف
-                                                            </VoterButton>
+                                                        <Stack direction="row" justifyContent="flex-end">
+                                                            <Tooltip title="حذف">
+                                                                <VoterIcon
+                                                                    onClick={(e) => handleSelectedVoter(e, v.id)}
+                                                                >
+                                                                    <DeleteIcon fontSize="medium"/>
+                                                                </VoterIcon>
+                                                            </Tooltip>
                                                             <Dialog open={openDeleteDialog} onClose={handleCloseDialog}>
                                                                 <DialogTitle id="alert-dialog-title">
                                                                     {"اخطار!"}
@@ -149,10 +176,11 @@ const VoterManagement = () => {
                                                                             onClick={deleteVoter}>بله</Button>
                                                                 </DialogActions>
                                                             </Dialog>
-                                                            <VoterButton variant="contained"
-                                                                         onClick={(e) => handleEditVoter(e, v.id)}>
-                                                                ویرایش
-                                                            </VoterButton>
+                                                            <Tooltip title="ویرایش">
+                                                                <VoterIcon onClick={(e) => handleEditVoter(e, v.id)}>
+                                                                    <EditIcon fontSize="medium"/>
+                                                                </VoterIcon>
+                                                            </Tooltip>
                                                         </Stack>
                                                     </TableCell>
                                                 </TableRow>
@@ -245,6 +273,14 @@ const VoterManagement = () => {
                         }
                     </Grid2>
                 </Grid2>
+                <Snackbar
+                    anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                    open={openAlert}
+                    autoHideDuration={3000}
+                    onClose={handleCloseAlert}
+                >
+                    <Alert severity={alertType} action={closeIcon}>{message}</Alert>
+                </Snackbar>
             </Grid2>
         </>
     );

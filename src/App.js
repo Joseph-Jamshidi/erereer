@@ -17,6 +17,7 @@ import UserProfile from "./Pages/UserProfile";
 import ResetPassword from "./Pages/ResetPassword";
 import RegisterVerification from "./Pages/Register/RegisterVerification";
 import Vote from "./Pages/Vote";
+import VoteHistory from "./Pages/VoteHistory";
 
 const cacheRtl = createCache({
     key: 'muirtl',
@@ -43,6 +44,7 @@ const App = () => {
                         <Route path="/UserProfile" element={<UserProfile/>}/>
                         <Route path="/ResetPassword" element={<ResetPassword/>}/>
                         <Route path="/Vote/:id" element={<Vote/>}/>
+                        <Route path="/VoteHistory" element={<VoteHistory/>}/>
                     </Routes>
                 </BrowserRouter>
             </CacheProvider>

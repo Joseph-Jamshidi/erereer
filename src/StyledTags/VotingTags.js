@@ -4,9 +4,9 @@ import {Link as RouterLink} from "react-router-dom";
 import Grid2 from "@mui/material/Unstable_Grid2";
 
 export const LinkButton = styled(RouterLink)`
-  padding: 0;
   text-decoration: none;
-  color: white;
+  padding: 3px 4px 3px 0;
+  margin: auto 0;
 `;
 export const MainDashboard = styled(Grid2)`
   background-color: white;
@@ -36,6 +36,19 @@ export const ElectionButton = styled(Button)`
   font-weight: 100;
   font-size: 14px;
   line-height: 25px;
+`;
+export const AddButton = styled(Button)`
+  max-width: 100%;
+  background-color: #425C81;
+  padding: 3px;
+  margin: 0;
+  color: white;
+  font-family: 'Vazir FD', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  font-size: 14px;
+  line-height: 25px;
+  height: fit-content;
 `;
 export const ManageButton = styled(Button)`
   max-width: 100%;

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {Box, InputAdornment, Stack, TextField, Typography} from "@mui/material";
+import {Alert, Box, IconButton, InputAdornment, Snackbar, Stack, TextField, Typography} from "@mui/material";
 import {BackArrow, HeaderText, LoginButton, LoginLink, MainSection, Pic} from "../StyledTags/LoginTags";
 import Arrow from '../images/Arrow - Left.png';
 import Stroke from '../images/Stroke.png';
@@ -10,11 +10,15 @@ import Ellipse653 from '../images/Ellipse653.png';
 import Ellipse652 from '../images/Ellipse652.png';
 import Ellipse654 from '../images/Ellipse654.png';
 import UserServices from '../Services/UserServices';
+import CloseIcon from "@mui/icons-material/Close";
 
 const Login = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alertType, setAlertType] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -26,10 +30,16 @@ const Login = () => {
         const response = async () => {
             const result = await UserServices.Login(loginInfo);
             if (result.access_token) {
-                window.location.href = "./";
-                alert("خوش آمدید");
+                setOpenAlert(true);
+                setMessage("خوش آمدید");
+                setAlertType("success");
+                setTimeout(() => {
+                    window.location.href = "./";
+                }, 4000);
             } else {
-                alert(result.message);
+                setOpenAlert(true);
+                setMessage("نام کاربری یا کلمه عبور اشتباه است");
+                setAlertType("error");
             }
         };
         response().catch(console.error);
@@ -37,12 +47,24 @@ const Login = () => {
 
     const usernameInput = (e) => {
         setUsername(e.target.value);
-    }
+    };
 
     const passwordInput = (e) => {
         setPassword(e.target.value);
-    }
+    };
 
+    const handleCloseAlert = (e, reason) => {
+        if (reason === "clickaway") {
+            return
+        }
+        setOpenAlert(false);
+    };
+
+    const closeIcon = (
+        <IconButton sx={{p: 0}} onClick={() => window.location.href = "./"}>
+            <CloseIcon/>
+        </IconButton>
+    );
 
     return (
         <>
@@ -105,6 +127,14 @@ const Login = () => {
                                 </Grid2>
                             </Box>
                         </Grid2>
+                        <Snackbar
+                            anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                            open={openAlert}
+                            autoHideDuration={3000}
+                            onClose={handleCloseAlert}
+                        >
+                            <Alert severity={alertType} action={closeIcon}>{message}</Alert>
+                        </Snackbar>
                     </MainSection>
                 </Grid2>
                 <Box sx={{position: 'absolute', bottom: '0', left: 0, display: {md: 'block', xs: 'none'}}}>

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {MainSection, Pic, HeaderText, BackArrow, SubmitButton} from "../StyledTags/ResetPasswordTags";
-import {Box, InputAdornment, Stack, TextField} from "@mui/material";
+import {Alert, Box, IconButton, InputAdornment, Snackbar, Stack, TextField} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {UserInfo} from "../Services/info";
 import UserServices from "../Services/UserServices";
@@ -10,10 +10,14 @@ import Ellipse653 from "../images/Ellipse653.png";
 import Ellipse654 from "../images/Ellipse654.png";
 import Vector from "../images/Vector.png";
 import Ellipse652 from "../images/Ellipse652.png";
+import CloseIcon from "@mui/icons-material/Close";
 
 const ResetPassword = () => {
 
     const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alertType, setAlertType] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -27,10 +31,14 @@ const ResetPassword = () => {
                 setTimeout(() => {
                     localStorage.clear();
                     window.location.href = "./login";
-                }, 1000)
-                alert(result.message);
+                }, 1500)
+                setMessage("کلمه عبور با موفقیت تغییر یافت")
+                setOpenAlert(true);
+                setAlertType("success")
             } else {
-                alert("رمز عبور باید حداقل 6 کارکتر باشد")
+                setMessage("کلمه عبور باید حداقل 6 کارکتر باشد")
+                setOpenAlert(true);
+                setAlertType("warning")
             }
         }
         response().catch(console.error);
@@ -39,6 +47,19 @@ const ResetPassword = () => {
     const handlePassword = (e) => {
         setPassword(e.target.value)
     };
+
+    const handleCloseAlert = (e, reason) => {
+        if (reason === "clickaway") {
+            return
+        }
+        setOpenAlert(false)
+    };
+
+    const closeIcon = (
+        <IconButton sx={{p: 0}} onClick={() => setOpenAlert(false)}>
+            <CloseIcon/>
+        </IconButton>
+    );
 
     return (
         <>
@@ -69,11 +90,19 @@ const ResetPassword = () => {
                                         />
                                     </Grid2>
                                 </Grid2>
+                                <Grid2 container sx={{width: '100%', mb: '2%', mt: '10%'}}>
+                                    <SubmitButton type="submit" variant="contained">تغییر رمز عبور</SubmitButton>
+                                </Grid2>
                             </Box>
-                            <Grid2 container sx={{width: '100%', mb: '2%', mt: '10%'}}>
-                                <SubmitButton type="submit" variant="contained">تغییر رمز عبور</SubmitButton>
-                            </Grid2>
                         </Grid2>
+                        <Snackbar
+                            anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                            open={openAlert}
+                            autoHideDuration={3000}
+                            onClose={handleCloseAlert}
+                        >
+                            <Alert severity={alertType} action={closeIcon}>{message}</Alert>
+                        </Snackbar>
                     </MainSection>
                 </Grid2>
                 <Box sx={{position: 'absolute', bottom: '0', left: 0, display: {md: 'block', xs: 'none'}}}>

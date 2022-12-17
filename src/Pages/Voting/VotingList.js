@@ -9,15 +9,16 @@ import {
     TitleText
 } from "../../StyledTags/VotingTags";
 import {
+    Alert,
     Button,
     Dialog, DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-    FormControl,
+    FormControl, IconButton,
     MenuItem,
     Pagination, Paper,
-    Select,
+    Select, Snackbar,
     Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip
 } from "@mui/material";
 import ElectionServices from "../../Services/ElectionServices";
@@ -30,6 +31,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import GroupsIcon from '@mui/icons-material/Groups';
+import CloseIcon from "@mui/icons-material/Close";
 
 const VotingList = ({afterGetVotingList}) => {
 
@@ -39,6 +41,9 @@ const VotingList = ({afterGetVotingList}) => {
     const [pageNumber, setPageNumber] = useState(1);
     const [pageCount, setPageCount] = useState('');
     const [isUpdating, setIsUpdating] = useState(false);
+    const [message, setMessage] = useState('');
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alertType, setAlertType] = useState("");
     const [elections, setElections] = useState([{
         name: '',
         startDate: '',
@@ -99,11 +104,13 @@ const VotingList = ({afterGetVotingList}) => {
     const handleDelete = (e) => {
         e.preventDefault();
         const response = async () => {
-            const result = await ElectionServices.deleteElection(delId);
+            await ElectionServices.deleteElection(delId);
             setDelId("");
-            alert(result.message);
             setIsUpdating(!isUpdating);
             setOpenDeleteDialog(false);
+            setMessage("انتخابات انتخاب شده حذف گردید")
+            setOpenAlert(true);
+            setAlertType("success")
         };
         response().catch(console.error);
     };
@@ -112,6 +119,19 @@ const VotingList = ({afterGetVotingList}) => {
         e.preventDefault();
         navigate(`../CreateVote/${id}`);
     };
+
+    const handleCloseAlert = (e, reason) => {
+        if (reason === "clickaway") {
+            return
+        }
+        setOpenAlert(false)
+    };
+
+    const close = (
+        <IconButton sx={{p: 0}} onClick={() => setOpenAlert(false)}>
+            <CloseIcon/>
+        </IconButton>
+    );
 
     return (
         <>
@@ -269,6 +289,14 @@ const VotingList = ({afterGetVotingList}) => {
                     )
                 }
             </Grid2>
+            <Snackbar
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                open={openAlert}
+                autoHideDuration={3000}
+                onClose={handleCloseAlert}
+            >
+                <Alert severity={alertType} action={close}>{message}</Alert>
+            </Snackbar>
             <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Pagination count={Math.ceil(pageCount / pageSize)} dir="ltr"
                             onChange={(_, e) => setPageNumber(e)}/>

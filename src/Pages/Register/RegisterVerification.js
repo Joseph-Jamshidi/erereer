@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Box, InputAdornment, TextField, Typography} from "@mui/material";
+import {Alert, Box, IconButton, InputAdornment, Snackbar, TextField, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {HeaderText, LoginButton, LoginLink, MainSection, Pic} from "../../StyledTags/RegisterTags";
 import Profile1 from "../../images/Profile1.png";
@@ -10,12 +10,16 @@ import Ellipse652 from "../../images/Ellipse652.png";
 import UserServices from "../../Services/UserServices";
 import {useLocation, useNavigate} from "react-router-dom";
 import CountDownTimer from "../../Component/CounterDownTimer";
+import CloseIcon from "@mui/icons-material/Close";
 
 const RegisterVerification = () => {
 
     const [verifyCode, setVerifyCode] = useState('');
     const [timer, setTimer] = useState({minutes: 2, seconds: 0});
     const [showTimer, setShowTimer] = useState(true);
+    const [message, setMessage] = useState('');
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alertType, setAlertType] = useState("");
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -24,10 +28,16 @@ const RegisterVerification = () => {
         const response = async () => {
             const result = await UserServices.VerifyUser(verifyCode, location.state.phoneNumber);
             if (result.statusCode === 'Success') {
-                alert(result.message);
-                navigate("../login");
+                setOpenAlert(true);
+                setMessage("ثبت نام با موفقیت انجام شد");
+                setAlertType("success");
+                setTimeout(() => {
+                    navigate("../login");
+                }, 4000);
             } else {
-                alert(result.message);
+                setOpenAlert(true);
+                setMessage(result.message);
+                setAlertType("error");
             }
         }
         response().catch(console.error);
@@ -37,7 +47,9 @@ const RegisterVerification = () => {
         e.preventDefault();
         const response = async () => {
             await UserServices.SendCodeAgain(location.state.phoneNumber);
-            alert("کد مجدد برای شما ارسال شد");
+            setOpenAlert(true);
+            setMessage("کد مجدد برای شما ارسال شد");
+            setAlertType("info");
             setShowTimer(true);
             setTimer({minutes: 2, seconds: 0});
         }
@@ -47,6 +59,19 @@ const RegisterVerification = () => {
     const onFinishTimer = () => {
         setShowTimer(false);
     };
+
+    const handleCloseAlert = (e, reason) => {
+        if (reason === "clickaway") {
+            return
+        }
+        setOpenAlert(false)
+    };
+
+    const closeIcon = (
+        <IconButton sx={{p: 0}} onClick={() => setOpenAlert(false)}>
+            <CloseIcon/>
+        </IconButton>
+    );
 
     return (
         <>
@@ -94,6 +119,14 @@ const RegisterVerification = () => {
                                 </Grid2>
                             </Box>
                         </Grid2>
+                        <Snackbar
+                            anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                            open={openAlert}
+                            autoHideDuration={3000}
+                            onClose={handleCloseAlert}
+                        >
+                            <Alert severity={alertType} action={closeIcon}>{message}</Alert>
+                        </Snackbar>
                     </MainSection>
                 </Grid2>
                 <Box sx={{position: 'absolute', bottom: '0', left: 0, display: {md: 'block', xs: 'none'}}}>

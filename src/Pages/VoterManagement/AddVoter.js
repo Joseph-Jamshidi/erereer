@@ -1,14 +1,16 @@
 import React, {useState} from 'react';
 import {
+    Alert,
     Box, Button,
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle,
+    DialogTitle, IconButton, Snackbar,
     TextField
 } from "@mui/material";
 import {useParams} from "react-router-dom";
 import VoterServices from "../../Services/VoterServices";
+import CloseIcon from "@mui/icons-material/Close";
 
 
 const AddVoter = (props) => {
@@ -17,6 +19,9 @@ const AddVoter = (props) => {
     const [lastName, setLastName] = useState("");
     const [nationalCode, setNationalCode] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
+    const [message, setMessage] = useState('');
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alertType, setAlertType] = useState("");
     const params = useParams();
 
     const handleSubmit = (e) => {
@@ -34,48 +39,93 @@ const AddVoter = (props) => {
         };
         const response = async () => {
             const result = await VoterServices.addVoter(addVoter);
-            alert(result.message);
+            setMessage(result.message)
+            setOpenAlert(true);
+            setAlertType("info");
             props.setIsUpdating(!props.isUpdating);
             if (result.statusCode === 'Success') {
-                handleClose();
+                handleCloseForm();
                 props.setIsUpdating(!props.isUpdating);
             } else {
+                debugger
+                setMessage(result.message)
+                setOpenAlert(true);
+                setAlertType("error");
                 alert(result.message)
             }
         };
         response().catch(console.error);
     };
 
-    const handleClose = () => {
+    const handleCloseForm = () => {
         props.setOpenAddForm(false);
     };
 
+    const handleCloseAlert = (e, reason) => {
+        if (reason === "clickaway") {
+            return
+        }
+        setOpenAlert(false)
+    };
+
+    const closeIcon = (
+        <IconButton sx={{p: 0}} onClick={() => setOpenAlert(false)}>
+            <CloseIcon/>
+        </IconButton>
+    );
+
     return (
         <>
-            <Dialog open={props.openAddForm} onClose={handleClose}>
+            <Dialog open={props.openAddForm} onClose={handleCloseForm}>
                 <DialogTitle
                     variant="h5">اضافه کردن رأی دهنده</DialogTitle>
                 <DialogContent>
                     <Box component="form" onSubmit={handleSubmit}>
-                        <TextField margin="dense" label="نام" fullWidth variant="standard"
-                                   onChange={(e) => setFirstName(e.target.value)} sx={{m: '10px'}}
+                        <TextField
+                            onChange={(e) => setFirstName(e.target.value)}
+                            fullWidth variant="standard"
+                            sx={{m: '10px'}}
+                            margin="dense"
+                            label="نام"
                         />
-                        <TextField margin="dense" label="نام خانوادگی" fullWidth variant="standard"
-                                   onChange={(e) => setLastName(e.target.value)} sx={{m: '10px'}}
+                        <TextField
+                            onChange={(e) => setLastName(e.target.value)}
+                            fullWidth variant="standard"
+                            label="نام خانوادگی"
+                            sx={{m: '10px'}}
+                            margin="dense"
                         />
-                        <TextField margin="dense" label="کد ملی" fullWidth variant="standard" type="number"
-                                   onChange={(e) => setNationalCode(e.target.value)} sx={{m: '10px'}}
+                        <TextField
+                            onChange={(e) => setNationalCode(e.target.value)}
+                            label="کد ملی" fullWidth
+                            variant="standard"
+                            sx={{m: '10px'}}
+                            margin="dense"
+                            type="number"
                         />
-                        <TextField margin="dense" label="شماره تلفن" fullWidth variant="standard" type="number"
-                                   onChange={(e) => setPhoneNumber(e.target.value)} sx={{m: '10px'}}
+                        <TextField
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            fullWidth variant="standard"
+                            label="شماره تلفن"
+                            sx={{m: '10px'}}
+                            margin="dense"
+                            type="number"
                         />
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>لفو</Button>
+                    <Button onClick={handleCloseForm}>لفو</Button>
                     <Button onClick={handleSubmit}>افزودن</Button>
                 </DialogActions>
             </Dialog>
+            <Snackbar
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                open={openAlert}
+                autoHideDuration={3000}
+                onClose={handleCloseAlert}
+            >
+                <Alert severity={alertType} action={closeIcon}>{message}</Alert>
+            </Snackbar>
         </>
     );
 };

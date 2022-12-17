@@ -10,10 +10,11 @@ import {
     TitleText2,
 } from "../StyledTags/CreateVoteTags";
 import {
+    Alert,
     Box,
     FormControl,
     FormGroup,
-    FormLabel,
+    FormLabel, IconButton, Snackbar,
     Stack,
     Switch,
     TextField, Typography
@@ -26,6 +27,7 @@ import gregorian from "react-date-object/calendars/gregorian";
 import persian_en from "react-date-object/locales/persian_en";
 import ElectionServices from "../Services/ElectionServices";
 import {useParams} from "react-router-dom";
+import CloseIcon from "@mui/icons-material/Close";
 
 const CreateVoteTags = () => {
 
@@ -38,6 +40,9 @@ const CreateVoteTags = () => {
     const [userVoteCount, setUserVoteCount] = useState("");
     const [selectedElection, setSelectedElection] = useState("");
     const [ownerId, setOwnerId] = useState("");
+    const [message, setMessage] = useState('');
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alertType, setAlertType] = useState("");
     const params = useParams();
 
     useEffect(() => {
@@ -74,14 +79,29 @@ const CreateVoteTags = () => {
         if (createElection.id) {
             const response = async () => {
                 await ElectionServices.editElection(createElection.id, createElection);
-                alert("edited")
+                setMessage("ئیرایش انجام شد")
+                setOpenAlert(true);
+                setAlertType("success");
             };
             response().catch(console.error);
         } else {
             const response = async () => {
                 const result = await ElectionServices.addElection(createElection);
-                alert(result.message);
-                e.target.reset();
+                if(result.statusCode==="Success"){
+                    setMessage("انتخابات جدید ایجاد شد")
+                    setOpenAlert(true);
+                    setAlertType("info");
+                    setName("");
+                    setCandidateCount("");
+                    setUserVoteCount("");
+                    setIsEnabled(false);
+                    setIsVoterHidden(false);
+                }else {
+                    setMessage("لطفاً فرم را کامل کنید")
+                    setOpenAlert(true);
+                    setAlertType("warning");
+                    alert("hello")
+                }
             }
             response().catch(console.error);
         }
@@ -99,6 +119,19 @@ const CreateVoteTags = () => {
         const eDay = {gregorian: new DateObject(object).convert(gregorian, persian_en).format()};
         setEndDate(eDay.gregorian);
     };
+
+    const handleCloseAlert = (e, reason) => {
+        if (reason === "clickaway") {
+            return
+        }
+        setOpenAlert(false)
+    };
+
+    const closeIcon = (
+        <IconButton sx={{p: 0}} onClick={() => setOpenAlert(false)}>
+            <CloseIcon/>
+        </IconButton>
+    );
 
     return (
         <>
@@ -133,6 +166,7 @@ const CreateVoteTags = () => {
                                             <DatePicker
                                                 value={selectedElection ? new Date(selectedElection.startDate) : ""}
                                                 render={<InputIcon placeholder="تاریخ شروع انتخابات"/>}
+                                                minDate={new Date()}
                                                 onChange={onStartDateHandler}
                                                 calendar={persian}
                                                 locale={persian_fa}
@@ -213,6 +247,14 @@ const CreateVoteTags = () => {
                                 </Stack>
                             </Box>
                         </Section>
+                        <Snackbar
+                            anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                            open={openAlert}
+                            autoHideDuration={3000}
+                            onClose={handleCloseAlert}
+                        >
+                            <Alert severity={alertType} action={closeIcon}>{message}</Alert>
+                        </Snackbar>
                     </Grid2>
                 </Grid2>
             </Grid2>

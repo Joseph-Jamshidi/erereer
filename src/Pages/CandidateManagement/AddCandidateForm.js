@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {
+    Alert,
     Box,
     Button,
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle, FormGroup, Stack, Switch,
+    DialogTitle, FormGroup, IconButton, Snackbar, Stack, Switch,
     TextField, Typography
 } from "@mui/material";
 import CandidateServices from "../../Services/CandidateServices";
 import {useParams} from "react-router-dom";
+import CloseIcon from "@mui/icons-material/Close";
 
 
 const AddCandidateForm = (props) => {
@@ -17,6 +19,9 @@ const AddCandidateForm = (props) => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [isEnabled, setIsEnabled] = useState(false);
+    const [message, setMessage] = useState('');
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alertType, setAlertType] = useState("");
     const params = useParams();
 
     useEffect(() => {
@@ -38,9 +43,11 @@ const AddCandidateForm = (props) => {
         if (props.selectedCandidate.id) {
             const response = async () => {
                 const result = await CandidateServices.editCandidate(props.selectedCandidate.id, addCandidate);
-                alert(result.message)
+                setMessage(result.message)
+                setOpenAlert(true);
+                setAlertType("info");
                 if (result.statusCode === 'Success') {
-                    handleClose()
+                    handleCloseForm()
                     props.setIsUpdating(!props.isUpdating);
                 }
             }
@@ -48,18 +55,21 @@ const AddCandidateForm = (props) => {
         } else {
             const response = async () => {
                 const result = await CandidateServices.addCandidate(addCandidate);
-                alert(result.message);
+                setMessage(result.message)
+                setOpenAlert(true);
+                setAlertType("info");
                 if (result.statusCode === 'Success') {
                     props.setIsUpdating(!props.isUpdating);
                 } else {
-                    alert(result.message)
-                }
+                    setMessage(result.message)
+                    setOpenAlert(true);
+                    setAlertType("error");                }
             }
             response().catch(console.error);
         }
     }
 
-    const handleClose = () => {
+    const handleCloseForm = () => {
         props.setOpenAddForm(false);
         props.setSelectedCandidate({
             name: '',
@@ -68,9 +78,22 @@ const AddCandidateForm = (props) => {
         });
     };
 
+    const handleCloseAlert = (e, reason) => {
+        if (reason === "clickaway") {
+            return
+        }
+        setOpenAlert(false)
+    };
+
+    const closeIcon = (
+        <IconButton sx={{p: 0}} onClick={() => setOpenAlert(false)}>
+            <CloseIcon/>
+        </IconButton>
+    );
+
     return (
         <>
-            <Dialog open={props.openAddForm} onClose={handleClose}>
+            <Dialog open={props.openAddForm} onClose={handleCloseForm}>
                 <DialogTitle
                     variant="h5">{props.selectedCandidate.id ? "ویرایش کاندید" : "اضافه کردن کاندید"}</DialogTitle>
                 <DialogContent>
@@ -94,10 +117,18 @@ const AddCandidateForm = (props) => {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>لفو</Button>
+                    <Button onClick={handleCloseForm}>لفو</Button>
                     <Button onClick={handleSubmit}>افزودن</Button>
                 </DialogActions>
             </Dialog>
+            <Snackbar
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                open={openAlert}
+                autoHideDuration={3000}
+                onClose={handleCloseAlert}
+            >
+                <Alert severity={alertType} action={closeIcon}>{message}</Alert>
+            </Snackbar>
         </>
     );
 };

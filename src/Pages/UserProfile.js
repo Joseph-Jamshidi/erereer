@@ -2,9 +2,10 @@ import React, {useEffect, useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {MainDashboard, Section, SubmitButton, Text} from "../StyledTags/UserProfileTags";
 import Dashboard from "../Layout/Dashboard";
-import {Stack, TextField} from "@mui/material";
+import {Alert, IconButton, Snackbar, Stack, TextField} from "@mui/material";
 import UserServices from "../Services/UserServices";
 import {UserInfo} from "../Services/info";
+import CloseIcon from "@mui/icons-material/Close";
 
 const UserProfile = () => {
 
@@ -12,6 +13,10 @@ const UserProfile = () => {
     const [lastName, setLastName] = useState('');
     const [nationalCode, setNationalCode] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alertType, setAlertType] = useState("");
+    const [message, setMessage] = useState('');
+
 
     useEffect(() => {
         const response = async () => {
@@ -34,13 +39,28 @@ const UserProfile = () => {
             gender: "Male",
         };
         const response = async () => {
-            const result = await UserServices.EditProfile(editedUser);
-            alert(result.message)
+            await UserServices.EditProfile(editedUser);
+            setMessage("اطلاعات کاربری با موفقیت تغییر یافت")
+            setOpenAlert(true)
+            setAlertType("success")
             localStorage.clear();
-            window.location.href = "/"
         };
         response().catch(console.error);
     };
+
+    const handleCloseAlert = (e, reason) => {
+        if (reason === "clickaway") {
+            return
+        }
+        setOpenAlert(false)
+        window.location.href = "/"
+    };
+
+    const closeIcon = (
+        <IconButton sx={{p: 0}} onClick={() => handleCloseAlert}>
+            <CloseIcon/>
+        </IconButton>
+    );
 
     return (
         <>
@@ -95,6 +115,14 @@ const UserProfile = () => {
                                 <SubmitButton variant="contained" onClick={handleSubmit}>ثبت</SubmitButton>
                             </Grid2>
                         </Section>
+                        <Snackbar
+                            anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                            open={openAlert}
+                            autoHideDuration={3000}
+                            onClose={handleCloseAlert}
+                        >
+                            <Alert severity={alertType} action={closeIcon}>{message}</Alert>
+                        </Snackbar>
                     </Grid2>
                 </Grid2>
             </Grid2>

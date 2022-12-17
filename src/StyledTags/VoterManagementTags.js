@@ -40,6 +40,19 @@ export const VoterButton = styled(Button)`
   line-height: 25px;
   height: fit-content;
 `;
+export const VoterIcon = styled(Button)`
+  min-width: fit-content;
+  max-width: fit-content;
+  padding: 3px;
+  margin: 4px;
+  color: #425C81;
+  font-family: 'Vazir FD', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  font-size: 14px;
+  line-height: 25px;
+  height: fit-content;
+`;
 export const AddTextButton = styled(Typography)`
   color: white;
   font-family: 'Vazir FD', sans-serif;
