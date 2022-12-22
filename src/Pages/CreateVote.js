@@ -262,5 +262,4 @@ const CreateVoteTags = () => {
     );
 };
 
-
 export default CreateVoteTags;
