@@ -5,16 +5,15 @@ import {
     LinkButton,
     MainDashboard,
     MainTitleText,
-    Pic,
     TitleBox,
     TitleText2
 } from "../../StyledTags/VotingTags";
 import Dashboard from "../../Layout/Dashboard";
-import VotingList from "./VotingList";
+import ElectionList from "./ElectionList";
 import {Stack} from "@mui/material";
 import HowToVoteIcon from '@mui/icons-material/HowToVote';
 
-const Voting = () => {
+const ElectionsInProgress = () => {
 
     const [showList, setShowList] = useState(true);
     const afterGetVotingList = (fetchedData) => {
@@ -39,7 +38,7 @@ const Voting = () => {
                                     انتخابات های من
                                 </MainTitleText>
                             </TitleBox>
-                            <LinkButton to="../CreateVote">
+                            <LinkButton to="../CreateElection">
                                 <AddButton variant="contained">
                                     <HowToVoteIcon sx={{pr: "2px"}}/>
                                     ایجاد انتخابات جدید
@@ -48,7 +47,7 @@ const Voting = () => {
                         </Stack>
                         {
                             showList ?
-                                <VotingList afterGetVotingList={afterGetVotingList}/> :
+                                <ElectionList afterGetVotingList={afterGetVotingList}/> :
                                 <TitleText2>انتخاباتی وجود ندارد</TitleText2>
                         }
                     </Grid2>
@@ -59,4 +58,4 @@ const Voting = () => {
     );
 };
 
-export default Voting;
+export default ElectionsInProgress;

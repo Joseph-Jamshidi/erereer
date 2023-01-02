@@ -7,50 +7,35 @@ const urls = {
     deleteVoter: API_BASE_URL + 'Election/DeleteVoter'
 };
 
-class VoterServices {
-
-    deleteVoter(userId, electionId) {
-        return authedAxios
-            .delete(urls.deleteVoter + `?userId=${userId}&electionId=${electionId}`)
-            .then((response) => {
-                return response.data
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const DeleteVoterService = async (userId, electionId) => {
+    try {
+        const result = await authedAxios.delete(urls.deleteVoter + `?userId=${userId}&electionId=${electionId}`);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
+};
 
-    addVoter(addVoter) {
-        return authedAxios
-            .post(urls.addVoter, addVoter)
-            .then((res) => {
-                return res.data
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const AddVoterService = async (addVoter) => {
+    try {
+        const result = await authedAxios.post(urls.addVoter, addVoter);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
+};
 
-
-
-    getVoterList(electionId, page, size) {
-        return authedAxios
-            .get(urls.voters + `?electionId=${electionId}&Page=${page}&Size=${size}`)
-            .then((response) => {
-                return response.data
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const GetVoterService = async (electionId, page, size) => {
+    try {
+        const result = await authedAxios.get(urls.voters + `?electionId=${electionId}&Page=${page}&Size=${size}`);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
-
-}
-
-const instance = new VoterServices();
-export default instance;
+};

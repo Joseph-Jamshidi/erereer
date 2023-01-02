@@ -14,10 +14,6 @@ export const MainDashboard = styled(Grid2)`
   border-radius: 4px;
   width: 100%;
 `;
-export const Pic = styled("img")`
-  max-width: 100%;
-  height: auto;
-`;
 export const Section = styled(Grid2)`
   padding: 4px 8px;
   background-color: white;

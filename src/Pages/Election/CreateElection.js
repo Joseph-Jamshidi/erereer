@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
-import Dashboard from "../Layout/Dashboard";
+import Dashboard from "../../Layout/Dashboard";
 import {
     MainDashboard,
     Section,
@@ -8,7 +8,7 @@ import {
     TitleBox,
     TitleText,
     TitleText2,
-} from "../StyledTags/CreateVoteTags";
+} from "../../StyledTags/CreateVoteTags";
 import {
     Alert,
     Box,
@@ -25,11 +25,11 @@ import persian from "react-date-object/calendars/persian";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import gregorian from "react-date-object/calendars/gregorian";
 import persian_en from "react-date-object/locales/persian_en";
-import ElectionServices from "../Services/ElectionServices";
+import {AddElectionService, ChosenElectionService, EditElectionService} from "../../Services/ElectionServices";
 import {useParams} from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 
-const CreateVoteTags = () => {
+const CreateElection = () => {
 
     const [name, setName] = useState("");
     const [startDate, setStartDate] = useState("");
@@ -42,14 +42,14 @@ const CreateVoteTags = () => {
     const [ownerId, setOwnerId] = useState("");
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
-    const [alertType, setAlertType] = useState("");
+    const [alertType, setAlertType] = useState("info");
     const params = useParams();
 
     useEffect(() => {
         if (params.id) {
             //Get Election From server and set it to state
             const response = async () => {
-                const result = await ElectionServices.chosenElection(params.id);
+                const result = await ChosenElectionService(params.id);
                 const selected = result.data;
                 setName(selected.name)
                 setSelectedElection(selected);
@@ -58,6 +58,8 @@ const CreateVoteTags = () => {
                 setIsEnabled(selected.isEnabled);
                 setIsVoterHidden(selected.isVoterHidden);
                 setOwnerId(selected.ownerId);
+                setStartDate(selected.startDate);
+                setEndDate(selected.endDate);
             }
             response().catch(console.error);
         }
@@ -78,29 +80,34 @@ const CreateVoteTags = () => {
         };
         if (createElection.id) {
             const response = async () => {
-                await ElectionServices.editElection(createElection.id, createElection);
-                setMessage("ئیرایش انجام شد")
-                setOpenAlert(true);
-                setAlertType("success");
+                const result = await EditElectionService(createElection);
+                if (result.statusCode === "Success") {
+                    setMessage("ویرایش انجام شد")
+                    setOpenAlert(true);
+                    setAlertType("success");
+                } else {
+                    setMessage("لطفاً فرم را کامل کنید")
+                    setOpenAlert(true);
+                    setAlertType("error");
+                }
             };
             response().catch(console.error);
         } else {
             const response = async () => {
-                const result = await ElectionServices.addElection(createElection);
-                if(result.statusCode==="Success"){
+                const result = await AddElectionService(createElection);
+                if (result.statusCode === "Success") {
                     setMessage("انتخابات جدید ایجاد شد")
                     setOpenAlert(true);
-                    setAlertType("info");
+                    setAlertType("success");
                     setName("");
                     setCandidateCount("");
                     setUserVoteCount("");
                     setIsEnabled(false);
                     setIsVoterHidden(false);
-                }else {
+                } else {
                     setMessage("لطفاً فرم را کامل کنید")
                     setOpenAlert(true);
-                    setAlertType("warning");
-                    alert("hello")
+                    setAlertType("error");
                 }
             }
             response().catch(console.error);
@@ -262,4 +269,4 @@ const CreateVoteTags = () => {
     );
 };
 
-export default CreateVoteTags;
+export default CreateElection;

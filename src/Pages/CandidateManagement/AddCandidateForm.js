@@ -9,7 +9,7 @@ import {
     DialogTitle, FormGroup, IconButton, Snackbar, Stack, Switch,
     TextField, Typography
 } from "@mui/material";
-import CandidateServices from "../../Services/CandidateServices";
+import {AddCandidateService, EditCandidateService} from "../../Services/CandidateServices";
 import {useParams} from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -21,7 +21,7 @@ const AddCandidateForm = (props) => {
     const [isEnabled, setIsEnabled] = useState(false);
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
-    const [alertType, setAlertType] = useState("");
+    const [alertType, setAlertType] = useState("info");
     const params = useParams();
 
     useEffect(() => {
@@ -42,28 +42,30 @@ const AddCandidateForm = (props) => {
         };
         if (props.selectedCandidate.id) {
             const response = async () => {
-                const result = await CandidateServices.editCandidate(props.selectedCandidate.id, addCandidate);
+                const result = await EditCandidateService(addCandidate);
                 setMessage(result.message)
                 setOpenAlert(true);
                 setAlertType("info");
                 if (result.statusCode === 'Success') {
-                    handleCloseForm()
+                    handleCloseForm();
                     props.setIsUpdating(!props.isUpdating);
                 }
             }
             response().catch(console.error);
         } else {
             const response = async () => {
-                const result = await CandidateServices.addCandidate(addCandidate);
+                const result = await AddCandidateService(addCandidate);
                 setMessage(result.message)
                 setOpenAlert(true);
                 setAlertType("info");
                 if (result.statusCode === 'Success') {
+                    handleCloseForm();
                     props.setIsUpdating(!props.isUpdating);
                 } else {
                     setMessage(result.message)
                     setOpenAlert(true);
-                    setAlertType("error");                }
+                    setAlertType("error");
+                }
             }
             response().catch(console.error);
         }

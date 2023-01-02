@@ -5,35 +5,24 @@ const urls = {
     vote: API_BASE_URL + 'Vote',
 };
 
-class VoteServices {
-    createVote(voteInfo) {
-        return authedAxios
-            .post(urls.vote, voteInfo)
-            .then((response) => {
-                return response.data
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const VotingService = async (voteInfo) => {
+    try {
+        const result = await authedAxios.post(urls.vote, voteInfo);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
+};
 
-    getVotes(electionId, page, size) {
-        return authedAxios
-            .get(urls.vote + `?ElectionId=${electionId}&Page=${page}&Size=${size}`)
-            .then((response)=>{
-                return response.data
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const GetVoteService = async (electionId, page, size)=>{
+    try {
+        const result = await authedAxios.get(urls.vote + `?ElectionId=${electionId}&Page=${page}&Size=${size}`);
+        return result.data;
+    }catch (error){
+        if (error.response){
+            return error.response.data;
+        }
     }
-
-
-}
-
-const instance = new VoteServices();
-export default instance;
+};

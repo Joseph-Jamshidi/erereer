@@ -11,8 +11,8 @@ import {
     Select,
     Snackbar, Stack
 } from "@mui/material";
-import ElectionServices from "../Services/ElectionServices";
-import CandidateServices from "../Services/CandidateServices";
+import {ChosenElectionService} from "../Services/ElectionServices";
+import {GetCandidateService} from "../Services/CandidateServices";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {
     CandidateBox,
@@ -27,7 +27,7 @@ import {
 import {useParams} from "react-router-dom";
 import Dashboard from "../Layout/Dashboard";
 import icon from "../images/icon.png"
-import VoteServices from "../Services/VoteServices";
+import {VotingService} from "../Services/VoteServices";
 import CloseIcon from '@mui/icons-material/Close';
 
 const Vote = () => {
@@ -40,15 +40,15 @@ const Vote = () => {
     const [pageCount, setPageCount] = useState('');
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
-    const [alertType, setAlertType] = useState("");
+    const [alertType, setAlertType] = useState("info");
     const params = useParams();
 
     useEffect(() => {
         const response = async () => {
-            const ElectionResult = await ElectionServices.chosenElection(params.id);
+            const ElectionResult = await ChosenElectionService(params.id);
             setSelectedElection(ElectionResult.data);
 
-            const getCandidate = await CandidateServices.getCandidate(params.id, pageNumber, pageSize);
+            const getCandidate = await GetCandidateService(params.id, pageNumber, pageSize);
             setCandidateList(getCandidate.data);
             setPageCount(getCandidate.total)
         };
@@ -78,7 +78,7 @@ const Vote = () => {
             setAlertType("error");
         } else {
             const response = async () => {
-                await VoteServices.createVote(voteInfo);
+                await VotingService(voteInfo);
                 setOpenAlert(true);
                 setMessage("رأی شما با موفقیت ثبت شد");
                 setAlertType("success");

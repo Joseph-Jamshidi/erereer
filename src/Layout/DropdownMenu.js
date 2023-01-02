@@ -47,7 +47,7 @@ const DropdownMenu = () => {
                             <ListBtn to="./" onClick={handleClose}>
                                 <NavBtn>صفحه اصلی</NavBtn>
                             </ListBtn>
-                            <ListBtn onClick={handleClose} to={token ? './voting' : './login'}>
+                            <ListBtn onClick={handleClose} to={token ? './ElectionsInProgress' : './login'}>
                                 <NavBtn>خدمات</NavBtn>
                             </ListBtn>
                             <ListBtn onClick={handleClose}>

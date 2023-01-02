@@ -9,7 +9,7 @@ import {
     TextField
 } from "@mui/material";
 import {useParams} from "react-router-dom";
-import VoterServices from "../../Services/VoterServices";
+import {AddVoterService} from "../../Services/VoterServices";
 import CloseIcon from "@mui/icons-material/Close";
 
 
@@ -21,7 +21,7 @@ const AddVoter = (props) => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
-    const [alertType, setAlertType] = useState("");
+    const [alertType, setAlertType] = useState("info");
     const params = useParams();
 
     const handleSubmit = (e) => {
@@ -38,7 +38,7 @@ const AddVoter = (props) => {
             electionId: params.id
         };
         const response = async () => {
-            const result = await VoterServices.addVoter(addVoter);
+            const result = await AddVoterService(addVoter);
             setMessage(result.message)
             setOpenAlert(true);
             setAlertType("info");
@@ -47,11 +47,9 @@ const AddVoter = (props) => {
                 handleCloseForm();
                 props.setIsUpdating(!props.isUpdating);
             } else {
-                debugger
-                setMessage(result.message)
+                setMessage("لطفاً فرم را کامل کنید");
                 setOpenAlert(true);
                 setAlertType("error");
-                alert(result.message)
             }
         };
         response().catch(console.error);

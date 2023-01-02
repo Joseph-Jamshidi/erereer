@@ -68,7 +68,7 @@ const Dashboard = () => {
                         <CollapseMenu in={openMyElectionCollapse} timeout="auto" unmountOnExit
                                       sx={{background: '#EAF8FF'}}>
                             <List component="div" disablePadding>
-                                <MenuItems to="../CreateVote">
+                                <MenuItems to="../CreateElection">
                                     <ListItemButton>
                                         <Stack direction='row'>
                                             <Pic2 src={circle1}/>
@@ -76,7 +76,7 @@ const Dashboard = () => {
                                         </Stack>
                                     </ListItemButton>
                                 </MenuItems>
-                                <MenuItems to="../Voting">
+                                <MenuItems to="../ElectionsInProgress">
                                     <ListItemButton>
                                         <Stack direction='row'>
                                             <Pic2 src={circle2}/>

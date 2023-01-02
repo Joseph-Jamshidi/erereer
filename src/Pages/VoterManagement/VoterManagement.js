@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {useParams} from "react-router-dom";
-import VoterServices from "../../Services/VoterServices"
+import {DeleteVoterService, GetVoterService} from "../../Services/VoterServices"
 import {
     RowBox,
     RowNumber,
@@ -44,12 +44,12 @@ const VoterManagement = () => {
     const [openAddForm, setOpenAddForm] = useState(false);
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
-    const [alertType, setAlertType] = useState("");
+    const [alertType, setAlertType] = useState("info");
     const params = useParams();
 
     useEffect(() => {
         const response = async () => {
-            const result = await VoterServices.getVoterList(params.id, pageNumber, pageSize);
+            const result = await GetVoterService(params.id, pageNumber, pageSize);
             setVoter(result.data);
             setPageCount(result.total);
         }
@@ -59,7 +59,7 @@ const VoterManagement = () => {
     const deleteVoter = (e) => {
         e.preventDefault();
         const response = async () => {
-            await VoterServices.deleteVoter(delId, params.id);
+            await DeleteVoterService(delId, params.id);
             setIsUpdating(!isUpdating);
             setOpenDeleteDialog(false);
             setDelId("");

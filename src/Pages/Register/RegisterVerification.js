@@ -7,7 +7,7 @@ import Ellipse653 from "../../images/Ellipse653.png";
 import Ellipse654 from "../../images/Ellipse654.png";
 import Vector from "../../images/Vector.png";
 import Ellipse652 from "../../images/Ellipse652.png";
-import UserServices from "../../Services/UserServices";
+import {SendCodeAgainService, VerifyUserService} from "../../Services/UserServices";
 import {useLocation, useNavigate} from "react-router-dom";
 import CountDownTimer from "../../Component/CounterDownTimer";
 import CloseIcon from "@mui/icons-material/Close";
@@ -19,14 +19,14 @@ const RegisterVerification = () => {
     const [showTimer, setShowTimer] = useState(true);
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
-    const [alertType, setAlertType] = useState("");
+    const [alertType, setAlertType] = useState("info");
     const location = useLocation();
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const response = async () => {
-            const result = await UserServices.VerifyUser(verifyCode, location.state.phoneNumber);
+            const result = await VerifyUserService(verifyCode, location.state.phoneNumber);
             if (result.statusCode === 'Success') {
                 setOpenAlert(true);
                 setMessage("ثبت نام با موفقیت انجام شد");
@@ -46,7 +46,7 @@ const RegisterVerification = () => {
     const handleSendCodeAgain = (e) => {
         e.preventDefault();
         const response = async () => {
-            await UserServices.SendCodeAgain(location.state.phoneNumber);
+            await SendCodeAgainService(location.state.phoneNumber);
             setOpenAlert(true);
             setMessage("کد مجدد برای شما ارسال شد");
             setAlertType("info");

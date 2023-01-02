@@ -21,7 +21,7 @@ import {
     Select, Snackbar,
     Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip
 } from "@mui/material";
-import ElectionServices from "../../Services/ElectionServices";
+import {DeleteElectionService, GetElectionService} from "../../Services/ElectionServices";
 import {useNavigate} from "react-router-dom";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {DateObject} from "react-multi-date-picker";
@@ -33,7 +33,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import GroupsIcon from '@mui/icons-material/Groups';
 import CloseIcon from "@mui/icons-material/Close";
 
-const VotingList = ({afterGetVotingList}) => {
+const ElectionList = ({afterGetVotingList}) => {
 
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const [delId, setDelId] = useState("");
@@ -43,7 +43,7 @@ const VotingList = ({afterGetVotingList}) => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
-    const [alertType, setAlertType] = useState("");
+    const [alertType, setAlertType] = useState("info");
     const [elections, setElections] = useState([{
         name: '',
         startDate: '',
@@ -57,7 +57,7 @@ const VotingList = ({afterGetVotingList}) => {
 
     useEffect(() => {
         const response = async () => {
-            const result = await ElectionServices.takeElection(pageNumber, pageSize);
+            const result = await GetElectionService(pageNumber, pageSize);
             setElections(prepareData(result.data));
             setPageCount(result.total);
             afterGetVotingList(result.count);
@@ -104,7 +104,7 @@ const VotingList = ({afterGetVotingList}) => {
     const handleDelete = (e) => {
         e.preventDefault();
         const response = async () => {
-            await ElectionServices.deleteElection(delId);
+            await DeleteElectionService(delId);
             setDelId("");
             setIsUpdating(!isUpdating);
             setOpenDeleteDialog(false);
@@ -117,7 +117,7 @@ const VotingList = ({afterGetVotingList}) => {
 
     const handleEdit = (e, id) => {
         e.preventDefault();
-        navigate(`../CreateVote/${id}`);
+        navigate(`../CreateElection/${id}`);
     };
 
     const handleCloseAlert = (e, reason) => {
@@ -318,4 +318,4 @@ const VotingList = ({afterGetVotingList}) => {
     );
 };
 
-export default VotingList;
+export default ElectionList;

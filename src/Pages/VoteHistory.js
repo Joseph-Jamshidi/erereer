@@ -2,22 +2,19 @@ import React, {useEffect, useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {MainDashboard} from "../StyledTags/VoteHistoryTags";
 import Dashboard from "../Layout/Dashboard";
-import VoteServices from "../Services/VoteServices";
+import {GetVoteService} from "../Services/VoteServices";
 
 const VoteHistory = () => {
 
-    const [votes, setVotes] = useState([])
+    const [votes, setVotes] = useState([]);
 
     useEffect(() => {
         const response = async () => {
-            const result = await VoteServices.getVotes(60, 1, 10)
+            const result = await GetVoteService(60, 1, 10)
             setVotes(result.data)
         }
         response().catch(console.error);
-    },[]);
-
-    console.log(votes)
-
+    }, []);
 
     return (
         <>

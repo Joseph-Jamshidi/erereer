@@ -10,7 +10,7 @@ import Vector from "../../images/Vector.png";
 import Ellipse652 from "../../images/Ellipse652.png";
 import Profile1 from '../../images/Profile1.png';
 import {useNavigate} from "react-router-dom";
-import UserServices from '../../Services/UserServices';
+import {RegisterService} from '../../Services/UserServices';
 import CloseIcon from "@mui/icons-material/Close";
 
 const Register = () => {
@@ -22,7 +22,7 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
-    const [alertType, setAlertType] = useState("");
+    const [alertType, setAlertType] = useState("info");
     let navigate = useNavigate();
 
     const handleSubmit = (e) => {
@@ -35,14 +35,14 @@ const Register = () => {
             password: password
         };
         const response = async () => {
-            const result = await UserServices.Register(userData);
+            const result = await RegisterService(userData);
             if (result.statusCode === 'Success') {
                 setOpenAlert(true);
                 setMessage(result.message);
                 setAlertType("success");
-                setTimeout(()=>{
+                setTimeout(() => {
                     navigate("../RegisterVerification", {state: {phoneNumber: phoneNumber}});
-                },4000)
+                }, 4000)
             }
         }
         response().catch(console.error);
@@ -111,7 +111,8 @@ const Register = () => {
                                             sx={{m: 1, width: '100%'}}
                                             InputProps={{
                                                 startAdornment:
-                                                    <InputAdornment position="start"><Pic src={Profile1}/></InputAdornment>,
+                                                    <InputAdornment position="start"><Pic
+                                                        src={Profile1}/></InputAdornment>,
                                             }}
                                         />
                                     </Grid2>

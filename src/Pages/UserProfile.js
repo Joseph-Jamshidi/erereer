@@ -3,7 +3,7 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {MainDashboard, Section, SubmitButton, Text} from "../StyledTags/UserProfileTags";
 import Dashboard from "../Layout/Dashboard";
 import {Alert, IconButton, Snackbar, Stack, TextField} from "@mui/material";
-import UserServices from "../Services/UserServices";
+import {EditProfileService, ProfileService} from "../Services/UserServices";
 import {UserInfo} from "../Services/info";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -14,13 +14,13 @@ const UserProfile = () => {
     const [nationalCode, setNationalCode] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
-    const [alertType, setAlertType] = useState("");
+    const [alertType, setAlertType] = useState("info");
     const [message, setMessage] = useState('');
 
 
     useEffect(() => {
         const response = async () => {
-            const result = await UserServices.Profile(UserInfo.userId);
+            const result = await ProfileService(UserInfo.userId);
             const info = result.data
             setFirstName(info.firstName);
             setLastName(info.lastName);
@@ -39,7 +39,7 @@ const UserProfile = () => {
             gender: "Male",
         };
         const response = async () => {
-            await UserServices.EditProfile(editedUser);
+            await EditProfileService(editedUser);
             setMessage("اطلاعات کاربری با موفقیت تغییر یافت")
             setOpenAlert(true)
             setAlertType("success")

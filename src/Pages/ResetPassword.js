@@ -3,7 +3,7 @@ import {MainSection, Pic, HeaderText, BackArrow, SubmitButton} from "../StyledTa
 import {Alert, Box, IconButton, InputAdornment, Snackbar, Stack, TextField} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {UserInfo} from "../Services/info";
-import UserServices from "../Services/UserServices";
+import {ResetPasswordService} from "../Services/UserServices";
 import Arrow from "../images/Arrow - Left.png";
 import Lock from "../images/Lock.png";
 import Ellipse653 from "../images/Ellipse653.png";
@@ -17,7 +17,7 @@ const ResetPassword = () => {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
-    const [alertType, setAlertType] = useState("");
+    const [alertType, setAlertType] = useState("info");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -26,7 +26,7 @@ const ResetPassword = () => {
             id: UserInfo.userId
         };
         const response = async () => {
-            const result = await UserServices.resetPassword(changePassword);
+            const result = await ResetPasswordService(changePassword);
             if (result.isSuccess === true) {
                 setTimeout(() => {
                     localStorage.clear();

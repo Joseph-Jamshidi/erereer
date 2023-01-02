@@ -51,7 +51,7 @@ const Header = () => {
                                 <MenuItems to="./">صفحه اصلی</MenuItems>
                             </NavItem>
                             <NavItem>
-                                <MenuItems to={token ? './voting' : './login'}>خدمات</MenuItems>
+                                <MenuItems to={token ? './ElectionsInProgress' : './login'}>خدمات</MenuItems>
                             </NavItem>
                             <NavItem>
                                 <MenuItems>تعرفه ها</MenuItems>

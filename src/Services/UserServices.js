@@ -13,132 +13,108 @@ const urls = {
     sendCodeAgain: API_BASE_URL + 'Users/SendCodeAgain'
 }
 
-class UserServices {
-    Register(userData) {
-        return axios
-            .post(urls.register, userData)
-            .then((response) => {
-                return response.data;
-            })
-            .catch((err) => {
-                if (err.response) {
-                    return Promise.reject(err.response);
-                }
-            });
-    }
-
-    checkUserDuplicate(phoneNumber) {
-        return axios
-            .get(urls.userDuplicate + `?PhoneNumber=${phoneNumber}`)
-            .then((res) => {
-                return res.data;
-            })
-            .catch((err) => {
-                if (err.response) {
-                    return Promise.reject(err.response);
-                }
-            });
-    }
-
-    access_token;
-
-    Login(loginInfo) {
-        let bodyFormData = new FormData();
-        for (let a in loginInfo) {
-            bodyFormData.append(a, loginInfo[a]);
+export const RegisterService = async (userData) => {
+    try {
+        const result = await axios.post(urls.register, userData);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
         }
-        return axios
-            .post(urls.login, bodyFormData)
-            .then((res) => {
-
-                const token = res.data.access_token;
-                localStorage.setItem("token", token);
-
-                const firstName = res.data.firstName;
-                localStorage.setItem("firstName", firstName);
-
-                const lastName = res.data.lastName;
-                localStorage.setItem("lastName", lastName);
-
-                const userId = res.data.userId;
-                localStorage.setItem("userId", userId);
-
-                return res.data;
-            })
-            .catch((err) => {
-                if (err.res) {
-                    return Promise.reject(err.res);
-                }
-            })
     }
+};
 
-    Profile(id) {
-        return authedAxios
-            .get(urls.Profile + `/${id}`)
-            .then((response) => {
-                return response.data
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const LoginService = async (loginInfo) => {
+    let bodyFormData = new FormData();
+    for (let a in loginInfo) {
+        bodyFormData.append(a, loginInfo[a]);
     }
+    try {
+        const result = await axios.post(urls.login, bodyFormData);
 
-    EditProfile(editedUser) {
-        return authedAxios
-            .put(urls.editProfile, editedUser)
-            .then((response) => {
-                return response.data
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+        const token = result.data.access_token;
+        localStorage.setItem("token", token);
+
+        const firstName = result.data.firstName;
+        localStorage.setItem("firstName", firstName);
+
+        const lastName = result.data.lastName;
+        localStorage.setItem("lastName", lastName);
+
+        const userId = result.data.userId;
+        localStorage.setItem("userId", userId);
+
+        return result.data;
+
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
+};
 
-    resetPassword(changePassword) {
-        return authedAxios
-            .post(urls.resetPassword, changePassword)
-            .then((response) => {
-                return response.data
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const ProfileService = async (id) => {
+    try {
+        const result = await authedAxios.get(urls.Profile + `/${id}`);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
+};
 
-    VerifyUser(verificationCode, phoneNumber) {
-        return axios
-            .get(urls.verify + `?phoneNumber=${phoneNumber}&otpCode=${verificationCode}`)
-            .then((response) => {
-                return response.data
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const EditProfileService = async (editedUser) => {
+    try {
+        const result = await authedAxios.put(urls.editProfile, editedUser);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
+};
 
-    SendCodeAgain(phoneNumber) {
-        return axios
-            .get(urls.sendCodeAgain + `?phoneNumber=${phoneNumber}`)
-            .then((response) => {
-                return response.data
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const ResetPasswordService = async (changePassword) => {
+    try {
+        const result = await authedAxios.post(urls.resetPassword, changePassword);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
+};
 
-}
+export const VerifyUserService = async (verificationCode, phoneNumber) => {
+    try {
+        const result = await axios.get(urls.verify + `?phoneNumber=${phoneNumber}&otpCode=${verificationCode}`);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
+    }
+};
 
-const instance = new UserServices();
+export const SendCodeAgainService = async (phoneNumber) => {
+    try {
+        const result = await axios.get(urls.sendCodeAgain + `?phoneNumber=${phoneNumber}`);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
+    }
+};
 
-export default instance;
+export const CheckUserDuplicateService = async (phoneNumber) => {
+    try {
+        const result = await axios.get(urls.userDuplicate + `?PhoneNumber=${phoneNumber}`);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
+    }
+};

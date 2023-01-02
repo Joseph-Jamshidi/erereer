@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {Alert, Box, IconButton, InputAdornment, Snackbar, Stack, TextField, Typography} from "@mui/material";
 import {BackArrow, HeaderText, LoginButton, LoginLink, MainSection, Pic} from "../StyledTags/LoginTags";
+import {LoginService} from "../Services/UserServices";
 import Arrow from '../images/Arrow - Left.png';
 import Stroke from '../images/Stroke.png';
 import Lock from '../images/Lock.png';
@@ -9,7 +10,6 @@ import Vector from '../images/Vector.png';
 import Ellipse653 from '../images/Ellipse653.png';
 import Ellipse652 from '../images/Ellipse652.png';
 import Ellipse654 from '../images/Ellipse654.png';
-import UserServices from '../Services/UserServices';
 import CloseIcon from "@mui/icons-material/Close";
 
 const Login = () => {
@@ -18,7 +18,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
-    const [alertType, setAlertType] = useState("");
+    const [alertType, setAlertType] = useState("info");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -28,7 +28,7 @@ const Login = () => {
             password: password
         };
         const response = async () => {
-            const result = await UserServices.Login(loginInfo);
+            const result = await LoginService(loginInfo);
             if (result.access_token) {
                 setOpenAlert(true);
                 setMessage("خوش آمدید");
@@ -61,7 +61,8 @@ const Login = () => {
     };
 
     const closeIcon = (
-        <IconButton sx={{p: 0}} onClick={() => window.location.href = "./"}>
+        <IconButton sx={{p: 0}}
+                    onClick={() => alertType === "success" ? window.location.href = "./" : handleCloseAlert()}>
             <CloseIcon/>
         </IconButton>
     );

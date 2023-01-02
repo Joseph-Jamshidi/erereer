@@ -6,85 +6,68 @@ const urls = {
     votableElection: API_BASE_URL + 'Election/VotableElection'
 }
 
-class ElectionServices {
-    addElection(createElection) {
-        return authedAxios
-            .post(urls.election, createElection)
-            .then((res) => {
-                return res.data;
-            })
-            .catch((err) => {
-                if (err.data) {
-                    return Promise.reject(err.data)
-                }
-            })
+export const AddElectionService = async (createElection) => {
+    try {
+        const result = await authedAxios.post(urls.election, createElection);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
+};
 
-    async takeElection(page, size) {
-        return authedAxios
-            .get(urls.election + `?Page=${page}&Size=${size}`)
-            .then((response) => {
-                return response.data;
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const GetElectionService = async (page, size) => {
+    try {
+        const result = await authedAxios.get(urls.election + `?Page=${page}&Size=${size}`);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
+};
 
-    deleteElection(id) {
-        return authedAxios
-            .delete(urls.election + `/${id}`)
-            .then((response) => {
-                return response.data;
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const DeleteElectionService = async (id) => {
+    try {
+        const result = await authedAxios.delete(urls.election + `/${id}`);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
+};
 
-    chosenElection(id) {
-        return authedAxios
-            .get(urls.election + `/${id}`)
-            .then((response) => {
-                return response.data;
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const ChosenElectionService = async (id) => {
+    try {
+        const result = await authedAxios.get(urls.election + `/${id}`);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
+};
 
-    editElection(id, editData) {
-        return authedAxios
-            .put(urls.election, editData)
-            .then((response) => {
-                return response.data
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const EditElectionService = async (editData) => {
+    try {
+        const result = await authedAxios.put(urls.election, editData);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
+};
 
-    votableElection() {
-        return authedAxios
-            .get(urls.votableElection)
-            .then((response) => {
-                return response.data
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const VotableElectionService = async () => {
+    try {
+        const result = await authedAxios.get(urls.votableElection);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
-}
-
-const instance = new ElectionServices();
-export default instance;
+};

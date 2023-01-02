@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import ElectionsServices from "../../Services/ElectionServices";
+import {VotableElectionService} from "../../Services/ElectionServices";
 import {Box, Container} from "@mui/material";
 import {ElectionBox, ElectionButton, ElectionItems, HeaderText, Pic} from "../../StyledTags/HomePageTags";
 import {DateObject} from "react-multi-date-picker";
@@ -16,7 +16,7 @@ const VotableElection = () => {
 
     useEffect(() => {
         const response = async () => {
-            const result = await ElectionsServices.votableElection();
+            const result = await VotableElectionService();
             setActiveElections(prepareData(result.data));
         };
         response().catch(console.error);
@@ -56,7 +56,7 @@ const VotableElection = () => {
                                     <ElectionBox direction="row" justifyContent="space-between">
                                         <ElectionItems>عنوان: {elec.name}</ElectionItems>
                                         <ElectionItems>مهلت: {elec.persianEndDate}</ElectionItems>
-                                        <ElectionButton onClick={(e)=>handleSelect(e, elec.id)}>شرکت</ElectionButton>
+                                        <ElectionButton onClick={(e) => handleSelect(e, elec.id)}>شرکت</ElectionButton>
                                     </ElectionBox>
                                 </Box>
                             )

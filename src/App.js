@@ -9,8 +9,8 @@ import {CacheProvider} from '@emotion/react';
 import createCache from '@emotion/cache';
 import {prefixer} from 'stylis';
 import Register from "./Pages/Register/Register";
-import CreateVote from "./Pages/CreateVote";
-import Voting from "./Pages/Voting/Voting";
+import CreateElection from "./Pages/Election/CreateElection";
+import ElectionsInProgress from "./Pages/Election/ElectionsInProgress";
 import CandidateManagement from "./Pages/CandidateManagement/CandidateManagement";
 import VoterManagement from "./Pages/VoterManagement/VoterManagement";
 import UserProfile from "./Pages/UserProfile";
@@ -36,9 +36,9 @@ const App = () => {
                         <Route path="/Login" element={<Login/>}/>
                         <Route path="/Register" element={<Register/>}/>
                         <Route path="/RegisterVerification" element={<RegisterVerification/>}/>
-                        <Route path="/CreateVote" element={<CreateVote/>}/>
-                        <Route path="/CreateVote/:id" element={<CreateVote/>}/>
-                        <Route path="/Voting" element={<Voting/>}/>
+                        <Route path="/CreateElection" element={<CreateElection/>}/>
+                        <Route path="/CreateElection/:id" element={<CreateElection/>}/>
+                        <Route path="/ElectionsInProgress" element={<ElectionsInProgress/>}/>
                         <Route path="/CandidateManagement/:id" element={<CandidateManagement/>}/>
                         <Route path="/VoterManagement/:id" element={<VoterManagement/>}/>
                         <Route path="/UserProfile" element={<UserProfile/>}/>

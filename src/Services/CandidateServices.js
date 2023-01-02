@@ -6,74 +6,57 @@ const urls = {
     voters: API_BASE_URL + 'Election/VoterList'
 }
 
-class CandidateServices {
-
-    addCandidate(addCandidate) {
-        return authedAxios
-            .post(urls.candidate, addCandidate)
-            .then((response) => {
-                return response.data
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const AddCandidateService = async (addCandidate) => {
+    try {
+        const result = await authedAxios.post(urls.candidate, addCandidate);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
+};
 
-    getCandidate(electionId, page, size) {
-        return authedAxios
-            .get(urls.candidate + `?ElectionId=${electionId}&Page=${page}&Size=${size}`)
-            .then((response) => {
-                return response.data
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const EditCandidateService = async (editedCandidate) => {
+    try {
+        const result = await authedAxios.put(urls.candidate, editedCandidate);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
+};
 
-    deleteCandidate(id) {
-        return authedAxios
-            .delete(urls.candidate + `/${id}`)
-            .then((response) => {
-                return response.data
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const GetCandidateService = async (electionId, page, size) => {
+    try {
+        const result = await authedAxios.get(urls.candidate + `?ElectionId=${electionId}&Page=${page}&Size=${size}`);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
+};
 
-    chosenCandidate(id) {
-        return authedAxios
-            .get(urls.candidate + `/${id}`)
-            .then((r) => {
-                return r.data
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const DeleteCandidateService = async (id) => {
+    try {
+        const result = await authedAxios.delete(urls.candidate + `/${id}`);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
     }
+};
 
-    editCandidate(id, editedCandidate) {
-        return authedAxios
-            .put(urls.candidate, editedCandidate)
-            .then((response) => {
-                return response.data
-            })
-            .catch((error) => {
-                if (error.data) {
-                    return Promise.reject(error.data)
-                }
-            })
+export const ChosenCandidateService = async (id) => {
+    try {
+        const result = await authedAxios.get(urls.candidate + `/${id}`);
+        return result.data;
+    }catch (error){
+        if (error.response){
+            return error.response.data;
+        }
     }
-
-}
-
-const instance = new CandidateServices();
-export default instance;
+};

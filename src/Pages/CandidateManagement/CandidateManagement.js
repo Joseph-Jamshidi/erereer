@@ -17,7 +17,7 @@ import {
     Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip
 } from "@mui/material";
 import Dashboard from "../../Layout/Dashboard";
-import CandidateServices from "../../Services/CandidateServices"
+import {ChosenCandidateService, DeleteCandidateService, GetCandidateService} from "../../Services/CandidateServices";
 import AddUser from "../../images/AddUser.png";
 import AddCandidateForm from "./AddCandidateForm";
 import {useParams} from "react-router-dom";
@@ -44,7 +44,7 @@ const CandidateManagement = () => {
 
     useEffect(() => {
         const response = async () => {
-            const result = await CandidateServices.getCandidate(params.id, pageNumber, pageSize);
+            const result = await GetCandidateService(params.id, pageNumber, pageSize);
             setCandidate(result.data);
             setPageCount(result.total);
         }
@@ -54,7 +54,7 @@ const CandidateManagement = () => {
     const deleteCandidate = (e) => {
         e.preventDefault();
         const response = async () => {
-            const result = await CandidateServices.deleteCandidate(delId);
+            const result = await DeleteCandidateService(delId);
             alert(result.message);
             setIsUpdating(!isUpdating);
             setOpenDeleteDialog(false);
@@ -66,7 +66,7 @@ const CandidateManagement = () => {
     const editVoter = (e, id) => {
         e.preventDefault();
         const response = async () => {
-            const result = await CandidateServices.chosenCandidate(id);
+            const result = await ChosenCandidateService(id);
             const selectedInfo = result.data
             setSelectedCandidate(selectedInfo)
             editRef.current.click()
