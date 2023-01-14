@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {Box, Button, Typography} from "@mui/material";
+import {Box, Button, Stack, Typography} from "@mui/material";
 
 export const MainDashboard = styled(Grid2)`
   background-color: white;
@@ -31,7 +31,20 @@ export const VoterButton = styled(Button)`
   max-width: 100%;
   background-color: #425C81;
   padding: 3px 4px 3px 0;
-  margin: auto 0;
+  color: white;
+  font-family: 'Vazir FD', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  font-size: 14px;
+  line-height: 25px;
+  height: fit-content;
+`;
+export const VoterListButton = styled(Button)`
+  max-width: 100%;
+  min-width: fit-content;
+  background-color: #425C81;
+  padding: 3px 4px 3px 0;
+  margin: 0 10px 0 0;
   color: white;
   font-family: 'Vazir FD', sans-serif;
   font-style: normal;
@@ -76,7 +89,7 @@ export const RowBox = styled(Box)`
   width: 3%;
   margin: auto 10px auto 0;
 `;
-export const RowNumber=styled(Typography)`
+export const RowNumber = styled(Typography)`
   font-family: 'Vazir FD', sans-serif;
   font-style: normal;
   font-weight: 100;
@@ -84,7 +97,7 @@ export const RowNumber=styled(Typography)`
   line-height: 25px;
   text-align: center;
 `;
-export const TitleBox=styled(Box)`
+export const TitleBox = styled(Box)`
   border: 1px dashed #425C81;
   width: fit-content;
   margin: 12px;
@@ -109,4 +122,29 @@ export const TitleText2 = styled(Typography)`
   color: #425C81;
   margin: 15px;
   padding: 5px;
+`;
+export const UserBox = styled(Stack)`
+  background-color: white;
+  border: 1px solid #425C81;
+  border-radius: 4px;
+  margin: 4px 0;
+  padding: 4px;
+`;
+export const NumberBox = styled(Box)`
+  border-radius: 30%;
+  border: 1px solid #425C81;
+  margin-right: 4%;
+  padding: 0 5px;
+  font-family: 'Vazir FD', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 30px;
+`;
+export const NameBox = styled(Box)`
+  font-family: 'Vazir FD', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 30px;
 `;

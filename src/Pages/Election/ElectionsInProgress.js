@@ -7,7 +7,7 @@ import {
     MainTitleText,
     TitleBox,
     TitleText2
-} from "../../StyledTags/VotingTags";
+} from "../../StyledTags/ElectionTags";
 import Dashboard from "../../Layout/Dashboard";
 import ElectionList from "./ElectionList";
 import {Stack} from "@mui/material";

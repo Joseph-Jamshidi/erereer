@@ -10,7 +10,9 @@ const urls = {
     userDuplicate: API_BASE_URL + 'Users/checkUserDuplicate',
     resetPassword: API_BASE_URL + 'Users/ResetPassword',
     verify: API_BASE_URL + 'Users/ActivateUser',
-    sendCodeAgain: API_BASE_URL + 'Users/SendCodeAgain'
+    sendCodeAgain: API_BASE_URL + 'Users/SendCodeAgain',
+    forgetPassword: API_BASE_URL + 'Users/ForgotPassword',
+    newPasswordOtp: API_BASE_URL + 'Users/ResetPasswordOtp'
 }
 
 export const RegisterService = async (userData) => {
@@ -86,6 +88,28 @@ export const ResetPasswordService = async (changePassword) => {
     }
 };
 
+export const ForgetPasswordService = async (phone) => {
+    try {
+        const result = await axios.post(urls.forgetPassword, phone);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
+    }
+};
+
+export const NewPasswordService = async (editedPassword) => {
+    try {
+        const result = await axios.post(urls.newPasswordOtp, editedPassword);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
+    }
+};
+
 export const VerifyUserService = async (verificationCode, phoneNumber) => {
     try {
         const result = await axios.get(urls.verify + `?phoneNumber=${phoneNumber}&otpCode=${verificationCode}`);
@@ -108,9 +132,42 @@ export const SendCodeAgainService = async (phoneNumber) => {
     }
 };
 
-export const CheckUserDuplicateService = async (phoneNumber) => {
+export const CheckUserDuplicateService = async (phoneNumber, nationalCode) => {
     try {
-        const result = await axios.get(urls.userDuplicate + `?PhoneNumber=${phoneNumber}`);
+        const result = await axios.get(urls.userDuplicate + `?PhoneNumber=${phoneNumber}&NationalCode=${nationalCode}`);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
+    }
+};
+
+export const UserListService = async (page, size) => {
+    try {
+        const result = await authedAxios.get(urls.Profile + `?Page=${page}&Size=${size}`);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
+    }
+};
+
+export const UserListByFirstNameService = async (firstName) => {
+    try {
+        const result = await authedAxios.get(urls.Profile + `?FirstName=${firstName}`);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
+    }
+};
+
+export const UserListByLastNameService = async (lastName) => {
+    try {
+        const result = await authedAxios.get(urls.Profile + `?LastName=${lastName}`);
         return result.data;
     } catch (error) {
         if (error.response) {

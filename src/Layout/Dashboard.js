@@ -87,7 +87,7 @@ const Dashboard = () => {
                             </List>
                         </CollapseMenu>
                         <DashboardList>
-                            <MenuItems to="">
+                            <MenuItems to="../VoteHistory">
                                 <DashboardButton>
                                     <DashboardText>
                                         <Stack direction='row'>

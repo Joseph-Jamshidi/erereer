@@ -5,14 +5,13 @@ import {
     Checkbox,
     FormControl,
     IconButton,
-    InputBase,
     MenuItem,
     Pagination,
     Select,
-    Snackbar, Stack
+    Snackbar, Stack, TextField
 } from "@mui/material";
-import {ChosenElectionService} from "../Services/ElectionServices";
-import {GetCandidateService} from "../Services/CandidateServices";
+import {ChosenElectionService} from "../../Services/ElectionServices";
+import {GetCandidateService} from "../../Services/CandidateServices";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {
     CandidateBox,
@@ -23,11 +22,11 @@ import {
     SearchBox,
     SubmitButton,
     TextBox
-} from "../StyledTags/VoteTags";
+} from "../../StyledTags/VoteTags";
 import {useParams} from "react-router-dom";
-import Dashboard from "../Layout/Dashboard";
-import icon from "../images/icon.png"
-import {VotingService} from "../Services/VoteServices";
+import Dashboard from "../../Layout/Dashboard";
+import icon from "../../images/icon.png"
+import {VotingService} from "../../Services/VoteServices";
 import CloseIcon from '@mui/icons-material/Close';
 
 const Vote = () => {
@@ -35,6 +34,7 @@ const Vote = () => {
     const [selectedElection, setSelectedElection] = useState([]);
     const [candidateList, setCandidateList] = useState([]);
     const [chosenCandidates, setChosenCandidates] = useState([]);
+    const [searchWord, setSearchWord] = useState('');
     const [pageSize, setPageSize] = useState(10);
     const [pageNumber, setPageNumber] = useState(1);
     const [pageCount, setPageCount] = useState('');
@@ -87,6 +87,20 @@ const Vote = () => {
             response().catch(console.error);
         }
     };
+
+    const handleSearch = (e) => {
+        const searchInput = e.target.value.toLowerCase();
+        setSearchWord(searchInput);
+    };
+
+    const searchData = candidateList.filter((c) => {
+        if (searchWord === '') {
+            return c;
+        } else {
+            return c.name.toLowerCase().includes(searchWord);
+        }
+    });
+
     const handleCloseAlert = (e, reason) => {
         if (reason === "clickaway") {
             return
@@ -113,10 +127,19 @@ const Vote = () => {
                            display="flex" justifyContent="center">
                         <Grid2 xs={6}>
                             <Box component="form" onSubmit={handleSubmit} sx={{p: 3}}>
-                                <Grid2 display="flex" justifyContent="center">
+                                <Grid2 display="flex" justifyContent="center" alignItems="center">
                                     <SearchBox>
-                                        <InputBase sx={{ml: 1, p: '8px 10px', flex: 1}} placeholder="جستجو"/>
-                                        <Pic src={icon}/>
+                                        <TextField
+                                            fullWidth
+                                            id="standard-search"
+                                            label="جستجو"
+                                            type='search'
+                                            onChange={handleSearch}
+                                            InputProps={{
+                                                endAdornment:
+                                                    <Pic src={icon}/>
+                                            }}
+                                        />
                                     </SearchBox>
                                 </Grid2>
                                 <TextBox>
@@ -124,7 +147,7 @@ const Vote = () => {
                                     {selectedElection.userVoteCount}
                                 </TextBox>
                                 {
-                                    candidateList.map((c, i) =>
+                                    searchData.map((c, i) =>
                                         <CandidateBox key={c.id} direction="row" alignItems="center">
                                             <NumberBox>{(pageNumber - 1) * 10 + (i + 1)}</NumberBox>
                                             <NameBox sx={{flex: 1}}>{c.name}</NameBox>

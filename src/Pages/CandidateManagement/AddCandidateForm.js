@@ -12,6 +12,7 @@ import {
 import {AddCandidateService, EditCandidateService} from "../../Services/CandidateServices";
 import {useParams} from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 
 
 const AddCandidateForm = (props) => {
@@ -22,6 +23,7 @@ const AddCandidateForm = (props) => {
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
+    const [candidateImage, setCandidateImage] = useState(null);
     const params = useParams();
 
     useEffect(() => {
@@ -38,6 +40,9 @@ const AddCandidateForm = (props) => {
             description: description,
             isEnabled: isEnabled,
             electionId: params.id,
+            attachments: [{
+                base64: candidateImage
+            }],
             id: props.selectedCandidate ? props.selectedCandidate.id : 0
         };
         if (props.selectedCandidate.id) {
@@ -69,16 +74,29 @@ const AddCandidateForm = (props) => {
             }
             response().catch(console.error);
         }
-    }
+    };
 
     const handleCloseForm = () => {
         props.setOpenAddForm(false);
         props.setSelectedCandidate({
             name: '',
             description: '',
-            isEnabled: false
+            isEnabled: false,
+            attachments: []
         });
     };
+
+    const handleProfile = async (e) => {
+        let base64FileContent = await toBase64(e.target.files[0]);
+        setCandidateImage(base64FileContent);
+    };
+
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
 
     const handleCloseAlert = (e, reason) => {
         if (reason === "clickaway") {
@@ -108,6 +126,11 @@ const AddCandidateForm = (props) => {
                                    onChange={(e) => setDescription(e.target.value)}
                                    sx={{m: '10px'}} value={description}
                         />
+                        <Button sx={{background: '#425C81', pr: 0, pl: 1, m: 1}} variant="contained" component="label">
+                            <PhotoCamera/>
+                            <Typography sx={{mx: 2}}>اپلود عکس</Typography>
+                            <input hidden accept="image/*" multiple type="file" onChange={handleProfile}/>
+                        </Button>
                         <FormGroup>
                             <Stack direction="row" spacing={1} alignItems="center">
                                 <Typography>غیر فعال</Typography>

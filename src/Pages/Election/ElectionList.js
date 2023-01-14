@@ -7,7 +7,7 @@ import {
     RowBox, RowNumber,
     Section,
     TitleText
-} from "../../StyledTags/VotingTags";
+} from "../../StyledTags/ElectionTags";
 import {
     Alert,
     Button,
@@ -24,9 +24,6 @@ import {
 import {DeleteElectionService, GetElectionService} from "../../Services/ElectionServices";
 import {useNavigate} from "react-router-dom";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {DateObject} from "react-multi-date-picker";
-import persian_en from "react-date-object/locales/persian_en";
-import persian from "react-date-object/calendars/persian";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
@@ -74,10 +71,9 @@ const ElectionList = ({afterGetVotingList}) => {
     };
 
     const convertTime = (date) => {
-        const dateObj = new Date(date);
-        const object = {dateObj, format: "YYYY-MM-DD"}
-        const persianDate = new DateObject(object).convert(persian, persian_en).format();
-        return (persianDate)
+        const dateObject = new Date(date);
+        const persianDate = new Intl.DateTimeFormat('fa-IR').format(dateObject);
+        return (persianDate);
     };
 
     const handleCandidateManagement = (e, id) => {
@@ -136,16 +132,16 @@ const ElectionList = ({afterGetVotingList}) => {
     return (
         <>
             <TableContainer component={Paper} sx={{display: {xs: 'none', md: 'block'}}}>
-                <Table size="small">
-                    <TableHead>
+                <Table>
+                    <TableHead sx={{background: 'silver'}}>
                         <TableRow>
-                            <TableCell>ردیف</TableCell>
+                            <TableCell sx={{pl: 2}}>ردیف</TableCell>
                             <TableCell>عنوان انتخابات</TableCell>
                             <TableCell>تاریخ شروع انتخابات</TableCell>
                             <TableCell>تاریخ پایان انتخابات</TableCell>
                             <TableCell align="center">تعداد کاندیدها</TableCell>
                             <TableCell align="center">تعداد رأی هر کاربر</TableCell>
-                            <TableCell colSpan={4} align="center">علملیات</TableCell>
+                            <TableCell colSpan={4} align="right" sx={{pr: 4}}>علملیات</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -158,8 +154,8 @@ const ElectionList = ({afterGetVotingList}) => {
                                     <TableCell sx={{pl: 3}}>{el.persianEndDate}</TableCell>
                                     <TableCell align="center">{el.candidateCount}</TableCell>
                                     <TableCell align="center">{el.userVoteCount}</TableCell>
-                                    <TableCell>
-                                        <Stack direction="row" justifyContent="center">
+                                    <TableCell sx={{pl: 1}}>
+                                        <Stack direction="row" justifyContent="flex-end">
                                             <Stack direction="column" alignItems="center">
                                                 <Tooltip title="مدیریت کاندیدها">
                                                     <ElectionButton

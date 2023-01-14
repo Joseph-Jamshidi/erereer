@@ -99,7 +99,7 @@ const Login = () => {
                                     <Grid2 container sx={{width: '100%', mb: '10%'}}>
                                         <TextField
                                             onInput={passwordInput}
-                                            label="رمز عبور"
+                                            label="کلمه عبور"
                                             sx={{m: 1, width: '100%'}}
                                             type="password"
                                             InputProps={{
@@ -116,7 +116,7 @@ const Login = () => {
                                         </LoginLink>
                                     </Grid2>
                                     <Grid2 container sx={{width: '100%'}}>
-                                        <LoginLink>
+                                        <LoginLink to="../ForgetPassword">
                                             <Typography align="center" sx={{color: 'blue'}}>
                                                 فراموشی رمز عبور
                                             </Typography>

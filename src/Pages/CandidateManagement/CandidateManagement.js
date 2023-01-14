@@ -111,7 +111,7 @@ const CandidateManagement = () => {
                         </Stack>
                         <TableContainer component={Paper} sx={{display: {xs: 'none', md: 'block'}}}>
                             <Table sx={{minWidth: 650}} aria-label="simple table">
-                                <TableHead>
+                                <TableHead sx={{background: 'silver'}}>
                                     <TableRow>
                                         <TableCell sx={{pl: 2}}>ردیف</TableCell>
                                         <TableCell align="left">نام و نام خانوادگی</TableCell>

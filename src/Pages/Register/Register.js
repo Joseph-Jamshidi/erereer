@@ -10,7 +10,7 @@ import Vector from "../../images/Vector.png";
 import Ellipse652 from "../../images/Ellipse652.png";
 import Profile1 from '../../images/Profile1.png';
 import {useNavigate} from "react-router-dom";
-import {RegisterService} from '../../Services/UserServices';
+import {CheckUserDuplicateService, RegisterService} from '../../Services/UserServices';
 import CloseIcon from "@mui/icons-material/Close";
 
 const Register = () => {
@@ -35,14 +35,20 @@ const Register = () => {
             password: password
         };
         const response = async () => {
-            const result = await RegisterService(userData);
-            if (result.statusCode === 'Success') {
+            const checkDuplicate = await CheckUserDuplicateService(phoneNumber, nationalCode);
+            if (checkDuplicate.data === true) {
                 setOpenAlert(true);
-                setMessage(result.message);
-                setAlertType("success");
-                setTimeout(() => {
+                setMessage("شما قبلاً ثبت نام کرده اید");
+                setAlertType("error");
+            } else {
+                const result = await RegisterService(userData);
+                if (result.statusCode === 'Success') {
                     navigate("../RegisterVerification", {state: {phoneNumber: phoneNumber}});
-                }, 4000)
+                } else {
+                    setOpenAlert(true);
+                    setMessage(result.message);
+                    setAlertType("error");
+                }
             }
         }
         response().catch(console.error);
@@ -69,7 +75,6 @@ const Register = () => {
             return
         }
         setOpenAlert(false)
-        navigate("../RegisterVerification", {state: {phoneNumber: phoneNumber}});
     };
 
     const closeIcon = (
@@ -147,7 +152,7 @@ const Register = () => {
                                     <Grid2 container sx={{width: '100%', my: '1%'}}>
                                         <TextField
                                             onInput={passwordInput}
-                                            label="رمز عبور"
+                                            label="کلمه عبور"
                                             id="password"
                                             sx={{m: 1, width: '100%'}}
                                             type="password"

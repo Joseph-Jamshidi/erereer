@@ -12,18 +12,63 @@ body {
 .muirtl-6hp17o-MuiList-root-MuiMenu-list {
     padding: 0 !important;
 }
-.muirtl-1t1j96h-MuiPaper-root-MuiDialog-paper{
+
+.muirtl-1t1j96h-MuiPaper-root-MuiDialog-paper {
     border: 3px solid #425C81;
 }
-.muirtl-yiavyu-MuiBackdrop-root-MuiDialog-backdrop{
+
+.muirtl-yiavyu-MuiBackdrop-root-MuiDialog-backdrop {
     opacity: 0.3 !important;
 }
-.muirtl-1ex1afd-MuiTableCell-root{
+
+.muirtl-1ex1afd-MuiTableCell-root {
     padding: 8px 0 !important;
 }
-.muirtl-1ygcj2i-MuiTableCell-root{
+
+.muirtl-1ygcj2i-MuiTableCell-root {
     padding: 8px 0 !important;
 }
-.rmdp-input{
+
+.rmdp-input {
     padding: 14px 14px !important;
+}
+
+.muirtl-nk89i7-MuiPickersCalendarHeader-root {
+    direction: ltr;
+}
+
+.muirtl-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+    background-color: white;
+}
+
+.muirtl-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+    background-color: white;
+}
+
+.muirtl-14s5rfu-MuiFormLabel-root-MuiInputLabel-root.Mui-error {
+    color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.muirtl-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline {
+    border-color: rgb(192, 192, 192) !important;
+}
+
+.muirtl-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
+    color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.muirtl-154xyx0-MuiInputBase-root-MuiOutlinedInput-root {
+    padding: 0 !important;
+}
+
+@media only screen and (min-width: 750px) {
+    .muirtl-1t1j96h-MuiPaper-root-MuiDialog-paper {
+        min-width: 40%;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .muirtl-1t1j96h-MuiPaper-root-MuiDialog-paper {
+        min-width: 80%;
+    }
 }

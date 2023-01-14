@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
-    Alert,
+    Alert, Box,
     Button,
     Dialog,
     DialogActions,
@@ -22,14 +22,16 @@ import {
     VoterButton,
     VoterText,
     MainDashboard,
-    Pic, TitleBox, MainTitleText, TitleText2, VoterIcon
+    TitleBox, MainTitleText, TitleText2, VoterIcon, VoterListButton
 } from "../../StyledTags/VoterManagementTags";
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Dashboard from "../../Layout/Dashboard";
-import AddUser from "../../images/AddUser.png";
 import AddVoter from "./AddVoter";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import UserList from "./UserList";
 
 
 const VoterManagement = () => {
@@ -42,6 +44,7 @@ const VoterManagement = () => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const [openAddForm, setOpenAddForm] = useState(false);
+    const [openUserList, setOpenUserList] = useState(false);
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
@@ -118,18 +121,30 @@ const VoterManagement = () => {
                                     مدیریت رأی دهنده ها
                                 </MainTitleText>
                             </TitleBox>
-                            <VoterButton variant='contained' onClick={() => setOpenAddForm(true)}>
-                                <Pic src={AddUser}/>
-                                <AddTextButton>اضافه کردن</AddTextButton>
-                            </VoterButton>
-                            <AddVoter setIsUpdating={setIsUpdating} isUpdating={isUpdating}
-                                      openAddForm={openAddForm} setOpenAddForm={setOpenAddForm}/>
+                            <Grid2 display="flex" direction="row" alignItems="center">
+                                <VoterListButton variant='contained' onClick={() => setOpenUserList(true)}>
+                                    <PlaylistAddIcon sx={{pr: '2px'}}/>
+                                    <AddTextButton>کاربران</AddTextButton>
+                                </VoterListButton>
+                                <UserList
+                                    setIsUpdating={setIsUpdating} isUpdating={isUpdating}
+                                    openUserList={openUserList} setOpenUserList={setOpenUserList} electionId={params.id}
+                                />
+                                <VoterButton variant='contained' onClick={() => setOpenAddForm(true)}>
+                                    <PersonAddAlt1Icon sx={{pr: '2px'}}/>
+                                    <AddTextButton>افزودن</AddTextButton>
+                                </VoterButton>
+                                <AddVoter
+                                    setIsUpdating={setIsUpdating} isUpdating={isUpdating}
+                                    openAddForm={openAddForm} setOpenAddForm={setOpenAddForm}
+                                />
+                            </Grid2>
                         </Stack>
                         {voter.length === 0 ?
                             <TitleText2>رأی دهنده ای وجود ندارد</TitleText2> :
                             <TableContainer component={Paper} sx={{display: {xs: 'none', md: 'block'}}}>
                                 <Table sx={{minWidth: 650}} aria-label="simple table">
-                                    <TableHead>
+                                    <TableHead sx={{background: 'silver'}}>
                                         <TableRow>
                                             <TableCell sx={{pl: 2}}>ردیف</TableCell>
                                             <TableCell>نام و نام خانوادگی</TableCell>

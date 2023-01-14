@@ -1,51 +1,40 @@
 import React, {useState} from 'react';
-import {MainSection, Pic, HeaderText, BackArrow, SubmitButton} from "../StyledTags/ResetPasswordTags";
-import {Alert, Box, IconButton, InputAdornment, Snackbar, Stack, TextField} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {UserInfo} from "../Services/info";
-import {ResetPasswordService} from "../Services/UserServices";
-import Arrow from "../images/Arrow - Left.png";
-import Lock from "../images/Lock.png";
-import Ellipse653 from "../images/Ellipse653.png";
-import Ellipse654 from "../images/Ellipse654.png";
-import Vector from "../images/Vector.png";
-import Ellipse652 from "../images/Ellipse652.png";
+import {HeaderText, LoginButton, MainSection, Pic} from "../../StyledTags/ForgetPasswordTags";
+import {Alert, Box, IconButton, InputAdornment, Snackbar, TextField} from "@mui/material";
+import Ellipse653 from "../../images/Ellipse653.png";
+import Ellipse654 from "../../images/Ellipse654.png";
+import Vector from "../../images/Vector.png";
+import Ellipse652 from "../../images/Ellipse652.png";
 import CloseIcon from "@mui/icons-material/Close";
+import {ForgetPasswordService} from "../../Services/UserServices";
+import {useNavigate} from "react-router-dom";
+import Stroke from "../../images/Stroke.png";
 
-const ResetPassword = () => {
+const ForgetPassword = () => {
 
-    const [password, setPassword] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
+    let navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const changePassword = {
-            password: password,
-            id: UserInfo.userId
+        const phone = {
+            phoneNumber: phoneNumber
         };
         const response = async () => {
-            const result = await ResetPasswordService(changePassword);
-            if (result.isSuccess === true) {
-                setTimeout(() => {
-                    localStorage.clear();
-                    window.location.href = "./login";
-                }, 1500)
-                setMessage("کلمه عبور با موفقیت تغییر یافت");
+            const result = await ForgetPasswordService(phone);
+            if (result.isSuccess===true){
+                navigate("../SetNewPassword")
+            }else {
                 setOpenAlert(true);
-                setAlertType("success");
-            } else {
-                setMessage("کلمه عبور باید حداقل 6 کارکتر باشد");
-                setOpenAlert(true);
-                setAlertType("warning");
+                setMessage(result.message);
+                setAlertType("error");
             }
         }
         response().catch(console.error);
-    };
-
-    const handlePassword = (e) => {
-        setPassword(e.target.value)
     };
 
     const handleCloseAlert = (e, reason) => {
@@ -63,35 +52,31 @@ const ResetPassword = () => {
 
     return (
         <>
-            <Grid2 container justifyContent='center' sx={{mt: '40px', pb: '78px', position: 'relative'}}>
-                <Grid2 xs={11} sm={8} md={6} lg={4} sx={{pb: '166px'}}>
+            <Grid2 container justifyContent='center' sx={{mt: '40px', pb: '365px', position: 'relative'}}>
+                <Grid2 xs={11} sm={8} md={6} lg={4}>
                     <MainSection>
                         <Grid2 container>
-                            <Grid2 sx={{my: '2%'}} xs={12}>
-                                <Stack direction="row">
-                                    <BackArrow to='../'>
-                                        <Pic src={Arrow}/>
-                                    </BackArrow>
-                                    <HeaderText>تغییر کلمه عبور</HeaderText>
-                                </Stack>
+                            <Grid2 sx={{width: '100%', my: '1%'}}>
+                                <HeaderText>فراموشی کلمه عبور</HeaderText>
                             </Grid2>
-                            <Box component="form" onSubmit={handleSubmit} sx={{width: '100%'}}>
-                                <Grid2 container sx={{pt: '4%', pb: '3%'}} xs={12}>
-                                    <Grid2 container sx={{width: '100%', my: '5%'}}>
+                            <Box component="form" sx={{width: '100%'}} onSubmit={handleSubmit}>
+                                <Grid2 container sx={{pt: '4%'}}>
+                                    <Grid2 container sx={{width: '100%', my: '1%'}}>
                                         <TextField
-                                            onInput={handlePassword}
-                                            label="کلمه عبور جدید"
-                                            type="password" fullWidth
+                                            onChange={(e) => setPhoneNumber(e.target.value)}
+                                            label="شماره تلفن خود را وارد کنید"
                                             sx={{m: 1, width: '100%'}}
+                                            type="number"
                                             InputProps={{
                                                 startAdornment:
-                                                    <InputAdornment position="start"><Pic src={Lock}/></InputAdornment>
+                                                    <InputAdornment position="start"><Pic
+                                                        src={Stroke}/></InputAdornment>,
                                             }}
                                         />
                                     </Grid2>
-                                </Grid2>
-                                <Grid2 container sx={{width: '100%', mb: '2%', mt: '10%'}}>
-                                    <SubmitButton type="submit" variant="contained">تغییر کلمه عبور</SubmitButton>
+                                    <Grid2 container sx={{width: '100%', mb: '0', mt: '1%'}}>
+                                        <LoginButton variant="contained" type="submit">ثبت نام</LoginButton>
+                                    </Grid2>
                                 </Grid2>
                             </Box>
                         </Grid2>
@@ -128,4 +113,4 @@ const ResetPassword = () => {
     );
 };
 
-export default ResetPassword;
+export default ForgetPassword;

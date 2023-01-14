@@ -19,15 +19,12 @@ import {
     Switch,
     TextField, Typography
 } from "@mui/material";
-import persian_fa from "react-date-object/locales/persian_fa";
-import DatePicker, {DateObject} from "react-multi-date-picker";
-import persian from "react-date-object/calendars/persian";
-import InputIcon from "react-multi-date-picker/components/input_icon";
-import gregorian from "react-date-object/calendars/gregorian";
-import persian_en from "react-date-object/locales/persian_en";
 import {AddElectionService, ChosenElectionService, EditElectionService} from "../../Services/ElectionServices";
 import {useParams} from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
+import AdapterJalali from '@date-io/date-fns-jalali';
+import {DatePicker as Joseph} from '@mui/x-date-pickers/DatePicker';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 
 const CreateElection = () => {
 
@@ -38,7 +35,6 @@ const CreateElection = () => {
     const [isVoterHidden, setIsVoterHidden] = useState(false);
     const [candidateCount, setCandidateCount] = useState("");
     const [userVoteCount, setUserVoteCount] = useState("");
-    const [selectedElection, setSelectedElection] = useState("");
     const [ownerId, setOwnerId] = useState("");
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
@@ -52,7 +48,6 @@ const CreateElection = () => {
                 const result = await ChosenElectionService(params.id);
                 const selected = result.data;
                 setName(selected.name)
-                setSelectedElection(selected);
                 setCandidateCount(selected.candidateCount);
                 setUserVoteCount(selected.userVoteCount);
                 setIsEnabled(selected.isEnabled);
@@ -115,16 +110,17 @@ const CreateElection = () => {
     };
 
     const onStartDateHandler = (date) => {
-        const object = {date, format: "YYYY-MM-DD"}
-        const sDay = {gregorian: new DateObject(object).convert(gregorian, persian_en).format()}
-        setStartDate(sDay.gregorian)
+        const dateObject = new Date(date);
+        const sDay = new Intl.DateTimeFormat('en-US').format(dateObject);
+        setStartDate(sDay);
     };
 
+    console.log(startDate)
 
     const onEndDateHandler = (date) => {
-        const object = {date, format: "YYYY-MM-DD"};
-        const eDay = {gregorian: new DateObject(object).convert(gregorian, persian_en).format()};
-        setEndDate(eDay.gregorian);
+        const dateObject = new Date(date);
+        const eDay = new Intl.DateTimeFormat('en-US').format(dateObject);
+        setEndDate(eDay);
     };
 
     const handleCloseAlert = (e, reason) => {
@@ -170,15 +166,15 @@ const CreateElection = () => {
                                             />
                                         </Grid2>
                                         <Grid2 xs={12} sm={4}>
-                                            <DatePicker
-                                                value={selectedElection ? new Date(selectedElection.startDate) : ""}
-                                                render={<InputIcon placeholder="تاریخ شروع انتخابات"/>}
-                                                minDate={new Date()}
-                                                onChange={onStartDateHandler}
-                                                calendar={persian}
-                                                locale={persian_fa}
-                                                format={"YYYY-MM-DD"}
-                                            />
+                                            <LocalizationProvider dateAdapter={AdapterJalali}>
+                                                <Joseph
+                                                    label="تاریخ شروع انتخابات"
+                                                    mask="____/__/__"
+                                                    value={startDate}
+                                                    onChange={onStartDateHandler}
+                                                    renderInput={(params) => <TextField {...params} />}
+                                                />
+                                            </LocalizationProvider>
                                         </Grid2>
                                     </Stack>
                                     <Grid2 xs={12}>
@@ -206,14 +202,15 @@ const CreateElection = () => {
                                     <Grid2 xs={12}>
                                         <Stack direction={{xs: 'column', sm: 'row'}} spacing={4}>
                                             <Grid2 xs={12} sm={6}>
-                                                <DatePicker
-                                                    value={selectedElection ? new Date(selectedElection.endDate) : ""}
-                                                    render={<InputIcon placeholder={"تاریخ پایان انتخابات"}/>}
-                                                    onChange={onEndDateHandler}
-                                                    calendar={persian}
-                                                    locale={persian_fa}
-                                                    format={"YYYY-MM-DD"}
-                                                />
+                                                <LocalizationProvider dateAdapter={AdapterJalali}>
+                                                    <Joseph
+                                                        label="تاریخ شروع انتخابات"
+                                                        mask="____/__/__"
+                                                        value={endDate}
+                                                        onChange={onEndDateHandler}
+                                                        renderInput={(params) => <TextField {...params} />}
+                                                    />
+                                                </LocalizationProvider>
                                             </Grid2>
                                             <Grid2 xs={12} sm={6}>
                                                 <FormControl>
