@@ -24,6 +24,9 @@ const AddCandidateForm = (props) => {
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
     const [candidateImage, setCandidateImage] = useState(null);
+    const [extension, setExtension] = useState('');
+    const [imageName, setImageName] = useState('');
+
     const params = useParams();
 
     useEffect(() => {
@@ -41,14 +44,18 @@ const AddCandidateForm = (props) => {
             isEnabled: isEnabled,
             electionId: params.id,
             attachments: [{
-                base64: candidateImage
+                base64: candidateImage,
+                extension: extension,
+                name: imageName,
+                electionId: params.id
             }],
             id: props.selectedCandidate ? props.selectedCandidate.id : 0
         };
+
         if (props.selectedCandidate.id) {
             const response = async () => {
                 const result = await EditCandidateService(addCandidate);
-                setMessage(result.message)
+                setMessage(result.message);
                 setOpenAlert(true);
                 setAlertType("info");
                 if (result.statusCode === 'Success') {
@@ -60,14 +67,14 @@ const AddCandidateForm = (props) => {
         } else {
             const response = async () => {
                 const result = await AddCandidateService(addCandidate);
-                setMessage(result.message)
+                setMessage(result.message);
                 setOpenAlert(true);
                 setAlertType("info");
                 if (result.statusCode === 'Success') {
                     handleCloseForm();
                     props.setIsUpdating(!props.isUpdating);
                 } else {
-                    setMessage(result.message)
+                    setMessage(result.message);
                     setOpenAlert(true);
                     setAlertType("error");
                 }
@@ -89,6 +96,8 @@ const AddCandidateForm = (props) => {
     const handleProfile = async (e) => {
         let base64FileContent = await toBase64(e.target.files[0]);
         setCandidateImage(base64FileContent);
+        setExtension(e.target.files[0].name.split('.').slice(-1)[0]);
+        setImageName(e.target.files[0].name.split('.')[0]);
     };
 
     const toBase64 = file => new Promise((resolve, reject) => {

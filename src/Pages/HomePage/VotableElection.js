@@ -11,6 +11,8 @@ import CloseIcon from "@mui/icons-material/Close";
 const VotableElection = () => {
 
     const [activeElections, setActiveElections] = useState([]);
+    const [checkElections, setCheckElections] = useState({});
+    const [isUpdating, setIsUpdating] = useState(false);
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
@@ -20,9 +22,20 @@ const VotableElection = () => {
         const response = async () => {
             const result = await VotableElectionService();
             setActiveElections(prepareData(result.data));
+
+            result.data.forEach((el) => {
+                const checkEveryElection = async () => {
+                    const checkDuplicate = await CheckDuplicateVoteService(el.id);
+                    let _checkElections = checkElections;
+                    _checkElections[el.id] = checkDuplicate.data;
+                    setCheckElections(_checkElections);
+                    setIsUpdating(!isUpdating);
+                }
+                checkEveryElection().catch(console.error);
+            });
         };
         response().catch(console.error);
-    }, []);
+    }, [isUpdating]);
 
     const convertTime = (date) => {
         const dateObject = new Date(date);
@@ -48,8 +61,14 @@ const VotableElection = () => {
             } else {
                 navigate(`../Vote/${id}`);
             }
-        }
-        response().catch(console.error)
+        };
+        response().catch(console.error);
+    };
+
+    const handleError = () => {
+        setOpenAlert(true);
+        setMessage('شما قبلا در این انتخابات شرکت کرده اید');
+        setAlertType("error");
     };
 
     const handleCloseAlert = (e, reason) => {
@@ -61,7 +80,7 @@ const VotableElection = () => {
 
     const closeIcon = (
         <IconButton sx={{p: 0}}
-                    onClick={()=>setOpenAlert(false)}>
+                    onClick={() => setOpenAlert(false)}>
             <CloseIcon/>
         </IconButton>
     );
@@ -77,10 +96,17 @@ const VotableElection = () => {
                         {
                             activeElections.map((elec) =>
                                 <Box key={elec.id} sx={{background: '#EAF8FF', p: '3px'}}>
-                                    <ElectionBox direction="row" justifyContent="space-between">
+                                    <ElectionBox direction="row">
                                         <ElectionItems>عنوان: {elec.name}</ElectionItems>
-                                        <ElectionItems>مهلت: {elec.persianEndDate}</ElectionItems>
-                                        <ElectionButton onClick={(e) => handleSelect(e, elec.id)}>شرکت</ElectionButton>
+                                        <ElectionItems sx={{ml: 'auto'}}>مهلت: {elec.persianEndDate}</ElectionItems>
+                                        {checkElections[elec.id] === false ?
+                                            <ElectionButton
+                                                onClick={(e) => handleSelect(e, elec.id)}>شرکت</ElectionButton>
+                                            :
+                                            <Grid2 onClick={handleError}>
+                                                <ElectionButton sx={{height: '100%'}} disabled>شرکت</ElectionButton>
+                                            </Grid2>
+                                        }
                                     </ElectionBox>
                                 </Box>
                             )

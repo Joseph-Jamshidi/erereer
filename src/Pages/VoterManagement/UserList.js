@@ -39,8 +39,9 @@ const UserList = (props) => {
         e.preventDefault();
         const voters = {
             electionId: props.electionId,
-            userVoters: chosenUsers
-        }
+            userIds: chosenUsers,
+            userVoters:[]
+        };
         const response = async () => {
             const result = await AddVoterService(voters);
             if (result.isSuccess === true) {
@@ -90,6 +91,8 @@ const UserList = (props) => {
             setChosenUsers(chosenUsers.filter(user => user !== id));
         }
     };
+
+    console.log(chosenUsers)
 
     const handleCloseAlert = (e, reason) => {
         if (reason === "clickaway") {

@@ -29,9 +29,9 @@ export const VoteHistoryService = async (page, size) => {
     }
 };
 
-export const CheckDuplicateVoteService = async () => {
+export const CheckDuplicateVoteService = async (electionId) => {
     try {
-        const result = await authedAxios.get(urls.checkDuplicate);
+        const result = await authedAxios.get(urls.checkDuplicate + `?electionId=${electionId}`);
         return result.data;
     } catch (error) {
         if (error.response) {
