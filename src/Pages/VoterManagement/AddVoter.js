@@ -35,6 +35,7 @@ const AddVoter = (props) => {
                     phoneNumber: phoneNumber
                 }
             ],
+            userIds: [],
             electionId: params.id
         };
         const response = async () => {

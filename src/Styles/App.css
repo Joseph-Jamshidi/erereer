@@ -4,6 +4,33 @@ body {
     padding: 0;
 }
 
+@font-face {
+    font-family: Sahel;
+    src: url('../fonts/Sahel.eot');
+    src: url('../fonts/Sahel.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/Sahel.woff') format('woff'),
+    url('../fonts/Sahel.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: Sahel-Bold;
+    src: url('../fonts/Sahel-Bold.eot');
+    src: url('../fonts/Sahel-Bold.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/Sahel-Bold.woff') format('woff'),
+    url('../fonts/Sahel-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Sahel-Black;
+    src: url('../fonts/Sahel-Black.eot');
+    src: url('../fonts/Sahel-Black.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/Sahel-Black.woff') format('woff'),
+    url('../fonts/Sahel-Black.ttf') format('truetype');
+    font-weight: 900;
+}
+
 .css-hyum1k-MuiToolbar-root {
     min-height: 0 !important;
     padding: 8px 0;
@@ -71,4 +98,16 @@ body {
     .muirtl-1t1j96h-MuiPaper-root-MuiDialog-paper {
         min-width: 80%;
     }
+}
+
+.muirtl-1aif00w-MuiTableCell-root {
+    width: 5% !important;
+}
+
+td {
+    font-family: Sahel, sans-serif !important;
+}
+
+div{
+    font-family: Sahel-f,sans-serif;
 }

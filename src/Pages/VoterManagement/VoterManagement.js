@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
-    Alert, Box,
+    Alert,
     Button,
     Dialog,
     DialogActions,
@@ -121,23 +121,26 @@ const VoterManagement = () => {
                                     مدیریت رأی دهنده ها
                                 </MainTitleText>
                             </TitleBox>
-                            <Grid2 display="flex" direction="row" alignItems="center">
-                                <VoterListButton variant='contained' onClick={() => setOpenUserList(true)}>
-                                    <PlaylistAddIcon sx={{pr: '2px'}}/>
-                                    <AddTextButton>کاربران</AddTextButton>
-                                </VoterListButton>
-                                <UserList
-                                    setIsUpdating={setIsUpdating} isUpdating={isUpdating}
-                                    openUserList={openUserList} setOpenUserList={setOpenUserList} electionId={params.id}
-                                />
-                                <VoterButton variant='contained' onClick={() => setOpenAddForm(true)}>
-                                    <PersonAddAlt1Icon sx={{pr: '2px'}}/>
-                                    <AddTextButton>افزودن</AddTextButton>
-                                </VoterButton>
-                                <AddVoter
-                                    setIsUpdating={setIsUpdating} isUpdating={isUpdating}
-                                    openAddForm={openAddForm} setOpenAddForm={setOpenAddForm}
-                                />
+                            <Grid2 display="flex" alignItems="center">
+                                <Stack direction={{xs: "column", sm: "row"}} alignItems="center" spacing={0.5}>
+                                    <VoterListButton variant='contained' onClick={() => setOpenUserList(true)}>
+                                        <PlaylistAddIcon sx={{pr: '2px'}}/>
+                                        <AddTextButton>کاربران</AddTextButton>
+                                    </VoterListButton>
+                                    <UserList
+                                        setIsUpdating={setIsUpdating} isUpdating={isUpdating}
+                                        openUserList={openUserList} setOpenUserList={setOpenUserList}
+                                        electionId={params.id}
+                                    />
+                                    <VoterButton variant='contained' onClick={() => setOpenAddForm(true)}>
+                                        <PersonAddAlt1Icon sx={{pr: '2px'}}/>
+                                        <AddTextButton>افزودن</AddTextButton>
+                                    </VoterButton>
+                                    <AddVoter
+                                        setIsUpdating={setIsUpdating} isUpdating={isUpdating}
+                                        openAddForm={openAddForm} setOpenAddForm={setOpenAddForm}
+                                    />
+                                </Stack>
                             </Grid2>
                         </Stack>
                         {voter.length === 0 ?

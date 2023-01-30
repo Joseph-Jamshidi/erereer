@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import {Box} from "@mui/material";
 
-export const MainDashboardDrawer = styled(Grid2)`
+export const MainDashboardDrawer = styled(Box)`
   background-color: white;
   width: 240px;
 `;

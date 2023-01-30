@@ -4,7 +4,7 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {
     FooterText,
     FootSection,
-    Grid3, ImgBox, Item, LeftBoxes,
+    Grid3, ImageLinks, ImgBox, Item, LeftBoxes,
     Main,
     MenuItems,
     MidSection,
@@ -101,19 +101,31 @@ const HomePage = () => {
                     <Grid2 xs={11} sm={7} md={4} lg={3}>
                         <Item>
                             <Pict src={r1}/>
-                            <ImgBox sx={{mx: {md: '-10%'}}}>ایجاد انتخابات</ImgBox>
+                            <ImgBox sx={{mx: {md: '-10%'}}}>
+                                <ImageLinks to="../CreateElection">
+                                    ایجاد انتخابات
+                                </ImageLinks>
+                            </ImgBox>
                         </Item>
                     </Grid2>
                     <Grid2 xs={11} sm={7} md={4} lg={3}>
                         <Item>
                             <Pict src={r2}/>
-                            <ImgBox sx={{mx: {md: '-10%'}}}>ثبت رأی</ImgBox>
+                            <ImgBox sx={{mx: {md: '-10%'}}}>
+                                <ImageLinks to="">
+                                    ثبت رأی
+                                </ImageLinks>
+                            </ImgBox>
                         </Item>
                     </Grid2>
                     <Grid2 xs={11} sm={7} md={4} lg={3}>
                         <Item>
                             <Pict src={r3}/>
-                            <ImgBox sx={{mx: {md: '-10%'}}}>راهنمای ایجاد انتخابات</ImgBox>
+                            <ImgBox sx={{mx: {md: '-10%'}}}>
+                                <ImageLinks to="">
+                                    راهنمای ایجاد انتخابات
+                                </ImageLinks>
+                            </ImgBox>
                         </Item>
                     </Grid2>
                 </Grid3>

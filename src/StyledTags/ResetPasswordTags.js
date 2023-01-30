@@ -13,7 +13,7 @@ export const Pic = styled("img")`
   height: auto;
 `;
 export const HeaderText = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 19px;
@@ -26,7 +26,7 @@ export const BackArrow = styled(RouterLink)`
 `;
 export const SubmitButton = styled(Button)`
   background-color: #425C81;
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 22px;

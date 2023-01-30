@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {
-    Alert,
+    Alert, Avatar, Badge,
     Box,
-    Button,
+    Button, Card,
     Dialog,
     DialogActions,
     DialogContent,
@@ -23,9 +23,7 @@ const AddCandidateForm = (props) => {
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
-    const [candidateImage, setCandidateImage] = useState(null);
-    const [extension, setExtension] = useState('');
-    const [imageName, setImageName] = useState('');
+    const [attachments, setAttachments] = useState([]);
 
     const params = useParams();
 
@@ -34,6 +32,8 @@ const AddCandidateForm = (props) => {
         setName(select.name);
         setDescription(select.description);
         setIsEnabled(select.isEnabled);
+        setAttachments(select.attachments);
+        setAttachments(select.attachments);
     }, [props.selectedCandidate]);
 
     const handleSubmit = (e) => {
@@ -43,12 +43,7 @@ const AddCandidateForm = (props) => {
             description: description,
             isEnabled: isEnabled,
             electionId: params.id,
-            attachments: [{
-                base64: candidateImage,
-                extension: extension,
-                name: imageName,
-                electionId: params.id
-            }],
+            attachments: attachments,
             id: props.selectedCandidate ? props.selectedCandidate.id : 0
         };
 
@@ -57,7 +52,7 @@ const AddCandidateForm = (props) => {
                 const result = await EditCandidateService(addCandidate);
                 setMessage(result.message);
                 setOpenAlert(true);
-                setAlertType("info");
+                setAlertType("success");
                 if (result.statusCode === 'Success') {
                     handleCloseForm();
                     props.setIsUpdating(!props.isUpdating);
@@ -69,7 +64,7 @@ const AddCandidateForm = (props) => {
                 const result = await AddCandidateService(addCandidate);
                 setMessage(result.message);
                 setOpenAlert(true);
-                setAlertType("info");
+                setAlertType("success");
                 if (result.statusCode === 'Success') {
                     handleCloseForm();
                     props.setIsUpdating(!props.isUpdating);
@@ -94,12 +89,16 @@ const AddCandidateForm = (props) => {
     };
 
     const handleProfile = async (e) => {
-        let base64FileContent = await toBase64(e.target.files[0]);
-        setCandidateImage(base64FileContent);
-        setExtension(e.target.files[0].name.split('.').slice(-1)[0]);
-        setImageName(e.target.files[0].name.split('.')[0]);
-    };
+        const base64FileContent = await toBase64(e.target.files[0]);
+        const newAttachment = {
+            base64: base64FileContent,
+            electionId: params.id,
+            extension: e.target.files[0].name.split('.').slice(-1)[0],
+            name: e.target.files[0].name.split('.')[0]
+        };
 
+        setAttachments([...attachments, newAttachment]);
+    }
     const toBase64 = file => new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -107,11 +106,16 @@ const AddCandidateForm = (props) => {
         reader.onerror = error => reject(error);
     });
 
+    const handleDelete = (id) => {
+        const imageList = attachments.filter((i) => i.id !== id);
+        setAttachments(imageList);
+    };
+
     const handleCloseAlert = (e, reason) => {
         if (reason === "clickaway") {
             return
         }
-        setOpenAlert(false)
+        setOpenAlert(false);
     };
 
     const closeIcon = (
@@ -135,11 +139,28 @@ const AddCandidateForm = (props) => {
                                    onChange={(e) => setDescription(e.target.value)}
                                    sx={{m: '10px'}} value={description}
                         />
-                        <Button sx={{background: '#425C81', pr: 0, pl: 1, m: 1}} variant="contained" component="label">
-                            <PhotoCamera/>
-                            <Typography sx={{mx: 2}}>اپلود عکس</Typography>
-                            <input hidden accept="image/*" multiple type="file" onChange={handleProfile}/>
-                        </Button>
+                        <Card sx={{width: "100%", my: 2, py: 1}}>
+                            <Stack direction="row" spacing={3}>
+                                <Button sx={{background: '#425C81', pr: 0, pl: 1, m: 1}} variant="contained"
+                                        component="label">
+                                    <PhotoCamera/>
+                                    <Typography sx={{mx: 2}}>اپلود عکس</Typography>
+                                    <input hidden accept="image/*" multiple type="file" onChange={handleProfile}/>
+                                </Button>
+                                {
+                                    (attachments || []).map((image, index) =>
+                                        <Badge key={index} anchorOrigin={{vertical: 'top', horizontal: 'left'}}
+                                               badgeContent={
+                                                   <IconButton onClick={() => handleDelete(image.id)}>
+                                                       <CloseIcon/>
+                                                   </IconButton>
+                                               }>
+                                            <Avatar variant="rounded" src={image.base64}/>
+                                        </Badge>
+                                    )
+                                }
+                            </Stack>
+                        </Card>
                         <FormGroup>
                             <Stack direction="row" spacing={1} alignItems="center">
                                 <Typography>غیر فعال</Typography>
@@ -152,7 +173,7 @@ const AddCandidateForm = (props) => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseForm}>لفو</Button>
-                    <Button onClick={handleSubmit}>افزودن</Button>
+                    <Button onClick={handleSubmit}>{props.selectedCandidate.id ? "ثبت تغییرات" : "افزودن"}</Button>
                 </DialogActions>
             </Dialog>
             <Snackbar

@@ -18,7 +18,7 @@ export const NavBtn = styled(MenuItem)`
   height: 100%;
   padding: 8px 8px;
   border-radius: 10px;
-  font-family: 'Vazir FD-UI', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;

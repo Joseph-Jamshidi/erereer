@@ -7,7 +7,7 @@ import {
     NavItemReg,
     CollapseItems,
     NavItemRegCollapse,
-    CollapseLink
+    CollapseLink, NavItemPanel
 } from "../StyledTags/HeaderTags";
 import DrawerDashboard from "./DrawerDashboard";
 import {token, UserInfo} from "../Services/info";
@@ -42,16 +42,19 @@ const Header = () => {
                     <Box sx={{display: {md: 'none', width: '100%'}}}>
                         <DropdownMenu/>
                     </Box>
-                    <Box sx={{display: {md: 'none', width: '100%'}}}>
-                        <DrawerDashboard/>
-                    </Box>
+                    {
+                        token ?
+                            <Box sx={{display: {md: 'none', width: '100%'}}}>
+                                <DrawerDashboard/>
+                            </Box>
+                            :
+                            ''
+                    }
+
                     <Box sx={{width: '100%', display: {xs: 'none', md: 'block'}}}>
                         <Stack direction={"row"}>
                             <NavItem>
                                 <MenuItems to="./">صفحه اصلی</MenuItems>
-                            </NavItem>
-                            <NavItem>
-                                <MenuItems to={token ? './ElectionsInProgress' : './login'}>خدمات</MenuItems>
                             </NavItem>
                             <NavItem>
                                 <MenuItems>تعرفه ها</MenuItems>
@@ -64,6 +67,11 @@ const Header = () => {
                             </NavItem>
                             {token ?
                                 <>
+                                    <NavItemPanel variant="contained">
+                                        <MenuItems to='./ElectionsInProgress'>
+                                            پنل کاربری
+                                        </MenuItems>
+                                    </NavItemPanel>
                                     <NavItemRegCollapse id="basic-button"
                                                         aria-controls={open ? 'basic-menu' : undefined}
                                                         aria-haspopup="true"

@@ -153,7 +153,7 @@ const ElectionList = ({afterGetVotingList}) => {
                                     <TableCell sx={{pl: 3}}>{el.persianStartDate}</TableCell>
                                     <TableCell sx={{pl: 3}}>{el.persianEndDate}</TableCell>
                                     <TableCell align="center">{el.candidateCount}</TableCell>
-                                    <TableCell align="center">{el.userVoteCount}</TableCell>
+                                    <TableCell align="center"><div>{el.userVoteCount}</div></TableCell>
                                     <TableCell sx={{pl: 1}}>
                                         <Stack direction="row" justifyContent="flex-end">
                                             <Stack direction="column" alignItems="center">

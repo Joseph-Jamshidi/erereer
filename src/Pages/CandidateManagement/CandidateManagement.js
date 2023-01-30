@@ -8,12 +8,14 @@ import {
     TitleText
 } from "../../StyledTags/CandidateManagementTags";
 import {
+    Alert,
+    Avatar,
     Button,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle, FormControl, MenuItem, Pagination, Paper, Select,
+    DialogTitle, FormControl, IconButton, MenuItem, Pagination, Paper, Select, Snackbar,
     Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip
 } from "@mui/material";
 import Dashboard from "../../Layout/Dashboard";
@@ -23,6 +25,7 @@ import AddCandidateForm from "./AddCandidateForm";
 import {useParams} from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import CloseIcon from "@mui/icons-material/Close";
 
 const CandidateManagement = () => {
 
@@ -39,6 +42,9 @@ const CandidateManagement = () => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const [openAddForm, setOpenAddForm] = useState(false);
+    const [message, setMessage] = useState('');
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alertType, setAlertType] = useState("info");
     const editRef = useRef(null);
     const params = useParams();
 
@@ -55,7 +61,9 @@ const CandidateManagement = () => {
         e.preventDefault();
         const response = async () => {
             const result = await DeleteCandidateService(delId);
-            alert(result.message);
+            setMessage(result.message);
+            setOpenAlert(true);
+            setAlertType("success");
             setIsUpdating(!isUpdating);
             setOpenDeleteDialog(false);
             setDelId("");
@@ -84,6 +92,19 @@ const CandidateManagement = () => {
         setOpenDeleteDialog(false);
         setDelId('');
     };
+
+    const handleCloseAlert = (e, reason) => {
+        if (reason === "clickaway") {
+            return
+        }
+        setOpenAlert(false);
+    };
+
+    const closeIcon = (
+        <IconButton sx={{p: 0}} onClick={() => setOpenAlert(false)}>
+            <CloseIcon/>
+        </IconButton>
+    );
 
     return (
         <>
@@ -114,6 +135,7 @@ const CandidateManagement = () => {
                                 <TableHead sx={{background: 'silver'}}>
                                     <TableRow>
                                         <TableCell sx={{pl: 2}}>ردیف</TableCell>
+                                        <TableCell>عکس</TableCell>
                                         <TableCell align="left">نام و نام خانوادگی</TableCell>
                                         <TableCell>توضیحات</TableCell>
                                         <TableCell>وضعیت</TableCell>
@@ -126,6 +148,9 @@ const CandidateManagement = () => {
                                             <TableRow key={c.id}>
                                                 <TableCell
                                                     sx={{pl: 2}}>{(pageNumber - 1) * 10 + (i + 1)}</TableCell>
+                                                <TableCell>
+                                                    <Avatar src={(c.attachments || [])[0]?.base64}/>
+                                                </TableCell>
                                                 <TableCell align="left">{c.name}</TableCell>
                                                 <TableCell>{c.description}</TableCell>
                                                 <TableCell>{c.isEnabled === true ? "فعال" : "غیر فعال"}</TableCell>
@@ -177,8 +202,13 @@ const CandidateManagement = () => {
                                                 <RowNumber>{(pageNumber - 1) * 10 + (i + 1)}</RowNumber>
                                             </RowBox>
                                             <Grid2 xs={12}>
-                                                <Stack direction="row" justifyContent="space-between" sx={{mb: '4px'}}>
+                                                <Stack direction="row" justifyContent="flex-start" spacing={1}
+                                                       sx={{mb: '4px'}}>
                                                     <TitleText>نام و نام خانوادگی:&nbsp;{c.name}</TitleText>
+                                                    <Avatar
+                                                        src={(c.attachments || [])[0]?.base64}
+                                                        sx={{width: 56, height: 56}}
+                                                    />
                                                 </Stack>
                                                 <Stack direction={{xs: 'column'}} sx={{mb: '4px'}}>
                                                     <Grid2 xs={12}>
@@ -243,6 +273,14 @@ const CandidateManagement = () => {
                     </Grid2>
                 </Grid2>
             </Grid2>
+            <Snackbar
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                open={openAlert}
+                autoHideDuration={3000}
+                onClose={handleCloseAlert}
+            >
+                <Alert severity={alertType} action={closeIcon}>{message}</Alert>
+            </Snackbar>
         </>
     );
 };

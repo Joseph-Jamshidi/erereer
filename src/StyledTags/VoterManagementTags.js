@@ -16,9 +16,8 @@ export const Section = styled(Grid2)`
   margin: 8px 6px;
 `;
 export const TitleText = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
-  font-weight: bold;
   font-size: 16px;
   line-height: 25px;
   margin-top: 4px;
@@ -32,7 +31,7 @@ export const VoterButton = styled(Button)`
   background-color: #425C81;
   padding: 3px 4px 3px 0;
   color: white;
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
   font-size: 14px;
@@ -44,9 +43,8 @@ export const VoterListButton = styled(Button)`
   min-width: fit-content;
   background-color: #425C81;
   padding: 3px 4px 3px 0;
-  margin: 0 10px 0 0;
   color: white;
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
   font-size: 14px;
@@ -59,7 +57,7 @@ export const VoterIcon = styled(Button)`
   padding: 3px;
   margin: 4px;
   color: #425C81;
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
   font-size: 14px;
@@ -68,14 +66,14 @@ export const VoterIcon = styled(Button)`
 `;
 export const AddTextButton = styled(Typography)`
   color: white;
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
   font-size: 14px;
   line-height: 25px;
 `;
 export const VoterText = styled("p")`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
   font-size: 14px;
@@ -90,7 +88,7 @@ export const RowBox = styled(Box)`
   margin: auto 10px auto 0;
 `;
 export const RowNumber = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
   font-size: 16px;
@@ -104,17 +102,16 @@ export const TitleBox = styled(Box)`
   padding: 4px;
 `;
 export const MainTitleText = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
-  font-weight: bold;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 18px;
   color: #425C81;
   margin: 5px;
   padding: 5px;
 `;
 export const TitleText2 = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
   font-size: 16px;
@@ -135,14 +132,14 @@ export const NumberBox = styled(Box)`
   border: 1px solid #425C81;
   margin-right: 4%;
   padding: 0 5px;
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 30px;
 `;
 export const NameBox = styled(Box)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;

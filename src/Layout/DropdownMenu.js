@@ -48,7 +48,7 @@ const DropdownMenu = () => {
                                 <NavBtn>صفحه اصلی</NavBtn>
                             </ListBtn>
                             <ListBtn onClick={handleClose} to={token ? './ElectionsInProgress' : './login'}>
-                                <NavBtn>خدمات</NavBtn>
+                                <NavBtn>پنل کاربری</NavBtn>
                             </ListBtn>
                             <ListBtn onClick={handleClose}>
                                 <NavBtn>تعرفه ها</NavBtn>
@@ -95,7 +95,7 @@ const DropdownMenu = () => {
                     onClick={handleClick}
                     sx={{color: '#425C81'}}
                 >
-                    <MenuIcon/>
+                    منو
                 </Button>
             </Stack>
         </>

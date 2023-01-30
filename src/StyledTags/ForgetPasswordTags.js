@@ -9,7 +9,7 @@ export const MainSection = styled(Grid2)`
   background-color: white;
 `;
 export const HeaderText = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 19px;
@@ -23,7 +23,7 @@ export const Pic = styled("img")`
 `;
 export const LoginButton = styled(Button)`
   background-color: #425C81;
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 22px;

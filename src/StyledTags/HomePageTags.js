@@ -3,7 +3,7 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {Link as RouterLink} from "react-router-dom";
 
 export const TextBox = styled(Typography)`
-  font-family: 'Vazir FD-UI', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
@@ -19,22 +19,29 @@ export const Pict = styled("img")`
   transform: translateY(-15%);
 `;
 export const Paragraph = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 19px;
   line-height: 38px;
 `;
 export const ImgBox = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 42px;
   background-color: #5072A4;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
   transform: translateY(-35%);
+`;
+export const ImageLinks=styled(RouterLink)`
+  padding: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  font-family: 'Sahel-Bold', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 42px;
   color: white;
 `;
 export const Main = styled(Box)`
@@ -55,7 +62,7 @@ export const NavItem = styled(Button)`
   margin-left: 8px;
   border-radius: 6px;
   text-decoration: none;
-  font-family: 'Vazir FD-UI', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -87,7 +94,7 @@ export const FootSection = styled(Box)`
   overflow: hidden;
 `;
 export const FooterText = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 27px;
@@ -122,7 +129,7 @@ export const ElectionBox = styled(Stack)`
   padding: 2px 10px;
 `;
 export const ElectionItems = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -132,7 +139,7 @@ export const ElectionItems = styled(Typography)`
 export const ElectionButton=styled(Button)`
   background-color: white;
   text-decoration: none;
-  font-family: 'Vazir FD-UI', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -146,7 +153,7 @@ export const ElectionButton=styled(Button)`
   }
 `;
 export const HeaderText = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 19px;

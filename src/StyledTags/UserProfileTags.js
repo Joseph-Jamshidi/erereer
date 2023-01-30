@@ -20,9 +20,8 @@ export const Section = styled(Grid2)`
   margin: 8px 6px;
 `;
 export const Text = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
-  font-weight: bold;
   font-size: 25px;
   line-height: 25px;
   margin: 10px 5px 20px;
@@ -33,7 +32,7 @@ export const SubmitButton = styled(Button)`
   padding: 3px 4px 3px 0;
   margin: 4px 0 0 6px;
   color: white;
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
   font-size: 20px;

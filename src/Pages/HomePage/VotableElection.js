@@ -18,24 +18,33 @@ const VotableElection = () => {
     const [alertType, setAlertType] = useState("info");
     const navigate = useNavigate();
 
+    console.log('render Votable Election...');
+
     useEffect(() => {
         const response = async () => {
             const result = await VotableElectionService();
             setActiveElections(prepareData(result.data));
 
+            let _checkElections = checkElections;
+            console.log(Date.now());
             result.data.forEach((el) => {
                 const checkEveryElection = async () => {
                     const checkDuplicate = await CheckDuplicateVoteService(el.id);
-                    let _checkElections = checkElections;
+                    //let _checkElections = checkElections;
+                    console.log(Date.now());
                     _checkElections[el.id] = checkDuplicate.data;
-                    setCheckElections(_checkElections);
-                    setIsUpdating(!isUpdating);
+                    //setCheckElections(_checkElections);
+                    //setIsUpdating(!isUpdating);
                 }
                 checkEveryElection().catch(console.error);
             });
+
+            setCheckElections(_checkElections);
+
         };
         response().catch(console.error);
-    }, [isUpdating]);
+
+    }, []);
 
     const convertTime = (date) => {
         const dateObject = new Date(date);
@@ -114,8 +123,8 @@ const VotableElection = () => {
                     </Container>
                 </> :
                 <Grid2 sx={{width: '100%', my: '1%'}}>
-                    <HeaderText>
-                        انتخاباتی فعالی وجئد ندارد
+                    <HeaderText sx={{display: 'flex', justifyContent: {xs: 'center', md: 'start'}}}>
+                        انتخاباتی فعالی وجود ندارد
                     </HeaderText>
                 </Grid2>
             }

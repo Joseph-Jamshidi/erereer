@@ -7,7 +7,7 @@ export const NavItem = styled(MenuItem)`
   margin-right: 8px;
   border-radius: 10px;
   text-decoration: none;
-  font-family: 'Vazir FD-UI', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -22,21 +22,38 @@ export const NavItemReg = styled(NavItem)`
   border: 1px solid #425C81;
   background-color: white;
   margin-left: auto;
-  font-family: 'Vazir FD-UI', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 30px;
 `;
+export const NavItemPanel = styled(NavItem)`
+  border: 1px solid #425C81;
+  background-color: #EAC435;
+  color: #425C81;
+  margin-left: auto;
+  font-family: 'Sahel', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 30px;
+  justify-content: center;
+  padding: 0 3px;
+
+  :hover {
+    background-color: #FFD63A;
+    color: black;
+  }
+`;
 export const NavItemRegCollapse = styled(NavItem)`
   border: 1px solid #425C81;
   color: #425C81;
   background-color: white;
-  margin-left: auto;
-  font-family: 'Vazir FD-UI', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
+  font-weight: 500;
+  font-size: 13px;
   line-height: 30px;
   justify-content: center;
   padding: 0 3px;
@@ -61,7 +78,7 @@ export const MenuItems = styled(RouterLink)`
 `;
 export const CollapseItems = styled(MenuItem)`
   background-color: #A5D4DE;
-  font-family: 'Vazir FD-UI', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -76,7 +93,7 @@ export const CollapseItems = styled(MenuItem)`
 export const CollapseLink = styled(MenuItems)`
   margin: 0;
   padding: 0;
-  font-family: 'Vazir FD-UI', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;

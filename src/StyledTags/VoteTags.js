@@ -30,21 +30,21 @@ export const NumberBox = styled(Box)`
   border: 1px solid #425C81;
   margin-right: 4%;
   padding: 0 5px;
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 19px;
   line-height: 30px;
 `;
 export const NameBox = styled(Box)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 19px;
   line-height: 30px;
 `;
 export const TextBox = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -56,7 +56,7 @@ export const TextBox = styled(Typography)`
 export const SubmitButton = styled(Button)`
   background-color: #425C81;
   color: white;
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -72,9 +72,8 @@ export const TitleBox = styled(Box)`
   padding: 4px;
 `;
 export const MainTitleText = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
-  font-weight: bold;
   font-size: 22px;
   line-height: 18px;
   color: #425C81;
@@ -96,7 +95,7 @@ export const RowBox = styled(Box)`
   margin: auto 10px auto 0;
 `;
 export const RowNumber = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
   font-size: 16px;
@@ -104,16 +103,15 @@ export const RowNumber = styled(Typography)`
   text-align: center;
 `;
 export const VoteText = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
   font-size: 16px;
   line-height: 25px;
 `;
 export const TitleText = styled(Typography)`
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
-  font-weight: bold;
   font-size: 20px;
   line-height: 25px;
   margin-top: 4px;

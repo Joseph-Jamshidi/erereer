@@ -21,7 +21,7 @@ import Document from "../images/Document.png";
 import circle2 from "../images/circle2.png";
 import {UserInfo} from "../Services/info";
 
-const Dashboard = () => {
+const Dashboard = (props) => {
 
     const [openMyElectionCollapse, setOpenMyElectionCollapse] = useState(false);
 
@@ -29,9 +29,14 @@ const Dashboard = () => {
         setOpenMyElectionCollapse(!openMyElectionCollapse);
     };
 
+    const handleCloseDrawer = () => {
+        // props.setOpenDrawerDashboard(false);
+    };
+
     const logOut = () => {
         localStorage.clear();
-        window.location.href = "/"
+        window.location.href = "/";
+        // props.setOpenDrawerDashboard(false);
     };
 
     return (
@@ -44,7 +49,7 @@ const Dashboard = () => {
                 <Stack sx={{my: '8px', mx: '12px'}}>
                     <List>
                         <DashboardList>
-                            <MenuItems to="../UserProfile">
+                            <MenuItems onClick={handleCloseDrawer} to="../UserProfile">
                                 <DashboardButton>
                                     <DashboardText>
                                         <Stack direction="row">
@@ -56,38 +61,40 @@ const Dashboard = () => {
                             </MenuItems>
                         </DashboardList>
                         <DashboardList>
-                            <DashboardButton onClick={handleCollapse}>
-                                <DashboardText>
-                                    <Stack direction='row'>
-                                        <Pic src={Document}/>
-                                        <Text sx={{mt: 'auto'}}>انتخابات های من</Text>
-                                    </Stack>
-                                </DashboardText>
-                            </DashboardButton>
+                            <Stack direction="column" sx={{minWidth: '100%'}}>
+                                <DashboardButton onClick={handleCollapse}>
+                                    <DashboardText>
+                                        <Stack direction='row'>
+                                            <Pic src={Document}/>
+                                            <Text sx={{mt: 'auto'}}>انتخابات های من</Text>
+                                        </Stack>
+                                    </DashboardText>
+                                </DashboardButton>
+                                <CollapseMenu in={openMyElectionCollapse} timeout="auto" unmountOnExit
+                                              sx={{background: '#EAF8FF'}}>
+                                    <List component="div" disablePadding>
+                                        <MenuItems onClick={handleCloseDrawer} to="../CreateElection">
+                                            <ListItemButton>
+                                                <Stack direction='row'>
+                                                    <Pic2 src={circle1}/>
+                                                    <TextCollapse>ایجاد انتخابات جدید</TextCollapse>
+                                                </Stack>
+                                            </ListItemButton>
+                                        </MenuItems>
+                                        <MenuItems onClick={handleCloseDrawer} to="../ElectionsInProgress">
+                                            <ListItemButton>
+                                                <Stack direction='row'>
+                                                    <Pic2 src={circle2}/>
+                                                    <TextCollapse>انتخابات های ایجاد شده</TextCollapse>
+                                                </Stack>
+                                            </ListItemButton>
+                                        </MenuItems>
+                                    </List>
+                                </CollapseMenu>
+                            </Stack>
                         </DashboardList>
-                        <CollapseMenu in={openMyElectionCollapse} timeout="auto" unmountOnExit
-                                      sx={{background: '#EAF8FF'}}>
-                            <List component="div" disablePadding>
-                                <MenuItems to="../CreateElection">
-                                    <ListItemButton>
-                                        <Stack direction='row'>
-                                            <Pic2 src={circle1}/>
-                                            <TextCollapse>ایجاد انتخابات جدید</TextCollapse>
-                                        </Stack>
-                                    </ListItemButton>
-                                </MenuItems>
-                                <MenuItems to="../ElectionsInProgress">
-                                    <ListItemButton>
-                                        <Stack direction='row'>
-                                            <Pic2 src={circle2}/>
-                                            <TextCollapse>انتخابات های در حال اجرا</TextCollapse>
-                                        </Stack>
-                                    </ListItemButton>
-                                </MenuItems>
-                            </List>
-                        </CollapseMenu>
                         <DashboardList>
-                            <MenuItems to="../VoteHistory">
+                            <MenuItems onClick={handleCloseDrawer} to="../VoteHistory">
                                 <DashboardButton>
                                     <DashboardText>
                                         <Stack direction='row'>
@@ -99,12 +106,12 @@ const Dashboard = () => {
                             </MenuItems>
                         </DashboardList>
                         <DashboardList>
-                            <MenuItems to="">
+                            <MenuItems onClick={handleCloseDrawer} to="">
                                 <DashboardButton>
                                     <DashboardText>
                                         <Stack direction='row'>
                                             <Pic src={EditSquare}/>
-                                            <Text sx={{mt: 'auto'}}>لیست کاربران وارد کرده</Text>
+                                            <Text sx={{mt: 'auto'}}>مدیریت کاربران</Text>
                                         </Stack>
                                     </DashboardText>
                                 </DashboardButton>

@@ -7,7 +7,6 @@ export const DashboardList = styled(ListItem)`
   margin: 8px 0;
   background-color: #425C81;
   border-radius: 10px;
-
 `;
 export const DashboardButton = styled(ListItemButton)`
   padding: 4px 0;
@@ -25,7 +24,7 @@ export const MenuItems = styled(RouterLink)`
 export const TextCollapse = styled(Typography)`
   text-decoration: none;
   color: #5072A4;
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -44,7 +43,7 @@ export const Pic2 = styled("img")`
 export const Text = styled(Typography)`
   text-decoration: none;
   color: white;
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -53,9 +52,8 @@ export const Text = styled(Typography)`
 export const UserNameText = styled(Typography)`
   text-decoration: none;
   color: #425C81;
-  font-family: 'Vazir FD', sans-serif;
+  font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
-  font-weight: bold;
   font-size: 22px;
   line-height: 30px;
   margin: 8px 0 25px;

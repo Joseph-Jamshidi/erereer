@@ -115,8 +115,6 @@ const CreateElection = () => {
         setStartDate(sDay);
     };
 
-    console.log(startDate)
-
     const onEndDateHandler = (date) => {
         const dateObject = new Date(date);
         const eDay = new Intl.DateTimeFormat('en-US').format(dateObject);
@@ -245,7 +243,7 @@ const CreateElection = () => {
                                     </Grid2>
                                     <Grid2 xs={12}>
                                         <SubmitButton variant="contained" type="submit">
-                                            ثبت
+                                            {params.id ? "ثبت تغییرات" : "ثبت"}
                                         </SubmitButton>
                                     </Grid2>
                                 </Stack>
