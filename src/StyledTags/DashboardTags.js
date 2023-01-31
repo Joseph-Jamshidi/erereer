@@ -38,7 +38,10 @@ export const Pic2 = styled("img")`
   max-width: 50%;
   height: 50%;
   margin: auto 3px auto 0;
-
+`;
+export const Pic3 = styled("img")`
+  max-width: 90%;
+  height: 90%;
 `;
 export const Text = styled(Typography)`
   text-decoration: none;

@@ -4,7 +4,7 @@ import {
     ElectionText,
     LinkButton,
     ManageButton,
-    RowBox, RowNumber,
+    RowNumber,
     Section,
     TitleText
 } from "../../StyledTags/ElectionTags";
@@ -153,7 +153,9 @@ const ElectionList = ({afterGetVotingList}) => {
                                     <TableCell sx={{pl: 3}}>{el.persianStartDate}</TableCell>
                                     <TableCell sx={{pl: 3}}>{el.persianEndDate}</TableCell>
                                     <TableCell align="center">{el.candidateCount}</TableCell>
-                                    <TableCell align="center"><div>{el.userVoteCount}</div></TableCell>
+                                    <TableCell align="center">
+                                        <div>{el.userVoteCount}</div>
+                                    </TableCell>
                                     <TableCell sx={{pl: 1}}>
                                         <Stack direction="row" justifyContent="flex-end">
                                             <Stack direction="column" alignItems="center">
@@ -206,9 +208,7 @@ const ElectionList = ({afterGetVotingList}) => {
                     elections.map((el, i) =>
                         <Section key={el.id}>
                             <Stack direction="row">
-                                <RowBox>
-                                    <RowNumber>{(pageNumber - 1) * 10 + (i + 1)}</RowNumber>
-                                </RowBox>
+                                <RowNumber>{(pageNumber - 1) * 10 + (i + 1)}.</RowNumber>
                                 <Grid2 xs={12}>
                                     <Stack direction="row" justifyContent="space-between" sx={{mb: '4px'}}>
                                         <TitleText variant="h5">عنوان انتخابات:&nbsp;{el.name}</TitleText>

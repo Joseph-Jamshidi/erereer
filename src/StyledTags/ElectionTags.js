@@ -72,13 +72,6 @@ export const TitleText = styled(Typography)`
   line-height: 25px;
   margin-top: 4px;
 `;
-export const RowBox = styled(Box)`
-  border-radius: 50%;
-  border: 1px solid #425C81;
-  height: 0.5%;
-  width: 3%;
-  margin: auto 10px auto 0;
-`;
 export const RowNumber = styled(Typography)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
@@ -86,6 +79,7 @@ export const RowNumber = styled(Typography)`
   font-size: 16px;
   line-height: 25px;
   text-align: center;
+  margin: 1% 2% auto 0;
 `;
 export const TitleBox=styled(Box)`
   border: 1px dashed #425C81;

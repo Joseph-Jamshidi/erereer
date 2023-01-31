@@ -8,6 +8,8 @@ const DrawerDashboard = () => {
 
     const [openDrawerDashboard, setOpenDrawerDashboard] = useState(false);
 
+
+
     return (
         <>
             <Drawer open={openDrawerDashboard} anchor="right" onClose={() => setOpenDrawerDashboard(false)}>
@@ -15,7 +17,7 @@ const DrawerDashboard = () => {
                     sx={{display: {xs: 'block', md: 'none'}}}
                     role="presentation"
                 >
-                    <Dashboard/>
+                    <Dashboard setOpenDrawerDashboard={setOpenDrawerDashboard}/>
                 </MainDashboardDrawer>
             </Drawer>
             <Stack direction="row">

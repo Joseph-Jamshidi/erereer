@@ -3,7 +3,7 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {
     AddTextButton, CandidateButton, CandidateIcon, CandidateText,
     MainDashboard, MainTitleText,
-    Pic, RowBox, RowNumber,
+    Pic, RowNumber,
     Section, TitleBox,
     TitleText
 } from "../../StyledTags/CandidateManagementTags";
@@ -136,7 +136,7 @@ const CandidateManagement = () => {
                                     <TableRow>
                                         <TableCell sx={{pl: 2}}>ردیف</TableCell>
                                         <TableCell>عکس</TableCell>
-                                        <TableCell align="left">نام و نام خانوادگی</TableCell>
+                                        <TableCell align="left">نام</TableCell>
                                         <TableCell>توضیحات</TableCell>
                                         <TableCell>وضعیت</TableCell>
                                         <TableCell align="right" sx={{pr: 4}}>عملیات</TableCell>
@@ -198,35 +198,36 @@ const CandidateManagement = () => {
                                 candidate.map((c, i) =>
                                     <Section key={c.id}>
                                         <Stack direction="row">
-                                            <RowBox>
-                                                <RowNumber>{(pageNumber - 1) * 10 + (i + 1)}</RowNumber>
-                                            </RowBox>
+                                            <RowNumber>{(pageNumber - 1) * 10 + (i + 1)}.</RowNumber>
                                             <Grid2 xs={12}>
                                                 <Stack direction="row" justifyContent="flex-start" spacing={1}
                                                        sx={{mb: '4px'}}>
-                                                    <TitleText>نام و نام خانوادگی:&nbsp;{c.name}</TitleText>
+                                                    <TitleText>نام:&nbsp;{c.name}</TitleText>
+                                                </Stack>
+                                                <Stack direction={{xs: "row"}} sx={{mb: '4px', mr: 1}}
+                                                       justifyContent="space-between">
+                                                    <Grid2>
+                                                        <Grid2 xs={12}>
+                                                            <CandidateText>
+                                                                توضیحات:&nbsp;{c.description}
+                                                            </CandidateText>
+                                                        </Grid2>
+                                                        <Grid2 xs={12}>
+                                                            <CandidateText>
+                                                                وضعیت:&nbsp;{c.isEnabled === true ? "فعال" : "غیرفعال"}
+                                                            </CandidateText>
+                                                        </Grid2>
+                                                    </Grid2>
                                                     <Avatar
                                                         src={(c.attachments || [])[0]?.base64}
                                                         sx={{width: 56, height: 56}}
                                                     />
                                                 </Stack>
-                                                <Stack direction={{xs: 'column'}} sx={{mb: '4px'}}>
-                                                    <Grid2 xs={12}>
-                                                        <CandidateText>
-                                                            توضیحات:&nbsp;{c.description}
-                                                        </CandidateText>
-                                                    </Grid2>
-                                                    <Grid2 xs={12}>
-                                                        <CandidateText>
-                                                            وضعیت:&nbsp;{c.isEnabled === true ? "فعال" : "غیرفعال"}
-                                                        </CandidateText>
-                                                    </Grid2>
-                                                </Stack>
                                             </Grid2>
                                             <Stack direction="column" justifyContent="space-around">
-                                                <CandidateButton variant="contained"
-                                                                 onClick={(e) => handleSelectedCandidate(e, c.id)}>حذف
-                                                </CandidateButton>
+                                                <CandidateIcon onClick={(e) => handleSelectedCandidate(e, c.id)}>
+                                                    <DeleteIcon fontSize="medium"/>
+                                                </CandidateIcon>
                                                 <Dialog open={openDeleteDialog} onClose={handleCloseDialog}>
                                                     <DialogTitle id="alert-dialog-title">
                                                         {"اخطار!"}
@@ -243,10 +244,9 @@ const CandidateManagement = () => {
                                                         <Button color="error" onClick={deleteCandidate}>بله</Button>
                                                     </DialogActions>
                                                 </Dialog>
-                                                <CandidateButton variant="contained"
-                                                                 onClick={(e) => editVoter(e, c.id)}>
-                                                    ویرایش
-                                                </CandidateButton>
+                                                <CandidateIcon onClick={(e) => editVoter(e, c.id)}>
+                                                    <EditIcon fontSize="medium"/>
+                                                </CandidateIcon>
                                             </Stack>
                                         </Stack>
                                     </Section>

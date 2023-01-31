@@ -14,7 +14,6 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {useParams} from "react-router-dom";
 import {DeleteVoterService, GetVoterService} from "../../Services/VoterServices"
 import {
-    RowBox,
     RowNumber,
     Section,
     TitleText,
@@ -30,7 +29,6 @@ import Dashboard from "../../Layout/Dashboard";
 import AddVoter from "./AddVoter";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import UserList from "./UserList";
 
 
@@ -71,13 +69,6 @@ const VoterManagement = () => {
             setAlertType("success");
         }
         response().catch(console.error);
-    };
-
-    const handleEditVoter = (e) => {
-        e.preventDefault();
-        setMessage("سرویس ویرایش راه انداری نشده است")
-        setOpenAlert(true);
-        setAlertType("error");
     };
 
     const handleSelectedVoter = (e, id) => {
@@ -150,7 +141,7 @@ const VoterManagement = () => {
                                     <TableHead sx={{background: 'silver'}}>
                                         <TableRow>
                                             <TableCell sx={{pl: 2}}>ردیف</TableCell>
-                                            <TableCell>نام و نام خانوادگی</TableCell>
+                                            <TableCell sx={{pl: 1}}>نام</TableCell>
                                             <TableCell>کد ملی</TableCell>
                                             <TableCell>شماره تلفن</TableCell>
                                             <TableCell>وضعیت</TableCell>
@@ -168,7 +159,7 @@ const VoterManagement = () => {
                                                     <TableCell>{v.nationalCode}</TableCell>
                                                     <TableCell>{v.phoneNumber}</TableCell>
                                                     <TableCell>{v.isActive === true ? "فعال" : "غیر فعال"}</TableCell>
-                                                    <TableCell sx={{pr: 1}}>
+                                                    <TableCell sx={{pr: 3}}>
                                                         <Stack direction="row" justifyContent="flex-end">
                                                             <Tooltip title="حذف">
                                                                 <VoterIcon
@@ -194,11 +185,6 @@ const VoterManagement = () => {
                                                                             onClick={deleteVoter}>بله</Button>
                                                                 </DialogActions>
                                                             </Dialog>
-                                                            <Tooltip title="ویرایش">
-                                                                <VoterIcon onClick={(e) => handleEditVoter(e, v.id)}>
-                                                                    <EditIcon fontSize="medium"/>
-                                                                </VoterIcon>
-                                                            </Tooltip>
                                                         </Stack>
                                                     </TableCell>
                                                 </TableRow>
@@ -213,13 +199,10 @@ const VoterManagement = () => {
                                 voter.map((v, i) =>
                                     <Section key={v.id}>
                                         <Stack direction="row">
-                                            <RowBox>
-                                                <RowNumber>{(pageNumber - 1) * 10 + (i + 1)}</RowNumber>
-                                            </RowBox>
+                                            <RowNumber>{(pageNumber - 1) * 10 + (i + 1)}.</RowNumber>
                                             <Grid2 xs={12}>
                                                 <Stack direction="row" justifyContent="space-between" sx={{mb: '4px'}}>
-                                                    <TitleText>نام و نام
-                                                        خانوادگی:&nbsp;{v.firstName} {v.lastName}</TitleText>
+                                                    <TitleText>نام:&nbsp;{v.firstName} {v.lastName}</TitleText>
                                                 </Stack>
                                                 <Stack direction={{xs: 'column', sm: 'row'}} sx={{mb: '4px'}}>
                                                     <Grid2 xs={6}>
@@ -239,10 +222,10 @@ const VoterManagement = () => {
                                                     </VoterText>
                                                 </Stack>
                                             </Grid2>
-                                            <Stack direction="column" justifyContent="space-around">
-                                                <VoterButton variant="contained"
-                                                             onClick={(e) => handleSelectedVoter(e, v.id)}>حذف
-                                                </VoterButton>
+                                            <Stack direction="column" justifyContent="center">
+                                                <VoterIcon onClick={(e) => handleSelectedVoter(e, v.id)}>
+                                                    <DeleteIcon fontSize="medium"/>
+                                                </VoterIcon>
                                                 <Dialog open={openDeleteDialog} onClose={handleCloseDialog}>
                                                     <DialogTitle id="alert-dialog-title">
                                                         {"اخطار!"}
@@ -259,10 +242,6 @@ const VoterManagement = () => {
                                                         <Button color="error" onClick={deleteVoter}>بله</Button>
                                                     </DialogActions>
                                                 </Dialog>
-                                                <VoterButton variant="contained"
-                                                             onClick={(e) => handleEditVoter(e, v.id)}>
-                                                    ویرایش
-                                                </VoterButton>
                                             </Stack>
                                         </Stack>
                                     </Section>

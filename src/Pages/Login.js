@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {Alert, Box, IconButton, InputAdornment, Snackbar, Stack, TextField, Typography} from "@mui/material";
 import {BackArrow, HeaderText, LoginButton, LoginLink, MainSection, Pic} from "../StyledTags/LoginTags";
-import {LoginService} from "../Services/UserServices";
+import {LoginService, ProfileService} from "../Services/UserServices";
 import Arrow from '../images/Arrow - Left.png';
 import Stroke from '../images/Stroke.png';
 import Lock from '../images/Lock.png';
@@ -11,6 +11,7 @@ import Ellipse653 from '../images/Ellipse653.png';
 import Ellipse652 from '../images/Ellipse652.png';
 import Ellipse654 from '../images/Ellipse654.png';
 import CloseIcon from "@mui/icons-material/Close";
+import {UserInfo} from "../Services/info";
 
 const Login = () => {
 

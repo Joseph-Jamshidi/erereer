@@ -2,10 +2,11 @@ import React, {useEffect, useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {MainDashboard, Section, SubmitButton, Text} from "../StyledTags/UserProfileTags";
 import Dashboard from "../Layout/Dashboard";
-import {Alert, IconButton, Snackbar, Stack, TextField} from "@mui/material";
+import {Alert, Avatar, Badge, Button, Card, IconButton, Snackbar, Stack, TextField, Typography} from "@mui/material";
 import {EditProfileService, ProfileService} from "../Services/UserServices";
 import {UserInfo} from "../Services/info";
 import CloseIcon from "@mui/icons-material/Close";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
 
 const UserProfile = () => {
 
@@ -16,6 +17,8 @@ const UserProfile = () => {
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
     const [message, setMessage] = useState('');
+    const [attachments, setAttachments] = useState([]);
+    const [isUpdating, setIsUpdating] = useState(false);
 
 
     useEffect(() => {
@@ -26,9 +29,10 @@ const UserProfile = () => {
             setLastName(info.lastName);
             setNationalCode(info.nationalCode);
             setPhoneNumber(info.phoneNumber);
+            setAttachments(info.attachments);
         };
         response().catch(console.error);
-    }, []);
+    }, [isUpdating]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -37,15 +41,71 @@ const UserProfile = () => {
             lastName: lastName,
             nationalCode: nationalCode,
             gender: "Male",
+            attachments: attachments
         };
         const response = async () => {
             await EditProfileService(editedUser);
-            setMessage("اطلاعات کاربری با موفقیت تغییر یافت")
-            setOpenAlert(true)
-            setAlertType("success")
-            localStorage.clear();
+            setMessage("اطلاعات کاربری با موفقیت تغییر یافت");
+            setOpenAlert(true);
+            setAlertType("success");
+            setIsUpdating(!isUpdating);
+            setTimeout(() => {
+                setOpenAlert(false);
+            }, 4000);
         };
         response().catch(console.error);
+    };
+
+    const handleNationalPhoto = async (e) => {
+        const base64FileContent = await toBase64(e.target.files[0]);
+        const nationalPhotoAttachment = {
+            base64: base64FileContent,
+            extension: e.target.files[0].name.split('.').slice(-1)[0],
+            name: e.target.files[0].name.split('.')[0],
+            description: '',
+            userId: UserInfo.userId,
+            type: "NationalCard",
+        };
+        setAttachments([...attachments, nationalPhotoAttachment]);
+    };
+
+    const handleIdentity = async (e) => {
+        const base64FileContent = await toBase64(e.target.files[0]);
+        const nationalPhotoAttachment = {
+            base64: base64FileContent,
+            extension: e.target.files[0].name.split('.').slice(-1)[0],
+            name: e.target.files[0].name.split('.')[0],
+            description: '',
+            userId: UserInfo.userId,
+            type: "Identity",
+        };
+        setAttachments([...attachments, nationalPhotoAttachment]);
+    };
+
+
+    const handlePersonalPhoto = async (e) => {
+        const base64FileContent = await toBase64(e.target.files[0]);
+        const personalPhotoAttachment = {
+            base64: base64FileContent,
+            extension: e.target.files[0].name.split('.').slice(-1)[0],
+            name: e.target.files[0].name.split('.')[0],
+            description: '',
+            userId: UserInfo.userId,
+            type: "PersonalPhoto",
+        };
+        setAttachments([...attachments, personalPhotoAttachment]);
+    };
+
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onerror = error => reject(error);
+        reader.onload = () => resolve(reader.result);
+    });
+
+    const handleDelete = (id) => {
+        const imageList = attachments.filter((i) => i.id !== id);
+        setAttachments(imageList);
     };
 
     const handleCloseAlert = (e, reason) => {
@@ -53,7 +113,6 @@ const UserProfile = () => {
             return
         }
         setOpenAlert(false)
-        window.location.href = "/"
     };
 
     const closeIcon = (
@@ -61,6 +120,7 @@ const UserProfile = () => {
             <CloseIcon/>
         </IconButton>
     );
+
 
     return (
         <>
@@ -71,7 +131,7 @@ const UserProfile = () => {
                     </MainDashboard>
                 </Grid2>
                 <Grid2 md={9} lg={10} sx={{width: '100%', pl: {md: '10px'}, mb: '5%'}}>
-                    <Grid2 sx={{background: '#EAF8FF', borderRadius: '4px', border: '1px solid #425C81'}}>
+                    <Stack sx={{background: '#EAF8FF', borderRadius: '4px', border: '1px solid #425C81'}}>
                         <Section>
                             <Text>اطلاعات کاربری</Text>
                             <Grid2 xs={12}>
@@ -111,6 +171,83 @@ const UserProfile = () => {
                                     </Grid2>
                                 </Stack>
                             </Grid2>
+                            <Stack direction={{xs: 'column', sm: "row"}} justifyContent="space-start">
+                                <Grid2 xs={12} sm={6}>
+                                    <Card sx={{width: "fit-content", my: 2, py: 1, pr: 1}}>
+                                        <Stack direction="row" alignItems="center" spacing={3}>
+                                            <Button sx={{background: '#425C81', pr: 0, pl: 1, m: 1}} variant="contained"
+                                                    component="label">
+                                                <PhotoCamera/>
+                                                <Typography sx={{mx: 2}}>عکس کارت ملی</Typography>
+                                                <input hidden accept="image/*" multiple type="file"
+                                                       onChange={handleNationalPhoto}/>
+                                            </Button>
+                                            {
+                                                (attachments || []).filter((img) => img.type === "NationalCard").map((image) =>
+                                                    <Badge key={image.id} badgeContent={
+                                                        <IconButton onClick={() => handleDelete(image.id)}>
+                                                            <CloseIcon/>
+                                                        </IconButton>
+                                                    }>
+                                                        <Avatar variant="rounded"
+                                                                src={image.base64}/>
+                                                    </Badge>
+                                                )
+                                            }
+                                        </Stack>
+                                    </Card>
+                                </Grid2>
+                                <Grid2 xs={12} sm={6}>
+                                    <Card sx={{width: "fit-content", my: 2, py: 1, pr: 1}}>
+                                        <Stack direction="row" alignItems="center" spacing={3}>
+                                            <Button sx={{background: '#425C81', pr: 0, pl: 1, m: 1}} variant="contained"
+                                                    component="label">
+                                                <PhotoCamera/>
+                                                <Typography sx={{mx: 2}}>عکس شناسنامه</Typography>
+                                                <input hidden accept="image/*" multiple type="file"
+                                                       onChange={handleIdentity}/>
+                                            </Button>
+                                            {
+                                                (attachments || []).filter((img) => img.type === "Identity").map((image) =>
+                                                    <Badge key={image.id} badgeContent={
+                                                        <IconButton onClick={() => handleDelete(image.id)}>
+                                                            <CloseIcon/>
+                                                        </IconButton>
+                                                    }>
+                                                        <Avatar variant="rounded"
+                                                                src={image.base64}/>
+                                                    </Badge>
+                                                )
+                                            }
+                                        </Stack>
+                                    </Card>
+                                </Grid2>
+                            </Stack>
+                            <Grid2 xs={12} sm={6}>
+                                <Card sx={{width: "fit-content", my: 2, py: 1, pr: 1}}>
+                                    <Stack direction="row" alignItems="center" spacing={3}>
+                                        <Button sx={{background: '#425C81', pr: 0, pl: 1, m: 1}} variant="contained"
+                                                component="label">
+                                            <PhotoCamera/>
+                                            <Typography sx={{mx: 2}}>عکس پروفابل</Typography>
+                                            <input hidden accept="image/*" multiple type="file"
+                                                   onChange={handlePersonalPhoto}/>
+                                        </Button>
+                                        {
+                                            (attachments || []).filter((img) => img.type === "PersonalPhoto").map((image) =>
+                                                <Badge key={image.id} badgeContent={
+                                                    <IconButton onClick={() => handleDelete(image.id)}>
+                                                        <CloseIcon/>
+                                                    </IconButton>
+                                                }>
+                                                    <Avatar variant="rounded"
+                                                            src={image.base64}/>
+                                                </Badge>
+                                            )
+                                        }
+                                    </Stack>
+                                </Card>
+                            </Grid2>
                             <Grid2>
                                 <SubmitButton variant="contained" onClick={handleSubmit}>ثبت</SubmitButton>
                             </Grid2>
@@ -123,7 +260,7 @@ const UserProfile = () => {
                         >
                             <Alert severity={alertType} action={closeIcon}>{message}</Alert>
                         </Snackbar>
-                    </Grid2>
+                    </Stack>
                 </Grid2>
             </Grid2>
         </>
