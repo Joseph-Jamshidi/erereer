@@ -11,7 +11,6 @@ import Ellipse653 from '../images/Ellipse653.png';
 import Ellipse652 from '../images/Ellipse652.png';
 import Ellipse654 from '../images/Ellipse654.png';
 import CloseIcon from "@mui/icons-material/Close";
-import {UserInfo} from "../Services/info";
 
 const Login = () => {
 
@@ -34,6 +33,9 @@ const Login = () => {
                 setOpenAlert(true);
                 setMessage("خوش آمدید");
                 setAlertType("success");
+                const personalImage = await ProfileService(result.userId);
+                const personalInfo = personalImage.data;
+                localStorage.setItem("Profile", JSON.stringify(personalInfo.attachments));
                 setTimeout(() => {
                     window.location.href = "./";
                 }, 4000);

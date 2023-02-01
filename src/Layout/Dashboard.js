@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {List, ListItemButton, Stack} from "@mui/material";
 import {
     CollapseMenu,
@@ -19,42 +19,31 @@ import Profile from "../images/Profile.png";
 import Document from "../images/Document.png";
 import circle2 from "../images/circle2.png";
 import {UserInfo} from "../Services/info";
-import {ProfileService} from "../Services/UserServices";
 
 const Dashboard = (props) => {
 
     const [openMyElectionCollapse, setOpenMyElectionCollapse] = useState(false);
-    const [attachments, setAttachments] = useState([]);
-
-
-    useEffect(() => {
-        const response = async () => {
-            const result = await ProfileService(UserInfo.userId);
-            const info = result.data
-            setAttachments(info.attachments);
-        };
-        response().catch(console.error);
-    }, []);
 
     const handleCollapse = () => {
         setOpenMyElectionCollapse(!openMyElectionCollapse);
     };
 
     const handleCloseDrawer = () => {
-        props.setOpenDrawerDashboard(false);
+        // props.setOpenDrawerDashboard(false);
     };
 
     const logOut = () => {
         localStorage.clear();
         window.location.href = "/";
-        props.setOpenDrawerDashboard(false);
+        // props.setOpenDrawerDashboard(false);
     };
 
     return (
         <>
             <Stack direction="column" sx={{my: {md: '20px'}}}>
                 <Stack justifyContent="center" alignItems="center" spacing={{xs: 1, md: 4}}>
-                    <Pic3 src={(attachments || [])?.find((img) => img.type === "PersonalPhoto")?.base64} alt=""/>
+                    <Pic3 src={(UserInfo.profile || [])?.filter((img) => img.type === "PersonalPhoto")[0]?.base64}
+                          alt=""/>
                     <UserNameText>{UserInfo.firstName} {UserInfo.lastName}</UserNameText>
                 </Stack>
                 <Stack sx={{my: '8px', mx: '12px'}}>

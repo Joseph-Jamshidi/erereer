@@ -1,4 +1,4 @@
-import {MenuItem, styled} from "@mui/material";
+import {Box, MenuItem, styled} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
 
 export const NavItem = styled(MenuItem)`
@@ -100,5 +100,12 @@ export const CollapseLink = styled(MenuItems)`
   line-height: 30px;
   color: black;
   height: auto;
+`;
+
+export const ProgressBars = styled(Box)`
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 `;
 

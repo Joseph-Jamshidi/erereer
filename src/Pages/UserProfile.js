@@ -49,6 +49,11 @@ const UserProfile = () => {
             setOpenAlert(true);
             setAlertType("success");
             setIsUpdating(!isUpdating);
+
+            localStorage.removeItem("Profile");
+
+            localStorage.setItem("Profile", JSON.stringify(editedUser.attachments))
+
             setTimeout(() => {
                 setOpenAlert(false);
             }, 4000);
@@ -121,6 +126,7 @@ const UserProfile = () => {
         </IconButton>
     );
 
+    console.log(attachments)
 
     return (
         <>
@@ -183,8 +189,8 @@ const UserProfile = () => {
                                                        onChange={handleNationalPhoto}/>
                                             </Button>
                                             {
-                                                (attachments || []).filter((img) => img.type === "NationalCard").map((image) =>
-                                                    <Badge key={image.id} badgeContent={
+                                                (attachments || []).filter((img) => img.type === "NationalCard").map((image, index) =>
+                                                    <Badge key={index} badgeContent={
                                                         <IconButton onClick={() => handleDelete(image.id)}>
                                                             <CloseIcon/>
                                                         </IconButton>
@@ -208,8 +214,8 @@ const UserProfile = () => {
                                                        onChange={handleIdentity}/>
                                             </Button>
                                             {
-                                                (attachments || []).filter((img) => img.type === "Identity").map((image) =>
-                                                    <Badge key={image.id} badgeContent={
+                                                (attachments || []).filter((img) => img.type === "Identity").map((image, index) =>
+                                                    <Badge key={index} badgeContent={
                                                         <IconButton onClick={() => handleDelete(image.id)}>
                                                             <CloseIcon/>
                                                         </IconButton>
@@ -234,8 +240,8 @@ const UserProfile = () => {
                                                    onChange={handlePersonalPhoto}/>
                                         </Button>
                                         {
-                                            (attachments || []).filter((img) => img.type === "PersonalPhoto").map((image) =>
-                                                <Badge key={image.id} badgeContent={
+                                            (attachments || []).filter((img) => img.type === "PersonalPhoto").map((image, index) =>
+                                                <Badge key={index} badgeContent={
                                                     <IconButton onClick={() => handleDelete(image.id)}>
                                                         <CloseIcon/>
                                                     </IconButton>

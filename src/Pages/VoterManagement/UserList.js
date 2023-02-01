@@ -92,8 +92,6 @@ const UserList = (props) => {
         }
     };
 
-    console.log(chosenUsers)
-
     const handleCloseAlert = (e, reason) => {
         if (reason === "clickaway") {
             return

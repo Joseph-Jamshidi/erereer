@@ -7,15 +7,20 @@ import {
     NavItemReg,
     CollapseItems,
     NavItemRegCollapse,
-    CollapseLink, NavItemPanel
+    CollapseLink, NavItemPanel, ProgressBars
 } from "../StyledTags/HeaderTags";
 import DrawerDashboard from "./DrawerDashboard";
 import {token, UserInfo} from "../Services/info";
+import LinearProgress from '@mui/material/LinearProgress';
+
 
 const Header = () => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [showProgressBar, setShowProgressBar] = React.useState("block");
+
     const open = Boolean(anchorEl);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -35,6 +40,11 @@ const Header = () => {
 
     return (
         <>
+            <ProgressBars>
+                <Box sx={{width: '100%'}} display={showProgressBar}>
+                    <LinearProgress variant="query"/>
+                </Box>
+            </ProgressBars>
             <AppBar component="nav"
                     sx={{background: '#A5D4DE', width: '98%', mx: 'auto', my: '8px', borderRadius: '10px'}}
                     position="relative">
