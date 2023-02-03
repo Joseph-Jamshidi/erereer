@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Header from "./Layout/Header";
 import "./Styles/App.css";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
@@ -20,18 +20,31 @@ import Vote from "./Pages/Vote/Vote";
 import VoteHistory from "./Pages/Vote/VoteHistory";
 import ForgetPassword from "./Pages/PasswordRecovery/ForgetPassword";
 import SetNewPassword from "./Pages/PasswordRecovery/SetNewPassword";
+import {Box} from "@mui/material";
+import LinearProgress from "@mui/material/LinearProgress";
+import {ProgressBars} from "./StyledTags/HeaderTags";
 
 const cacheRtl = createCache({
     key: 'muirtl',
     stylisPlugins: [prefixer, rtlPlugin],
 });
 
+
+
 const App = () => {
+
+    const [showProgressBar, setShowProgressBar] = useState("block");
+
 
     return (
         <>
             <CacheProvider value={cacheRtl}>
                 <BrowserRouter>
+                    <ProgressBars>
+                        <Box sx={{width: '100%'}} display={showProgressBar}>
+                            <LinearProgress variant="query"/>
+                        </Box>
+                    </ProgressBars>
                     <Header/>
                     <Routes>
                         <Route path="/" element={<HomePage/>}/>
