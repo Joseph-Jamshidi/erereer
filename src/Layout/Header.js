@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {AppBar, Box, Menu, Stack, Toolbar} from "@mui/material";
 import DropdownMenu from "./DropdownMenu";
 import {
@@ -7,11 +7,10 @@ import {
     NavItemReg,
     CollapseItems,
     NavItemRegCollapse,
-    CollapseLink, NavItemPanel, ProgressBars
+    CollapseLink, NavItemPanel
 } from "../StyledTags/HeaderTags";
 import DrawerDashboard from "./DrawerDashboard";
 import {token, UserInfo} from "../Services/info";
-import LinearProgress from '@mui/material/LinearProgress';
 
 
 const Header = () => {

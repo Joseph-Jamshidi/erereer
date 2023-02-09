@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Dashboard from "../../Layout/Dashboard";
 import {
@@ -25,6 +25,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import AdapterJalali from '@date-io/date-fns-jalali';
 import {DatePicker as Joseph} from '@mui/x-date-pickers/DatePicker';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import ProgressBarContext from "../../Contexts/PublickContext";
 
 const CreateElection = () => {
 
@@ -39,11 +40,13 @@ const CreateElection = () => {
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
+
+    const {setShowProgressBar} = useContext(ProgressBarContext);
     const params = useParams();
 
     useEffect(() => {
         if (params.id) {
-            //Get Election From server and set it to state
+            setShowProgressBar("block");
             const response = async () => {
                 const result = await ChosenElectionService(params.id);
                 const selected = result.data;
@@ -55,12 +58,14 @@ const CreateElection = () => {
                 setOwnerId(selected.ownerId);
                 setStartDate(selected.startDate);
                 setEndDate(selected.endDate);
+                setShowProgressBar("none");
             }
             response().catch(console.error);
         }
     }, []);
 
     const handleCreate = (e) => {
+        setShowProgressBar("block");
         e.preventDefault();
         const createElection = {
             name: name,
@@ -80,10 +85,12 @@ const CreateElection = () => {
                     setMessage("ویرایش انجام شد")
                     setOpenAlert(true);
                     setAlertType("success");
+                    setShowProgressBar("none");
                 } else {
                     setMessage("لطفاً فرم را کامل کنید")
                     setOpenAlert(true);
                     setAlertType("error");
+                    setShowProgressBar("none");
                 }
             };
             response().catch(console.error);
@@ -99,10 +106,12 @@ const CreateElection = () => {
                     setUserVoteCount("");
                     setIsEnabled(false);
                     setIsVoterHidden(false);
+                    setShowProgressBar("none");
                 } else {
                     setMessage("لطفاً فرم را کامل کنید")
                     setOpenAlert(true);
                     setAlertType("error");
+                    setShowProgressBar("none");
                 }
             }
             response().catch(console.error);
@@ -202,7 +211,7 @@ const CreateElection = () => {
                                             <Grid2 xs={12} sm={6}>
                                                 <LocalizationProvider dateAdapter={AdapterJalali}>
                                                     <Joseph
-                                                        label="تاریخ شروع انتخابات"
+                                                        label="تاریخ پایان انتخابات"
                                                         mask="____/__/__"
                                                         value={endDate}
                                                         onChange={onEndDateHandler}

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
     Alert, Avatar, Badge,
     Box,
@@ -13,6 +13,7 @@ import {AddCandidateService, EditCandidateService} from "../../Services/Candidat
 import {useParams} from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import ProgressBarContext from "../../Contexts/PublickContext";
 
 
 const AddCandidateForm = (props) => {
@@ -25,6 +26,7 @@ const AddCandidateForm = (props) => {
     const [alertType, setAlertType] = useState("info");
     const [attachments, setAttachments] = useState([]);
 
+    const {setShowProgressBar} = useContext(ProgressBarContext);
     const params = useParams();
 
     useEffect(() => {
@@ -37,6 +39,7 @@ const AddCandidateForm = (props) => {
     }, [props.selectedCandidate]);
 
     const handleSubmit = (e) => {
+        setShowProgressBar("block");
         e.preventDefault();
         const addCandidate = {
             name: name,
@@ -53,6 +56,7 @@ const AddCandidateForm = (props) => {
                 setMessage(result.message);
                 setOpenAlert(true);
                 setAlertType("success");
+                setShowProgressBar("none");
                 if (result.statusCode === 'Success') {
                     handleCloseForm();
                     props.setIsUpdating(!props.isUpdating);
@@ -65,6 +69,7 @@ const AddCandidateForm = (props) => {
                 setMessage(result.message);
                 setOpenAlert(true);
                 setAlertType("success");
+                setShowProgressBar("none");
                 if (result.statusCode === 'Success') {
                     handleCloseForm();
                     props.setIsUpdating(!props.isUpdating);

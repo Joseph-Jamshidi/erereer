@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
-    Alert,
+    Alert, Avatar,
     Box,
     Checkbox,
     FormControl,
@@ -23,17 +23,20 @@ import {
     SubmitButton,
     TextBox
 } from "../../StyledTags/VoteTags";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import Dashboard from "../../Layout/Dashboard";
 import icon from "../../images/icon.png"
 import {VotingService} from "../../Services/VoteServices";
 import CloseIcon from '@mui/icons-material/Close';
+import ProgressBarContext from "../../Contexts/PublickContext";
+import {toPersianNumber} from "../../Common/Utitlity";
 
 const Vote = () => {
 
     const [selectedElection, setSelectedElection] = useState([]);
     const [candidateList, setCandidateList] = useState([]);
     const [chosenCandidates, setChosenCandidates] = useState([]);
+    const [availableVoteCount, setAvailableVoteCount] = useState('');
     const [searchWord, setSearchWord] = useState('');
     const [pageSize, setPageSize] = useState(10);
     const [pageNumber, setPageNumber] = useState(1);
@@ -41,16 +44,23 @@ const Vote = () => {
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
+
+    const {setShowProgressBar} = useContext(ProgressBarContext);
     const params = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
+        setShowProgressBar("block");
         const response = async () => {
             const ElectionResult = await ChosenElectionService(params.id);
-            setSelectedElection(ElectionResult.data);
+            const ElectionResultData = ElectionResult.data;
+            setSelectedElection(ElectionResultData);
+            setAvailableVoteCount(toPersianNumber(ElectionResultData.userVoteCount));
 
             const getCandidate = await GetCandidateService(params.id, pageNumber, pageSize);
             setCandidateList(getCandidate.data);
-            setPageCount(getCandidate.total)
+            setPageCount(getCandidate.total);
+            setShowProgressBar("none");
         };
         response().catch(console.error);
 
@@ -65,6 +75,7 @@ const Vote = () => {
     };
 
     const handleSubmit = (e) => {
+        setShowProgressBar("block");
         e.preventDefault();
         const voteInfo = {
             electionId: params.id,
@@ -76,6 +87,7 @@ const Vote = () => {
             setMessage("تعداد کاندید های انتخابی بیشتر از حد مجاز است")
             setOpenAlert(true);
             setAlertType("error");
+            setShowProgressBar("none");
         } else {
             const response = async () => {
                 await VotingService(voteInfo);
@@ -83,6 +95,10 @@ const Vote = () => {
                 setMessage("رأی شما با موفقیت ثبت شد");
                 setAlertType("success");
                 setChosenCandidates([]);
+                setShowProgressBar("none");
+                setTimeout(() => {
+                    handleCloseAlert();
+                }, 4000)
             }
             response().catch(console.error);
         }
@@ -106,6 +122,7 @@ const Vote = () => {
             return
         }
         setOpenAlert(false);
+        navigate("../");
     };
 
     const closeIcon = (
@@ -125,7 +142,7 @@ const Vote = () => {
                 <Grid2 md={9} lg={10} sx={{width: '100%', pl: {md: '10px'}}}>
                     <Grid2 sx={{borderRadius: '4px', border: '1px solid #425C81'}}
                            display="flex" justifyContent="center">
-                        <Grid2 xs={6}>
+                        <Grid2 xs={12} sm={8} md={10} lg={6}>
                             <Box component="form" onSubmit={handleSubmit} sx={{p: 3}}>
                                 <Grid2 display="flex" justifyContent="center" alignItems="center">
                                     <SearchBox>
@@ -144,12 +161,13 @@ const Vote = () => {
                                 </Grid2>
                                 <TextBox>
                                     تعداد رأی مجاز برای هر کاربر:&nbsp;
-                                    {selectedElection.userVoteCount}
+                                    {availableVoteCount}
                                 </TextBox>
                                 {
                                     searchData.map((c, i) =>
-                                        <CandidateBox key={c.id} direction="row" alignItems="center">
-                                            <NumberBox>{(pageNumber - 1) * 10 + (i + 1)}</NumberBox>
+                                        <CandidateBox key={c.id} direction="row" alignItems="center" spacing={1}>
+                                            <NumberBox>{toPersianNumber((pageNumber - 1) * 10 + (i + 1))}</NumberBox>
+                                            <Avatar src={(c.attachments || [])[0]?.base64}/>
                                             <NameBox sx={{flex: 1}}>{c.name}</NameBox>
                                             <Checkbox
                                                 onChange={(e) => handleChoose(e, c.id)}

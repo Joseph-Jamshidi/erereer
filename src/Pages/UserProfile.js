@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {MainDashboard, Section, SubmitButton, Text} from "../StyledTags/UserProfileTags";
 import Dashboard from "../Layout/Dashboard";
@@ -7,6 +7,7 @@ import {EditProfileService, ProfileService} from "../Services/UserServices";
 import {UserInfo} from "../Services/info";
 import CloseIcon from "@mui/icons-material/Close";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import ProgressBarContext from "../Contexts/PublickContext";
 
 const UserProfile = () => {
 
@@ -20,8 +21,11 @@ const UserProfile = () => {
     const [attachments, setAttachments] = useState([]);
     const [isUpdating, setIsUpdating] = useState(false);
 
+    const {setShowProgressBar} = useContext(ProgressBarContext);
+
 
     useEffect(() => {
+        setShowProgressBar("block");
         const response = async () => {
             const result = await ProfileService(UserInfo.userId);
             const info = result.data
@@ -30,11 +34,13 @@ const UserProfile = () => {
             setNationalCode(info.nationalCode);
             setPhoneNumber(info.phoneNumber);
             setAttachments(info.attachments);
+            setShowProgressBar("none");
         };
         response().catch(console.error);
     }, [isUpdating]);
 
     const handleSubmit = (e) => {
+        setShowProgressBar("block");
         e.preventDefault();
         const editedUser = {
             firstName: firstName,
@@ -51,12 +57,17 @@ const UserProfile = () => {
             setIsUpdating(!isUpdating);
 
             localStorage.removeItem("Profile");
+            localStorage.removeItem("firstName");
+            localStorage.removeItem("lastName");
 
-            localStorage.setItem("Profile", JSON.stringify(editedUser.attachments))
+            localStorage.setItem("Profile", JSON.stringify(editedUser.attachments));
+            localStorage.setItem("firstName", editedUser.firstName);
+            localStorage.setItem("lastName", editedUser.lastName);
 
             setTimeout(() => {
-                setOpenAlert(false);
+                handleCloseAlert();
             }, 4000);
+            setShowProgressBar("none");
         };
         response().catch(console.error);
     };
@@ -117,16 +128,16 @@ const UserProfile = () => {
         if (reason === "clickaway") {
             return
         }
-        setOpenAlert(false)
+        setOpenAlert(false);
+        window.location.href="./UserProfile"
     };
 
     const closeIcon = (
-        <IconButton sx={{p: 0}} onClick={() => handleCloseAlert}>
+        <IconButton sx={{p: 0}} onClick={(e) => handleCloseAlert(e)}>
             <CloseIcon/>
         </IconButton>
     );
 
-    console.log(attachments)
 
     return (
         <>

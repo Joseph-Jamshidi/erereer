@@ -23,48 +23,50 @@ import SetNewPassword from "./Pages/PasswordRecovery/SetNewPassword";
 import {Box} from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
 import {ProgressBars} from "./StyledTags/HeaderTags";
+import VoteResult from "./Pages/Vote/VoteResult";
+import ProgressBarContext from "./Contexts/PublickContext";
 
 const cacheRtl = createCache({
     key: 'muirtl',
     stylisPlugins: [prefixer, rtlPlugin],
 });
 
-
-
 const App = () => {
 
-    const [showProgressBar, setShowProgressBar] = useState("block");
-
+    const [showProgressBar, setShowProgressBar] = useState("none");
 
     return (
         <>
-            <CacheProvider value={cacheRtl}>
-                <BrowserRouter>
-                    <ProgressBars>
-                        <Box sx={{width: '100%'}} display={showProgressBar}>
-                            <LinearProgress variant="query"/>
-                        </Box>
-                    </ProgressBars>
-                    <Header/>
-                    <Routes>
-                        <Route path="/" element={<HomePage/>}/>
-                        <Route path="/Login" element={<Login/>}/>
-                        <Route path="/Register" element={<Register/>}/>
-                        <Route path="/RegisterVerification" element={<RegisterVerification/>}/>
-                        <Route path="/CreateElection" element={<CreateElection/>}/>
-                        <Route path="/CreateElection/:id" element={<CreateElection/>}/>
-                        <Route path="/ElectionsInProgress" element={<ElectionsInProgress/>}/>
-                        <Route path="/CandidateManagement/:id" element={<CandidateManagement/>}/>
-                        <Route path="/VoterManagement/:id" element={<VoterManagement/>}/>
-                        <Route path="/UserProfile" element={<UserProfile/>}/>
-                        <Route path="/ResetPassword" element={<ResetPassword/>}/>
-                        <Route path="/ForgetPassword" element={<ForgetPassword/>}/>
-                        <Route path="/SetNewPassword" element={<SetNewPassword/>}/>
-                        <Route path="/Vote/:id" element={<Vote/>}/>
-                        <Route path="/VoteHistory" element={<VoteHistory/>}/>
-                    </Routes>
-                </BrowserRouter>
-            </CacheProvider>
+            <ProgressBarContext.Provider value={{setShowProgressBar}}>
+                <CacheProvider value={cacheRtl}>
+                    <BrowserRouter>
+                        <ProgressBars>
+                            <Box sx={{width: '100%'}} display={showProgressBar}>
+                                <LinearProgress variant="query"/>
+                            </Box>
+                        </ProgressBars>
+                        <Header/>
+                        <Routes>
+                            <Route path="/" element={<HomePage/>}/>
+                            <Route path="/Login" element={<Login/>}/>
+                            <Route path="/Vote/:id" element={<Vote/>}/>
+                            <Route path="/Register" element={<Register/>}/>
+                            <Route path="/VoteResult/:id" element={<VoteResult/>}/>
+                            <Route path="/VoteHistory" element={<VoteHistory/>}/>
+                            <Route path="/UserProfile" element={<UserProfile/>}/>
+                            <Route path="/ResetPassword" element={<ResetPassword/>}/>
+                            <Route path="/SetNewPassword" element={<SetNewPassword/>}/>
+                            <Route path="/ForgetPassword" element={<ForgetPassword/>}/>
+                            <Route path="/CreateElection" element={<CreateElection/>}/>
+                            <Route path="/CreateElection/:id" element={<CreateElection/>}/>
+                            <Route path="/VoterManagement/:id" element={<VoterManagement/>}/>
+                            <Route path="/ElectionsInProgress" element={<ElectionsInProgress/>}/>
+                            <Route path="/RegisterVerification" element={<RegisterVerification/>}/>
+                            <Route path="/CandidateManagement/:id" element={<CandidateManagement/>}/>
+                        </Routes>
+                    </BrowserRouter>
+                </CacheProvider>
+            </ProgressBarContext.Provider>
         </>
     );
 };

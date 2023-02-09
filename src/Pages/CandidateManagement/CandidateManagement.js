@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {
     AddTextButton, CandidateButton, CandidateIcon, CandidateText,
@@ -26,6 +26,8 @@ import {useParams} from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
+import ProgressBarContext from "../../Contexts/PublickContext";
+import {toPersianNumber} from "../../Common/Utitlity";
 
 const CandidateManagement = () => {
 
@@ -45,19 +47,24 @@ const CandidateManagement = () => {
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
+
+    const {setShowProgressBar} = useContext(ProgressBarContext);
     const editRef = useRef(null);
     const params = useParams();
 
     useEffect(() => {
+        setShowProgressBar("block");
         const response = async () => {
             const result = await GetCandidateService(params.id, pageNumber, pageSize);
             setCandidate(result.data);
             setPageCount(result.total);
+            setShowProgressBar("none");
         }
         response().catch(console.error);
     }, [pageSize, pageNumber, isUpdating]);
 
     const deleteCandidate = (e) => {
+        setShowProgressBar("block");
         e.preventDefault();
         const response = async () => {
             const result = await DeleteCandidateService(delId);
@@ -67,17 +74,20 @@ const CandidateManagement = () => {
             setIsUpdating(!isUpdating);
             setOpenDeleteDialog(false);
             setDelId("");
+            setShowProgressBar("none");
         }
         response().catch(console.error);
     };
 
     const editVoter = (e, id) => {
+        setShowProgressBar("block");
         e.preventDefault();
         const response = async () => {
             const result = await ChosenCandidateService(id);
-            const selectedInfo = result.data
-            setSelectedCandidate(selectedInfo)
-            editRef.current.click()
+            const selectedInfo = result.data;
+            setSelectedCandidate(selectedInfo);
+            editRef.current.click();
+            setShowProgressBar("none");
         }
         response().catch(console.error);
     };
@@ -147,12 +157,12 @@ const CandidateManagement = () => {
                                         candidate.map((c, i) =>
                                             <TableRow key={c.id}>
                                                 <TableCell
-                                                    sx={{pl: 2}}>{(pageNumber - 1) * 10 + (i + 1)}</TableCell>
+                                                    sx={{pl: 2}}>{toPersianNumber((pageNumber - 1) * 10 + (i + 1))}</TableCell>
                                                 <TableCell>
                                                     <Avatar src={(c.attachments || [])[0]?.base64}/>
                                                 </TableCell>
                                                 <TableCell align="left">{c.name}</TableCell>
-                                                <TableCell>{c.description}</TableCell>
+                                                <TableCell>{toPersianNumber(c.description)}</TableCell>
                                                 <TableCell>{c.isEnabled === true ? "فعال" : "غیر فعال"}</TableCell>
                                                 <TableCell sx={{pr: 1}}>
                                                     <Stack direction="row" justifyContent="flex-end">
@@ -198,7 +208,7 @@ const CandidateManagement = () => {
                                 candidate.map((c, i) =>
                                     <Section key={c.id}>
                                         <Stack direction="row">
-                                            <RowNumber>{(pageNumber - 1) * 10 + (i + 1)}.</RowNumber>
+                                            <RowNumber>{toPersianNumber((pageNumber - 1) * 10 + (i + 1))}.</RowNumber>
                                             <Grid2 xs={12}>
                                                 <Stack direction="row" justifyContent="flex-start" spacing={1}
                                                        sx={{mb: '4px'}}>
@@ -209,7 +219,7 @@ const CandidateManagement = () => {
                                                     <Grid2>
                                                         <Grid2 xs={12}>
                                                             <CandidateText>
-                                                                توضیحات:&nbsp;{c.description}
+                                                                توضیحات:&nbsp;{toPersianNumber(c.description)}
                                                             </CandidateText>
                                                         </Grid2>
                                                         <Grid2 xs={12}>

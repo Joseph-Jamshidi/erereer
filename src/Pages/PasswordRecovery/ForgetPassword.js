@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {HeaderText, LoginButton, MainSection, Pic} from "../../StyledTags/ForgetPasswordTags";
 import {Alert, Box, IconButton, InputAdornment, Snackbar, TextField} from "@mui/material";
@@ -10,6 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {ForgetPasswordService} from "../../Services/UserServices";
 import {useNavigate} from "react-router-dom";
 import Stroke from "../../images/Stroke.png";
+import ProgressBarContext from "../../Contexts/PublickContext";
 
 const ForgetPassword = () => {
 
@@ -17,9 +18,12 @@ const ForgetPassword = () => {
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
+
+    const {setShowProgressBar} = useContext(ProgressBarContext);
     let navigate = useNavigate();
 
     const handleSubmit = (e) => {
+        setShowProgressBar("block");
         e.preventDefault();
         const phone = {
             phoneNumber: phoneNumber
@@ -27,11 +31,13 @@ const ForgetPassword = () => {
         const response = async () => {
             const result = await ForgetPasswordService(phone);
             if (result.isSuccess===true){
-                navigate("../SetNewPassword")
+                navigate("../SetNewPassword");
+                setShowProgressBar("none");
             }else {
                 setOpenAlert(true);
                 setMessage(result.message);
                 setAlertType("error");
+                setShowProgressBar("none");
             }
         }
         response().catch(console.error);

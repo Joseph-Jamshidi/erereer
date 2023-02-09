@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {MainSection, Pic, HeaderText, BackArrow, SubmitButton} from "../StyledTags/ResetPasswordTags";
 import {Alert, Box, IconButton, InputAdornment, Snackbar, Stack, TextField} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
@@ -11,6 +11,7 @@ import Ellipse654 from "../images/Ellipse654.png";
 import Vector from "../images/Vector.png";
 import Ellipse652 from "../images/Ellipse652.png";
 import CloseIcon from "@mui/icons-material/Close";
+import ProgressBarContext from "../Contexts/PublickContext";
 
 const ResetPassword = () => {
 
@@ -19,7 +20,10 @@ const ResetPassword = () => {
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
 
+    const {setShowProgressBar} = useContext(ProgressBarContext);
+
     const handleSubmit = (e) => {
+        setShowProgressBar("block");
         e.preventDefault();
         const changePassword = {
             password: password,
@@ -35,10 +39,12 @@ const ResetPassword = () => {
                 setMessage("کلمه عبور با موفقیت تغییر یافت");
                 setOpenAlert(true);
                 setAlertType("success");
+                setShowProgressBar("none");
             } else {
                 setMessage("کلمه عبور باید حداقل 6 کارکتر باشد");
                 setOpenAlert(true);
                 setAlertType("warning");
+                setShowProgressBar("none");
             }
         }
         response().catch(console.error);

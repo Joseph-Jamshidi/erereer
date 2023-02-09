@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {HeaderText, LoginButton, MainSection, Pic} from "../../StyledTags/ForgetPasswordTags";
 import {Alert, Box, IconButton, InputAdornment, Snackbar, TextField} from "@mui/material";
+import {NewPasswordService} from "../../Services/UserServices";
 import MessageIcon from '@mui/icons-material/Message';
 import Ellipse653 from "../../images/Ellipse653.png";
 import Ellipse654 from "../../images/Ellipse654.png";
@@ -10,7 +11,7 @@ import Ellipse652 from "../../images/Ellipse652.png";
 import CloseIcon from "@mui/icons-material/Close";
 import Stroke from "../../images/Stroke.png";
 import Lock from "../../images/Lock.png";
-import {NewPasswordService} from "../../Services/UserServices";
+import ProgressBarContext from "../../Contexts/PublickContext";
 
 const SetNewPassword = () => {
 
@@ -21,7 +22,10 @@ const SetNewPassword = () => {
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
 
+    const {setShowProgressBar} = useContext(ProgressBarContext);
+
     const handleSubmit = (e) => {
+        setShowProgressBar("block");
         e.preventDefault();
         const editedPassword = {
             phoneNumber: phoneNumber,
@@ -49,10 +53,12 @@ const SetNewPassword = () => {
                 setTimeout(() => {
                     window.location.href = "./";
                 }, 4000);
+                setShowProgressBar("none");
             }else {
                 setOpenAlert(true);
                 setMessage(result.data.message);
                 setAlertType("error");
+                setShowProgressBar("none");
             }
         }
         response().catch(console.error)

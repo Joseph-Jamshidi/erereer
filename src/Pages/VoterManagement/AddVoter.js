@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
     Alert,
     Box, Button,
@@ -11,6 +11,7 @@ import {
 import {useParams} from "react-router-dom";
 import {AddVoterService} from "../../Services/VoterServices";
 import CloseIcon from "@mui/icons-material/Close";
+import ProgressBarContext from "../../Contexts/PublickContext";
 
 
 const AddVoter = (props) => {
@@ -22,9 +23,12 @@ const AddVoter = (props) => {
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
+
+    const {setShowProgressBar} = useContext(ProgressBarContext);
     const params = useParams();
 
     const handleSubmit = (e) => {
+        setShowProgressBar("block");
         e.preventDefault();
         const addVoter = {
             userVoters: [
@@ -47,10 +51,12 @@ const AddVoter = (props) => {
             if (result.statusCode === 'Success') {
                 handleCloseForm();
                 props.setIsUpdating(!props.isUpdating);
+                setShowProgressBar("none");
             } else {
                 setMessage("لطفاً فرم را کامل کنید");
                 setOpenAlert(true);
                 setAlertType("error");
+                setShowProgressBar("none");
             }
         };
         response().catch(console.error);

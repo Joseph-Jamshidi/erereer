@@ -3,7 +3,7 @@ import {API_BASE_URL} from "../Constants/ApiConstants";
 
 const urls = {
     candidate: API_BASE_URL + 'Candidate',
-    voters: API_BASE_URL + 'Election/VoterList'
+    voters: API_BASE_URL + 'Election/VoterList',
 }
 
 export const AddCandidateService = async (addCandidate) => {
@@ -54,8 +54,8 @@ export const ChosenCandidateService = async (id) => {
     try {
         const result = await authedAxios.get(urls.candidate + `/${id}`);
         return result.data;
-    }catch (error){
-        if (error.response){
+    } catch (error) {
+        if (error.response) {
             return error.response.data;
         }
     }

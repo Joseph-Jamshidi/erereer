@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
     Alert,
     Button,
@@ -30,6 +30,8 @@ import AddVoter from "./AddVoter";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import UserList from "./UserList";
+import ProgressBarContext from "../../Contexts/PublickContext";
+import {toPersianNumber} from "../../Common/Utitlity";
 
 
 const VoterManagement = () => {
@@ -46,18 +48,23 @@ const VoterManagement = () => {
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
+
+    const {setShowProgressBar} = useContext(ProgressBarContext);
     const params = useParams();
 
     useEffect(() => {
+        setShowProgressBar("block");
         const response = async () => {
             const result = await GetVoterService(params.id, pageNumber, pageSize);
             setVoter(result.data);
             setPageCount(result.total);
+            setShowProgressBar("none");
         }
         response().catch(console.error);
     }, [pageNumber, pageSize, isUpdating]);
 
     const deleteVoter = (e) => {
+        setShowProgressBar("block");
         e.preventDefault();
         const response = async () => {
             await DeleteVoterService(delId, params.id);
@@ -67,6 +74,7 @@ const VoterManagement = () => {
             setMessage("رإی دهنده انتخاب شده حذف گردید")
             setOpenAlert(true);
             setAlertType("success");
+            setShowProgressBar("none");
         }
         response().catch(console.error);
     };
@@ -153,11 +161,11 @@ const VoterManagement = () => {
                                             voter.map((v, i) =>
                                                 <TableRow key={v.id}>
                                                     <TableCell sx={{pl: 2}}>
-                                                        {(pageNumber - 1) * 10 + (i + 1)}
+                                                        {toPersianNumber((pageNumber - 1) * 10 + (i + 1))}
                                                     </TableCell>
                                                     <TableCell>{v.firstName} {v.lastName}</TableCell>
-                                                    <TableCell>{v.nationalCode}</TableCell>
-                                                    <TableCell>{v.phoneNumber}</TableCell>
+                                                    <TableCell>{toPersianNumber(v.nationalCode)}</TableCell>
+                                                    <TableCell>{toPersianNumber(v.phoneNumber)}</TableCell>
                                                     <TableCell>{v.isActive === true ? "فعال" : "غیر فعال"}</TableCell>
                                                     <TableCell sx={{pr: 3}}>
                                                         <Stack direction="row" justifyContent="flex-end">
@@ -199,7 +207,7 @@ const VoterManagement = () => {
                                 voter.map((v, i) =>
                                     <Section key={v.id}>
                                         <Stack direction="row">
-                                            <RowNumber>{(pageNumber - 1) * 10 + (i + 1)}.</RowNumber>
+                                            <RowNumber>{toPersianNumber((pageNumber - 1) * 10 + (i + 1))}.</RowNumber>
                                             <Grid2 xs={12}>
                                                 <Stack direction="row" justifyContent="space-between" sx={{mb: '4px'}}>
                                                     <TitleText>نام:&nbsp;{v.firstName} {v.lastName}</TitleText>
@@ -207,12 +215,12 @@ const VoterManagement = () => {
                                                 <Stack direction={{xs: 'column', sm: 'row'}} sx={{mb: '4px'}}>
                                                     <Grid2 xs={6}>
                                                         <VoterText>
-                                                            کدملی:&nbsp;{v.nationalCode}
+                                                            کدملی:&nbsp;{toPersianNumber(v.nationalCode)}
                                                         </VoterText>
                                                     </Grid2>
                                                     <Grid2 xs={6}>
                                                         <VoterText>
-                                                            شماره تلفن:&nbsp;{v.phoneNumber}
+                                                            شماره تلفن:&nbsp;{toPersianNumber(v.phoneNumber)}
                                                         </VoterText>
                                                     </Grid2>
                                                 </Stack>

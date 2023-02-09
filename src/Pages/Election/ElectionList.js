@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
     ElectionButton,
     ElectionText,
@@ -29,6 +29,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import GroupsIcon from '@mui/icons-material/Groups';
 import CloseIcon from "@mui/icons-material/Close";
+import {toPersianNumber} from "../../Common/Utitlity"
+import ProgressBarContext from "../../Contexts/PublickContext";
 
 const ElectionList = ({afterGetVotingList}) => {
 
@@ -50,14 +52,17 @@ const ElectionList = ({afterGetVotingList}) => {
         id: ''
     }]);
 
+    const {setShowProgressBar} = useContext(ProgressBarContext);
     let navigate = useNavigate();
 
     useEffect(() => {
+        setShowProgressBar("block");
         const response = async () => {
             const result = await GetElectionService(pageNumber, pageSize);
             setElections(prepareData(result.data));
             setPageCount(result.total);
             afterGetVotingList(result.count);
+            setShowProgressBar("none");
         }
         response().catch(console.error);
     }, [pageNumber, pageSize, isUpdating]);
@@ -98,6 +103,7 @@ const ElectionList = ({afterGetVotingList}) => {
     };
 
     const handleDelete = (e) => {
+        setShowProgressBar("block");
         e.preventDefault();
         const response = async () => {
             await DeleteElectionService(delId);
@@ -106,7 +112,8 @@ const ElectionList = ({afterGetVotingList}) => {
             setOpenDeleteDialog(false);
             setMessage("انتخابات انتخاب شده حذف گردید")
             setOpenAlert(true);
-            setAlertType("success")
+            setAlertType("success");
+            setShowProgressBar("none");
         };
         response().catch(console.error);
     };
@@ -137,8 +144,8 @@ const ElectionList = ({afterGetVotingList}) => {
                         <TableRow>
                             <TableCell sx={{pl: 2}}>ردیف</TableCell>
                             <TableCell>عنوان انتخابات</TableCell>
-                            <TableCell>تاریخ شروع انتخابات</TableCell>
-                            <TableCell>تاریخ پایان انتخابات</TableCell>
+                            <TableCell align="center">تاریخ شروع انتخابات</TableCell>
+                            <TableCell align="center">تاریخ پایان انتخابات</TableCell>
                             <TableCell align="center">تعداد کاندیدها</TableCell>
                             <TableCell align="center">تعداد رأی هر کاربر</TableCell>
                             <TableCell colSpan={4} align="right" sx={{pr: 4}}>علملیات</TableCell>
@@ -148,14 +155,12 @@ const ElectionList = ({afterGetVotingList}) => {
                         {
                             elections.map((el, i) =>
                                 <TableRow key={el.id}>
-                                    <TableCell sx={{pl: 2}}>{(pageNumber - 1) * 10 + (i + 1)}</TableCell>
+                                    <TableCell sx={{pl: 2}}>{toPersianNumber((pageNumber - 1) * 10 + (i + 1))}</TableCell>
                                     <TableCell>{el.name}</TableCell>
-                                    <TableCell sx={{pl: 3}}>{el.persianStartDate}</TableCell>
-                                    <TableCell sx={{pl: 3}}>{el.persianEndDate}</TableCell>
-                                    <TableCell align="center">{el.candidateCount}</TableCell>
-                                    <TableCell align="center">
-                                        <div>{el.userVoteCount}</div>
-                                    </TableCell>
+                                    <TableCell align="center">{el.persianStartDate}</TableCell>
+                                    <TableCell align="center">{el.persianEndDate}</TableCell>
+                                    <TableCell align="center">{toPersianNumber(el.candidateCount)}</TableCell>
+                                    <TableCell align="center">{toPersianNumber(el.userVoteCount)}</TableCell>
                                     <TableCell sx={{pl: 1}}>
                                         <Stack direction="row" justifyContent="flex-end">
                                             <Stack direction="column" alignItems="center">
@@ -208,7 +213,7 @@ const ElectionList = ({afterGetVotingList}) => {
                     elections.map((el, i) =>
                         <Section key={el.id}>
                             <Stack direction="row">
-                                <RowNumber>{(pageNumber - 1) * 10 + (i + 1)}.</RowNumber>
+                                <RowNumber>{toPersianNumber((pageNumber - 1) * 10 + (i + 1))}.</RowNumber>
                                 <Grid2 xs={12}>
                                     <Stack direction="row" justifyContent="space-between" sx={{mb: '4px'}}>
                                         <TitleText variant="h5">عنوان انتخابات:&nbsp;{el.name}</TitleText>
@@ -226,12 +231,12 @@ const ElectionList = ({afterGetVotingList}) => {
                                            sx={{mb: '4px'}}>
                                         <Grid2 xs={12} sm={6}>
                                             <ElectionText>
-                                                تعداد کاندید های انتخابات:&nbsp;{el.candidateCount}
+                                                تعداد کاندید های انتخابات:&nbsp;{toPersianNumber(el.candidateCount)}
                                             </ElectionText>
                                         </Grid2>
                                         <Grid2 xs={12} sm={6}>
                                             <ElectionText>
-                                                تعداد رأی برای هر کاربر:&nbsp;{el.userVoteCount}
+                                                تعداد رأی برای هر کاربر:&nbsp;{toPersianNumber(el.userVoteCount)}
                                             </ElectionText>
                                         </Grid2>
                                     </Stack>

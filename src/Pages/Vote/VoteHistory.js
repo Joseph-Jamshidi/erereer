@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {MainDashboard} from "../../StyledTags/VoteHistoryTags";
 import Dashboard from "../../Layout/Dashboard";
@@ -16,6 +16,8 @@ import {
     TableRow
 } from "@mui/material";
 import {MainTitleText, RowBox, RowNumber, Section, TitleBox, VoteText, TitleText} from "../../StyledTags/VoteTags";
+import ProgressBarContext from "../../Contexts/PublickContext";
+import {toPersianNumber} from "../../Common/Utitlity";
 
 const VoteHistory = () => {
 
@@ -24,11 +26,15 @@ const VoteHistory = () => {
     const [pageNumber, setPageNumber] = useState(1);
     const [pageCount, setPageCount] = useState('');
 
+    const {setShowProgressBar} = useContext(ProgressBarContext);
+
     useEffect(() => {
+        setShowProgressBar("block");
         const response = async () => {
             const result = await VoteHistoryService(1, 10)
             setVotes(result.data);
             setPageCount(result.total);
+            setShowProgressBar("none");
         }
         response().catch(console.error);
     }, [pageNumber, pageSize]);
@@ -61,9 +67,11 @@ const VoteHistory = () => {
                                 </TableHead>
                                 <TableBody>
                                     {
-                                        votes.map((v, index) =>
+                                        votes?.map((v, index) =>
                                             <TableRow key={v.id}>
-                                                <TableCell sx={{pl: 2}}>{(1 - 1) * 10 + (index + 1)}</TableCell>
+                                                <TableCell sx={{pl: 2}}>
+                                                    {toPersianNumber((pageNumber - 1) * 10 + (index + 1))}
+                                                </TableCell>
                                                 <TableCell>{v.election.name}</TableCell>
                                                 <TableCell align="center">
                                                     {
@@ -82,7 +90,7 @@ const VoteHistory = () => {
                         </TableContainer>
                         <Grid2 sx={{display: {xs: 'block', md: 'none'}}}>
                             {
-                                votes.map((v, index) =>
+                                votes?.map((v, index) =>
                                     <Section key={v.id}>
                                         <Stack direction="row">
                                             <RowBox>
@@ -99,7 +107,7 @@ const VoteHistory = () => {
                                                     </Grid2>
                                                     <Grid2 xs={12}>
                                                         {
-                                                            v.voteCandidates.map((c) =>
+                                                            v.voteCandidates?.map((c) =>
                                                                 <Grid2 key={c.candidate.id}>
                                                                     <Grid2 sx={{pl: 2}}>
                                                                         <VoteText>{c.candidate.name}</VoteText>

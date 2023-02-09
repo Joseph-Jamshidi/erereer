@@ -4,7 +4,8 @@ import {API_BASE_URL} from "../Constants/ApiConstants";
 const urls = {
     vote: API_BASE_URL + 'Vote',
     checkDuplicate: API_BASE_URL + 'Vote/CheckDuplicate',
-    history: API_BASE_URL + 'Vote/MyVotes'
+    history: API_BASE_URL + 'Vote/MyVotes',
+    voteResult: API_BASE_URL + 'Election/Result',
 };
 
 export const VotingService = async (voteInfo) => {
@@ -32,6 +33,17 @@ export const VoteHistoryService = async (page, size) => {
 export const CheckDuplicateVoteService = async (electionId) => {
     try {
         const result = await authedAxios.get(urls.checkDuplicate + `?electionId=${electionId}`);
+        return result.data;
+    } catch (error) {
+        if (error.response) {
+            return error.response.data;
+        }
+    }
+};
+
+export const ElectionResultService = async (id) => {
+    try {
+        const result = await authedAxios.get(urls.voteResult + `?electionId=${id}`);
         return result.data;
     } catch (error) {
         if (error.response) {

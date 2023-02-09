@@ -16,6 +16,7 @@ import HowToVoteIcon from '@mui/icons-material/HowToVote';
 const ElectionsInProgress = () => {
 
     const [showList, setShowList] = useState(true);
+
     const afterGetVotingList = (fetchedData) => {
         if (fetchedData === 0) {
             setShowList(false)

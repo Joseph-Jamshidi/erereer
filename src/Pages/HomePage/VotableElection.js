@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {VotableElectionService} from "../../Services/ElectionServices";
 import {Alert, Box, Container, IconButton, Snackbar} from "@mui/material";
 import {ElectionBox, ElectionButton, ElectionItems, HeaderText, Pic} from "../../StyledTags/HomePageTags";
@@ -7,20 +7,23 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {useNavigate} from "react-router-dom";
 import {CheckDuplicateVoteService} from "../../Services/VoteServices";
 import CloseIcon from "@mui/icons-material/Close";
+import ProgressBarContext from "../../Contexts/PublickContext";
 
 const VotableElection = () => {
 
     const [activeElections, setActiveElections] = useState([]);
     const [checkElections, setCheckElections] = useState({});
-    const [isUpdating, setIsUpdating] = useState(false);
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
+
+    const {setShowProgressBar} = useContext(ProgressBarContext);
     const navigate = useNavigate();
 
     console.log('render Votable Election...');
 
     useEffect(() => {
+        setShowProgressBar("block");
         const response = async () => {
             const result = await VotableElectionService();
             setActiveElections(prepareData(result.data));
@@ -35,6 +38,7 @@ const VotableElection = () => {
                     _checkElections[el.id] = checkDuplicate.data;
                     //setCheckElections(_checkElections);
                     //setIsUpdating(!isUpdating);
+                    setShowProgressBar("none");
                 }
                 checkEveryElection().catch(console.error);
             });
@@ -80,6 +84,10 @@ const VotableElection = () => {
         setAlertType("error");
     };
 
+    const handleResult = (id) => {
+        navigate(`../VoteResult/${id}`);
+    };
+
     const handleCloseAlert = (e, reason) => {
         if (reason === "clickaway") {
             return
@@ -116,6 +124,7 @@ const VotableElection = () => {
                                                 <ElectionButton sx={{height: '100%'}} disabled>شرکت</ElectionButton>
                                             </Grid2>
                                         }
+                                        <ElectionButton onClick={() => handleResult(elec.id)}>نتیجه</ElectionButton>
                                     </ElectionBox>
                                 </Box>
                             )

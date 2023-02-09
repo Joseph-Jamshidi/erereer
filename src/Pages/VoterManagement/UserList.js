@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
     Alert,
     Box,
@@ -13,6 +13,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import {UserListByFirstNameService, UserListByLastNameService, UserListService} from "../../Services/UserServices";
 import {NameBox, NumberBox, UserBox} from "../../StyledTags/VoterManagementTags";
 import {AddVoterService} from "../../Services/VoterServices";
+import ProgressBarContext from "../../Contexts/PublickContext";
+import {toPersianNumber} from "../../Common/Utitlity";
 
 const UserList = (props) => {
 
@@ -26,21 +28,26 @@ const UserList = (props) => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [chosenUsers, setChosenUsers] = useState([]);
 
+    const {setShowProgressBar} = useContext(ProgressBarContext);
+
     useEffect(() => {
+        setShowProgressBar("block");
         const response = async () => {
             const result = await UserListService(pageNumber, pageSize);
             setUsers(result.data);
             setPageCount(result.total);
+            setShowProgressBar("none");
         };
         response().catch(console.error);
     }, [pageNumber, pageSize, isUpdating]);
 
     const handleSubmit = (e) => {
+        setShowProgressBar("block");
         e.preventDefault();
         const voters = {
             electionId: props.electionId,
             userIds: chosenUsers,
-            userVoters:[]
+            userVoters: []
         };
         const response = async () => {
             const result = await AddVoterService(voters);
@@ -50,10 +57,12 @@ const UserList = (props) => {
                 setOpenAlert(true);
                 setAlertType("success");
                 props.setIsUpdating(!props.isUpdating);
+                setShowProgressBar("none");
             } else {
                 setMessage(result.message);
                 setOpenAlert(true);
                 setAlertType("error");
+                setShowProgressBar("none");
             }
         }
         response().catch(console.error)
@@ -65,7 +74,6 @@ const UserList = (props) => {
             setUsers(result.data);
             setPageCount(result.count);
         };
-
         response().catch(console.error);
     };
 
@@ -130,7 +138,7 @@ const UserList = (props) => {
                         {
                             users.map((u, index) =>
                                 <UserBox key={u.id} direction="row" alignItems="center">
-                                    <NumberBox>{(pageNumber - 1) * 10 + (index + 1)}</NumberBox>
+                                    <NumberBox>{toPersianNumber((pageNumber - 1) * 10 + (index + 1))}</NumberBox>
                                     <NameBox sx={{flex: 1}}>{u.firstName}&nbsp;{u.lastName}</NameBox>
                                     <Checkbox
                                         sx={{p: 0}}

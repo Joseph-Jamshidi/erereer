@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {Alert, Box, IconButton, InputAdornment, Snackbar, Stack, TextField, Typography} from "@mui/material";
 import {BackArrow, HeaderText, LoginButton, LoginLink, MainSection, Pic} from "../StyledTags/LoginTags";
@@ -11,6 +11,8 @@ import Ellipse653 from '../images/Ellipse653.png';
 import Ellipse652 from '../images/Ellipse652.png';
 import Ellipse654 from '../images/Ellipse654.png';
 import CloseIcon from "@mui/icons-material/Close";
+import ProgressBarContext from "../Contexts/PublickContext";
+import {useNavigate} from "react-router-dom";
 
 const Login = () => {
 
@@ -20,7 +22,11 @@ const Login = () => {
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
 
+    const {setShowProgressBar} = useContext(ProgressBarContext);
+    const navigate = useNavigate();
+
     const handleSubmit = (e) => {
+        setShowProgressBar("block");
         e.preventDefault();
         const loginInfo = {
             grant_type: "password",
@@ -37,12 +43,14 @@ const Login = () => {
                 const personalInfo = personalImage.data;
                 localStorage.setItem("Profile", JSON.stringify(personalInfo.attachments));
                 setTimeout(() => {
-                    window.location.href = "./";
+                    handleCloseAlert();
                 }, 4000);
+                setShowProgressBar("none");
             } else {
                 setOpenAlert(true);
                 setMessage("نام کاربری یا کلمه عبور اشتباه است");
                 setAlertType("error");
+                setShowProgressBar("none");
             }
         };
         response().catch(console.error);
@@ -61,6 +69,7 @@ const Login = () => {
             return
         }
         setOpenAlert(false);
+        navigate("../");
     };
 
     const closeIcon = (

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Alert, Box, IconButton, InputAdornment, Snackbar, TextField, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {HeaderText, LoginButton, LoginLink, MainSection, Pic} from "../../StyledTags/RegisterTags";
@@ -11,6 +11,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import CountDownTimer from "../../Component/CounterDownTimer";
 import CloseIcon from "@mui/icons-material/Close";
 import MessageIcon from '@mui/icons-material/Message';
+import ProgressBarContext from "../../Contexts/PublickContext";
 
 
 const RegisterVerification = () => {
@@ -21,10 +22,13 @@ const RegisterVerification = () => {
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
+
+    const {setShowProgressBar} = useContext(ProgressBarContext);
     const location = useLocation();
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
+        setShowProgressBar("block");
         e.preventDefault();
         const response = async () => {
             const result = await VerifyUserService(verifyCode, location.state.phoneNumber);
@@ -35,16 +39,19 @@ const RegisterVerification = () => {
                 setTimeout(() => {
                     navigate("../login");
                 }, 4000);
+                setShowProgressBar("none");
             } else {
                 setOpenAlert(true);
                 setMessage(result.message);
                 setAlertType("error");
+                setShowProgressBar("none");
             }
         }
         response().catch(console.error);
     };
 
     const handleSendCodeAgain = (e) => {
+        setShowProgressBar("block");
         e.preventDefault();
         const response = async () => {
             await SendCodeAgainService(location.state.phoneNumber);
@@ -53,6 +60,7 @@ const RegisterVerification = () => {
             setAlertType("info");
             setShowTimer(true);
             setTimer({minutes: 2, seconds: 0});
+            setShowProgressBar("none");
         }
         response().catch(console.error);
     };

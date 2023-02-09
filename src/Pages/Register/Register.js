@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {Alert, Box, IconButton, InputAdornment, Snackbar, TextField, Typography} from "@mui/material";
 import {HeaderText, LoginButton, LoginLink, MainSection, Pic} from "../../StyledTags/RegisterTags";
+import {useNavigate} from "react-router-dom";
+import {CheckUserDuplicateService, RegisterService} from '../../Services/UserServices';
 import Stroke from '../../images/Stroke.png';
 import Lock from '../../images/Lock.png';
 import Ellipse653 from "../../images/Ellipse653.png";
@@ -9,9 +11,8 @@ import Ellipse654 from "../../images/Ellipse654.png";
 import Vector from "../../images/Vector.png";
 import Ellipse652 from "../../images/Ellipse652.png";
 import Profile1 from '../../images/Profile1.png';
-import {useNavigate} from "react-router-dom";
-import {CheckUserDuplicateService, RegisterService} from '../../Services/UserServices';
 import CloseIcon from "@mui/icons-material/Close";
+import ProgressBarContext from "../../Contexts/PublickContext";
 
 const Register = () => {
 
@@ -23,9 +24,12 @@ const Register = () => {
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
+
+    const {setShowProgressBar} = useContext(ProgressBarContext);
     let navigate = useNavigate();
 
     const handleSubmit = (e) => {
+        setShowProgressBar("block");
         e.preventDefault()
         const userData = {
             firstName: firstName,
@@ -40,14 +44,17 @@ const Register = () => {
                 setOpenAlert(true);
                 setMessage("شما قبلاً ثبت نام کرده اید");
                 setAlertType("error");
+                setShowProgressBar("none");
             } else {
                 const result = await RegisterService(userData);
                 if (result.statusCode === 'Success') {
                     navigate("../RegisterVerification", {state: {phoneNumber: phoneNumber}});
+                    setShowProgressBar("none");
                 } else {
                     setOpenAlert(true);
                     setMessage(result.message);
                     setAlertType("error");
+                    setShowProgressBar("none");
                 }
             }
         }

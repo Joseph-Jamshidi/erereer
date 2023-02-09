@@ -28,7 +28,6 @@ export const CandidateBox = styled(Stack)`
 export const NumberBox = styled(Box)`
   border-radius: 30%;
   border: 1px solid #425C81;
-  margin-right: 4%;
   padding: 0 5px;
   font-family: 'Sahel', sans-serif;
   font-style: normal;
@@ -115,4 +114,12 @@ export const TitleText = styled(Typography)`
   font-size: 20px;
   line-height: 25px;
   margin-top: 4px;
+`;
+export const AllCount = styled(Box)`
+  padding: 0 5px;
+  font-family: 'Sahel-Bold', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
 `;
