@@ -106,12 +106,18 @@ body {
 
 th {
     font-family: Sahel-Bold, sans-serif !important;
+    font-size: 13px!important;
 }
 
 td {
     font-family: Sahel, sans-serif !important;
+    font-size: 13px!important;
 }
 
 div {
     font-family: Sahel-f, sans-serif;
+}
+
+.muirtl-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+    width: 100%!important;
 }

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {List, ListItemButton, Stack} from "@mui/material";
+import {Divider, List, ListItemButton, Stack} from "@mui/material";
 import {
     CollapseMenu,
     DashboardButton,
@@ -18,12 +18,14 @@ import Login from "../images/Login.png";
 import Profile from "../images/Profile.png";
 import Document from "../images/Document.png";
 import circle2 from "../images/circle2.png";
+import Ellipse655 from "../images/Ellipse655.png";
 import {UserInfo} from "../Services/info";
 
 const Dashboard = (props) => {
 
     const [openMyElectionCollapse, setOpenMyElectionCollapse] = useState(false);
 
+    const imageProfile = (UserInfo.profile || [])?.filter((img) => img.type === "PersonalPhoto")[0];
     const handleCollapse = () => {
         setOpenMyElectionCollapse(!openMyElectionCollapse);
     };
@@ -41,11 +43,15 @@ const Dashboard = (props) => {
     return (
         <>
             <Stack direction="column" sx={{my: {md: '20px'}}}>
-                <Stack justifyContent="center" alignItems="center" spacing={{xs: 1, md: 4}}>
-                    <Pic3 src={(UserInfo.profile || [])?.filter((img) => img.type === "PersonalPhoto")[0]?.base64}
-                          alt=""/>
+                <Stack justifyContent="center" alignItems="center" spacing={{xs: 1, md: 4}} sx={{mb: 2}}>
+                    {
+                        imageProfile?.base64 ?
+                            <Pic3 src={imageProfile.base64} alt=""/> :
+                            <Pic src={Ellipse655} alt=""/>
+                    }
                     <UserNameText>{UserInfo.firstName} {UserInfo.lastName}</UserNameText>
                 </Stack>
+                <Divider variant="middle"/>
                 <Stack sx={{my: '8px', mx: '12px'}}>
                     <List>
                         <DashboardList>

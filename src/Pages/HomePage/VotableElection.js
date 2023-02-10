@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {VotableElectionService} from "../../Services/ElectionServices";
-import {Alert, Box, Container, IconButton, Snackbar} from "@mui/material";
+import {Alert, Box, Container, IconButton, Snackbar, Stack, Tooltip} from "@mui/material";
 import {ElectionBox, ElectionButton, ElectionItems, HeaderText, Pic} from "../../StyledTags/HomePageTags";
 import Rectangle11082 from "../../images/Rectangle11082.png"
 import Grid2 from "@mui/material/Unstable_Grid2";
@@ -8,6 +8,8 @@ import {useNavigate} from "react-router-dom";
 import {CheckDuplicateVoteService} from "../../Services/VoteServices";
 import CloseIcon from "@mui/icons-material/Close";
 import ProgressBarContext from "../../Contexts/PublickContext";
+import HowToVoteIcon from "@mui/icons-material/HowToVote";
+import PollIcon from "@mui/icons-material/Poll";
 
 const VotableElection = () => {
 
@@ -107,24 +109,36 @@ const VotableElection = () => {
             {activeElections.length !== 0 ?
                 <>
                     <Container maxWidth="sm">
-                        <Grid2 display="flex" justifyContent={{xs: "center", md: "flex-start"}}>
+                        <Stack direction="row" justifyContent="space-evenly" alignItems={"center"}>
+                            <HeaderText>انتخابات های در حال اجرا</HeaderText>
                             <Pic src={Rectangle11082}/>
-                        </Grid2>
+                        </Stack>
                         {
                             activeElections.map((elec) =>
                                 <Box key={elec.id} sx={{background: '#EAF8FF', p: '3px'}}>
                                     <ElectionBox direction="row">
-                                        <ElectionItems>عنوان: {elec.name}</ElectionItems>
+                                        <ElectionItems>{elec.name}</ElectionItems>
                                         <ElectionItems sx={{ml: 'auto'}}>مهلت: {elec.persianEndDate}</ElectionItems>
-                                        {checkElections[elec.id] === false ?
-                                            <ElectionButton
-                                                onClick={(e) => handleSelect(e, elec.id)}>شرکت</ElectionButton>
-                                            :
-                                            <Grid2 onClick={handleError}>
-                                                <ElectionButton sx={{height: '100%'}} disabled>شرکت</ElectionButton>
-                                            </Grid2>
-                                        }
-                                        <ElectionButton onClick={() => handleResult(elec.id)}>نتیجه</ElectionButton>
+                                        <Stack direction="row" alignItems="center">
+                                            {checkElections[elec.id] === false ?
+                                                <Tooltip title="شرکت">
+                                                    <ElectionButton onClick={(e) => handleSelect(e, elec.id)}>
+                                                        <HowToVoteIcon/>
+                                                    </ElectionButton>
+                                                </Tooltip>
+                                                :
+                                                <Grid2 onClick={handleError}>
+                                                    <ElectionButton sx={{height: '100%'}} disabled>
+                                                        <HowToVoteIcon/>
+                                                    </ElectionButton>
+                                                </Grid2>
+                                            }
+                                            <Tooltip title="نتیجه">
+                                                <ElectionButton onClick={() => handleResult(elec.id)}>
+                                                    <PollIcon/>
+                                                </ElectionButton>
+                                            </Tooltip>
+                                        </Stack>
                                     </ElectionBox>
                                 </Box>
                             )

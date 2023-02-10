@@ -30,7 +30,7 @@ export const ElectionButton = styled(Button)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 25px;
 `;
 export const AddButton = styled(Button)`
@@ -42,7 +42,7 @@ export const AddButton = styled(Button)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 25px;
   height: fit-content;
 `;
@@ -55,20 +55,20 @@ export const ManageButton = styled(Button)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 25px;
 `;
 export const ElectionText = styled(Typography)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 25px;
 `;
 export const TitleText = styled(Typography)`
   font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
-  font-size: 20px;
+  font-size: 15px;
   line-height: 25px;
   margin-top: 4px;
 `;
@@ -76,7 +76,7 @@ export const RowNumber = styled(Typography)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 25px;
   text-align: center;
   margin: 1% 2% auto 0;
@@ -97,10 +97,10 @@ export const MainTitleText = styled(Typography)`
   padding: 5px;
 `;
 export const TitleText2 = styled(Typography)`
-  font-family: 'Sahel', sans-serif;
+  font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
   font-weight: 100;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 25px;
   color: #425C81;
   margin: 15px;

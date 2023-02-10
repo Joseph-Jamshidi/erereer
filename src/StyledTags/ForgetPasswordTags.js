@@ -9,10 +9,10 @@ export const MainSection = styled(Grid2)`
   background-color: white;
 `;
 export const HeaderText = styled(Typography)`
-  font-family: 'Sahel', sans-serif;
+  font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 19px;
+  font-size: 20px;
   line-height: 30px;
   color: #425C81;
   padding-right: 2%;
@@ -23,10 +23,10 @@ export const Pic = styled("img")`
 `;
 export const LoginButton = styled(Button)`
   background-color: #425C81;
-  font-family: 'Sahel', sans-serif;
+  font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 34px;
   padding: 10px;
   margin: 0 auto;

@@ -23,7 +23,7 @@ import {AddElectionService, ChosenElectionService, EditElectionService} from "..
 import {useParams} from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import AdapterJalali from '@date-io/date-fns-jalali';
-import {DatePicker as Joseph} from '@mui/x-date-pickers/DatePicker';
+import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import ProgressBarContext from "../../Contexts/PublickContext";
 
@@ -174,7 +174,7 @@ const CreateElection = () => {
                                         </Grid2>
                                         <Grid2 xs={12} sm={4}>
                                             <LocalizationProvider dateAdapter={AdapterJalali}>
-                                                <Joseph
+                                                <DatePicker
                                                     label="تاریخ شروع انتخابات"
                                                     mask="____/__/__"
                                                     value={startDate}
@@ -208,9 +208,9 @@ const CreateElection = () => {
                                     </Grid2>
                                     <Grid2 xs={12}>
                                         <Stack direction={{xs: 'column', sm: 'row'}} spacing={4}>
-                                            <Grid2 xs={12} sm={6}>
+                                            <Grid2 xs={12} lg={4} md={5} sm={6}>
                                                 <LocalizationProvider dateAdapter={AdapterJalali}>
-                                                    <Joseph
+                                                    <DatePicker
                                                         label="تاریخ پایان انتخابات"
                                                         mask="____/__/__"
                                                         value={endDate}

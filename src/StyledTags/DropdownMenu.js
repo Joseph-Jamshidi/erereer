@@ -21,7 +21,7 @@ export const NavBtn = styled(MenuItem)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 30px;
   background-color: #425C81;
 

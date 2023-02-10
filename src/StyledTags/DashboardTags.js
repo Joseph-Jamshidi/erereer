@@ -27,7 +27,7 @@ export const TextCollapse = styled(Typography)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 30px;
 `;
 export const Pic = styled("img")`
@@ -49,7 +49,7 @@ export const Text = styled(Typography)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 30px;
 `;
 export const UserNameText = styled(Typography)`
@@ -57,7 +57,7 @@ export const UserNameText = styled(Typography)`
   color: #425C81;
   font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 30px;
   margin: 8px 0 25px;
 `;

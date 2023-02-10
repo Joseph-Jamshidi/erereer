@@ -22,7 +22,7 @@ export const Section = styled(Box)`
 export const Text = styled(Typography)`
   font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
-  font-size: 25px;
+  font-size: 20px;
   line-height: 25px;
   margin: 10px 5px 20px;
 `;
@@ -32,9 +32,9 @@ export const SubmitButton = styled(Button)`
   padding: 3px 4px 3px 0;
   margin: 4px 0 0 6px;
   color: white;
-  font-family: 'Sahel-Bold', sans-serif;
+  font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 25px;
 `;

@@ -32,21 +32,21 @@ export const NumberBox = styled(Box)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 19px;
+  font-size: 15px;
   line-height: 30px;
 `;
 export const NameBox = styled(Box)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 19px;
+  font-size: 15px;
   line-height: 30px;
 `;
 export const TextBox = styled(Typography)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 30px;
   text-align: center;
   color: #425C81;
@@ -58,7 +58,7 @@ export const SubmitButton = styled(Button)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 15px;
   line-height: 34px;
   margin: 5% auto;
   display: flex;
@@ -73,7 +73,7 @@ export const TitleBox = styled(Box)`
 export const MainTitleText = styled(Typography)`
   font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 18px;
   color: #425C81;
   margin: 5px;
@@ -97,7 +97,7 @@ export const RowNumber = styled(Typography)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 25px;
   text-align: center;
 `;
@@ -105,7 +105,7 @@ export const VoteText = styled(Typography)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 25px;
 `;
 export const TitleText = styled(Typography)`

@@ -3,10 +3,10 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {Link as RouterLink} from "react-router-dom";
 
 export const TextBox = styled(Typography)`
-  font-family: 'Sahel', sans-serif;
+  font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 38px;
 `;
 export const Pic = styled("img")`
@@ -19,10 +19,10 @@ export const Pict = styled("img")`
   transform: translateY(-15%);
 `;
 export const Paragraph = styled(Typography)`
-  font-family: 'Sahel', sans-serif;
+  font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 19px;
+  font-size: 15px;
   line-height: 38px;
 `;
 export const ImgBox = styled(Typography)`
@@ -40,7 +40,7 @@ export const ImageLinks=styled(RouterLink)`
   font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 15px;
   line-height: 42px;
   color: white;
 `;
@@ -94,10 +94,10 @@ export const FootSection = styled(Box)`
   overflow: hidden;
 `;
 export const FooterText = styled(Typography)`
-  font-family: 'Sahel', sans-serif;
+  font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 27px;
+  font-size: 20px;
   line-height: 42px;
   color: #425C81;
 `;
@@ -137,26 +137,22 @@ export const ElectionItems = styled(Typography)`
   margin: 0 2%;
 `;
 export const ElectionButton=styled(Button)`
-  background-color: white;
-  text-decoration: none;
+  padding: 0;
+  margin: 4px;
+  min-width: fit-content;
+  max-width: fit-content;
+  color: #425C81;
   font-family: 'Sahel', sans-serif;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 100;
   font-size: 14px;
-  line-height: 30px;
-  padding: 0;
-
-  :hover {
-    color: black;
-    text-decoration: underline;
-    transition: all 0.3s ease-out;
-  }
+  line-height: 25px;
 `;
 export const HeaderText = styled(Typography)`
   font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 19px;
+  font-size: 15px;
   line-height: 30px;
   color: #425C81;
   padding-right: 2%;

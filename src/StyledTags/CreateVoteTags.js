@@ -19,7 +19,7 @@ export const Section = styled(Grid2)`
 export const TitleText = styled(Typography)`
   font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 18px;
   color: #425C81;
   margin: 5px;
@@ -29,7 +29,7 @@ export const TitleText2 = styled(Typography)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 25px;
   color: #425C81;
   margin: 15px;
@@ -49,7 +49,7 @@ export const SubmitButton=styled(Button)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 100;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 25px;
 `;
 

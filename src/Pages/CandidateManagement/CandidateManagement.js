@@ -5,7 +5,7 @@ import {
     MainDashboard, MainTitleText,
     Pic, RowNumber,
     Section, TitleBox,
-    TitleText
+    TitleText, TitleText2
 } from "../../StyledTags/CandidateManagementTags";
 import {
     Alert,
@@ -140,69 +140,73 @@ const CandidateManagement = () => {
                                               setSelectedCandidate={setSelectedCandidate} isUpdating={isUpdating}
                                               openAddForm={openAddForm} setOpenAddForm={setOpenAddForm}/>
                         </Stack>
-                        <TableContainer component={Paper} sx={{display: {xs: 'none', md: 'block'}}}>
-                            <Table sx={{minWidth: 650}} aria-label="simple table">
-                                <TableHead sx={{background: 'silver'}}>
-                                    <TableRow>
-                                        <TableCell sx={{pl: 2}}>ردیف</TableCell>
-                                        <TableCell>عکس</TableCell>
-                                        <TableCell align="left">نام</TableCell>
-                                        <TableCell>توضیحات</TableCell>
-                                        <TableCell>وضعیت</TableCell>
-                                        <TableCell align="right" sx={{pr: 4}}>عملیات</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {
-                                        candidate.map((c, i) =>
-                                            <TableRow key={c.id}>
-                                                <TableCell
-                                                    sx={{pl: 2}}>{toPersianNumber((pageNumber - 1) * 10 + (i + 1))}</TableCell>
-                                                <TableCell>
-                                                    <Avatar src={(c.attachments || [])[0]?.base64}/>
-                                                </TableCell>
-                                                <TableCell align="left">{c.name}</TableCell>
-                                                <TableCell>{toPersianNumber(c.description)}</TableCell>
-                                                <TableCell>{c.isEnabled === true ? "فعال" : "غیر فعال"}</TableCell>
-                                                <TableCell sx={{pr: 1}}>
-                                                    <Stack direction="row" justifyContent="flex-end">
-                                                        <Tooltip title="حذف">
-                                                            <CandidateIcon
-                                                                onClick={(e) => handleSelectedCandidate(e, c.id)}
-                                                            >
-                                                                <DeleteIcon fontSize="medium"/>
-                                                            </CandidateIcon>
-                                                        </Tooltip>
-                                                        <Dialog open={openDeleteDialog} onClose={handleCloseDialog}>
-                                                            <DialogTitle id="alert-dialog-title">
-                                                                {"اخطار!"}
-                                                            </DialogTitle>
-                                                            <DialogContent>
-                                                                <DialogContentText id="alert-dialog-description">
-                                                                    آیا از حذف انتخابات مطمئن اید؟
-                                                                </DialogContentText>
-                                                            </DialogContent>
-                                                            <DialogActions>
-                                                                <Button color="success" onClick={handleCloseDialog}>
-                                                                    خیر
-                                                                </Button>
-                                                                <Button color="error"
-                                                                        onClick={deleteCandidate}>بله</Button>
-                                                            </DialogActions>
-                                                        </Dialog>
-                                                        <Tooltip title="ویرایش">
-                                                            <CandidateIcon onClick={(e) => editVoter(e, c.id)}>
-                                                                <EditIcon fontSize="medium"/>
-                                                            </CandidateIcon>
-                                                        </Tooltip>
-                                                    </Stack>
-                                                </TableCell>
-                                            </TableRow>
-                                        )
-                                    }
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        {candidate.length === 0 ?
+                            <TitleText2>کاندیدی وجود ندارد</TitleText2> :
+                            <TableContainer component={Paper} sx={{display: {xs: 'none', md: 'block'}}}>
+                                <Table sx={{minWidth: 650}} aria-label="simple table">
+                                    <TableHead sx={{background: 'silver'}}>
+                                        <TableRow>
+                                            <TableCell sx={{pl: 2}}>ردیف</TableCell>
+                                            <TableCell>عکس</TableCell>
+                                            <TableCell align="left">نام</TableCell>
+                                            <TableCell>توضیحات</TableCell>
+                                            <TableCell>وضعیت</TableCell>
+                                            <TableCell align="right" sx={{pr: 4}}>عملیات</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {
+                                            candidate.map((c, i) =>
+                                                <TableRow key={c.id}>
+                                                    <TableCell sx={{pl: 2}}>
+                                                        {toPersianNumber((pageNumber - 1) * 10 + (i + 1))}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Avatar src={(c.attachments || [])[0]?.base64}/>
+                                                    </TableCell>
+                                                    <TableCell align="left">{c.name}</TableCell>
+                                                    <TableCell>{toPersianNumber(c.description)}</TableCell>
+                                                    <TableCell>{c.isEnabled === true ? "فعال" : "غیر فعال"}</TableCell>
+                                                    <TableCell sx={{pr: 1}}>
+                                                        <Stack direction="row" justifyContent="flex-end">
+                                                            <Tooltip title="حذف">
+                                                                <CandidateIcon
+                                                                    onClick={(e) => handleSelectedCandidate(e, c.id)}
+                                                                >
+                                                                    <DeleteIcon fontSize="medium"/>
+                                                                </CandidateIcon>
+                                                            </Tooltip>
+                                                            <Dialog open={openDeleteDialog} onClose={handleCloseDialog}>
+                                                                <DialogTitle id="alert-dialog-title">
+                                                                    {"اخطار!"}
+                                                                </DialogTitle>
+                                                                <DialogContent>
+                                                                    <DialogContentText id="alert-dialog-description">
+                                                                        آیا از حذف انتخابات مطمئن اید؟
+                                                                    </DialogContentText>
+                                                                </DialogContent>
+                                                                <DialogActions>
+                                                                    <Button color="success" onClick={handleCloseDialog}>
+                                                                        خیر
+                                                                    </Button>
+                                                                    <Button color="error"
+                                                                            onClick={deleteCandidate}>بله</Button>
+                                                                </DialogActions>
+                                                            </Dialog>
+                                                            <Tooltip title="ویرایش">
+                                                                <CandidateIcon onClick={(e) => editVoter(e, c.id)}>
+                                                                    <EditIcon fontSize="medium"/>
+                                                                </CandidateIcon>
+                                                            </Tooltip>
+                                                        </Stack>
+                                                    </TableCell>
+                                                </TableRow>
+                                            )
+                                        }
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        }
                         <Grid2 sx={{display: {xs: 'block', md: 'none'}}}>
                             {
                                 candidate.map((c, i) =>

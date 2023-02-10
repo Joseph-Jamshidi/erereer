@@ -10,7 +10,7 @@ export const NavItem = styled(MenuItem)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 30px;
   padding: 0;
 
@@ -25,7 +25,7 @@ export const NavItemReg = styled(NavItem)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 30px;
 `;
 export const NavItemPanel = styled(NavItem)`
@@ -81,7 +81,7 @@ export const CollapseItems = styled(MenuItem)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 30px;
 
   :hover {
@@ -96,7 +96,7 @@ export const CollapseLink = styled(MenuItems)`
   font-family: 'Sahel', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 30px;
   color: black;
   height: auto;
