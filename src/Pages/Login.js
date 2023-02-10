@@ -12,7 +12,6 @@ import Ellipse652 from '../images/Ellipse652.png';
 import Ellipse654 from '../images/Ellipse654.png';
 import CloseIcon from "@mui/icons-material/Close";
 import ProgressBarContext from "../Contexts/PublickContext";
-import {useNavigate} from "react-router-dom";
 
 const Login = () => {
 
@@ -23,7 +22,6 @@ const Login = () => {
     const [alertType, setAlertType] = useState("info");
 
     const {setShowProgressBar} = useContext(ProgressBarContext);
-    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         setShowProgressBar("block");
@@ -69,7 +67,7 @@ const Login = () => {
             return
         }
         setOpenAlert(false);
-        navigate("../");
+        window.location.href="./";
     };
 
     const closeIcon = (

@@ -14,7 +14,7 @@ import {ChosenElectionService} from "../../Services/ElectionServices";
 import {GetCandidateService} from "../../Services/CandidateServices";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {
-    CandidateBox,
+    EditedBox,
     MainDashboard,
     NameBox,
     NumberBox,
@@ -165,7 +165,7 @@ const Vote = () => {
                                 </TextBox>
                                 {
                                     searchData.map((c, i) =>
-                                        <CandidateBox key={c.id} direction="row" alignItems="center" spacing={1}>
+                                        <EditedBox key={c.id} direction="row" alignItems="center" spacing={1}>
                                             <NumberBox>{toPersianNumber((pageNumber - 1) * 10 + (i + 1))}</NumberBox>
                                             <Avatar src={(c.attachments || [])[0]?.base64}/>
                                             <NameBox sx={{flex: 1}}>{c.name}</NameBox>
@@ -173,7 +173,7 @@ const Vote = () => {
                                                 onChange={(e) => handleChoose(e, c.id)}
                                                 checked={chosenCandidates.includes(c.id)}>
                                             </Checkbox>
-                                        </CandidateBox>
+                                        </EditedBox>
                                     )
                                 }
                                 <SubmitButton type="submit" variant="contained">ثبت رأی</SubmitButton>

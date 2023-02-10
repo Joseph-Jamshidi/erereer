@@ -18,7 +18,7 @@ export const SearchBox = styled(Paper)`
   align-items: center;
   width: 80%;
 `;
-export const CandidateBox = styled(Stack)`
+export const EditedBox = styled(Stack)`
   background-color: white;
   border: 1px solid #425C81;
   border-radius: 4px;
@@ -116,10 +116,10 @@ export const TitleText = styled(Typography)`
   margin-top: 4px;
 `;
 export const AllCount = styled(Box)`
-  padding: 0 5px;
   font-family: 'Sahel-Bold', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
   line-height: 30px;
 `;
+
