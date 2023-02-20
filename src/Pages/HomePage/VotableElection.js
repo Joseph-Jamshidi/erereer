@@ -22,8 +22,6 @@ const VotableElection = () => {
     const {setShowProgressBar} = useContext(ProgressBarContext);
     const navigate = useNavigate();
 
-    console.log('render Votable Election...');
-
     useEffect(() => {
         setShowProgressBar("block");
         const response = async () => {
@@ -31,25 +29,17 @@ const VotableElection = () => {
             setActiveElections(prepareData(result.data));
 
             let _checkElections = checkElections;
-            console.log(Date.now());
             result.data.forEach((el) => {
                 const checkEveryElection = async () => {
                     const checkDuplicate = await CheckDuplicateVoteService(el.id);
-                    //let _checkElections = checkElections;
-                    console.log(Date.now());
                     _checkElections[el.id] = checkDuplicate.data;
-                    //setCheckElections(_checkElections);
-                    //setIsUpdating(!isUpdating);
                     setShowProgressBar("none");
                 }
                 checkEveryElection().catch(console.error);
             });
-
             setCheckElections(_checkElections);
-
         };
         response().catch(console.error);
-
     }, []);
 
     const convertTime = (date) => {
