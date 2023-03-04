@@ -1,1 +1,1 @@
-export const API_BASE_URL = 'http://api.rayer.ir/api/v1/'
+export const API_BASE_URL = 'https://api.rayer.ir/api/v1/'
