@@ -13,7 +13,7 @@ import Dashboard from "../../Layout/Dashboard";
 import {ElectionResultService} from "../../Services/VoteServices";
 import {useParams} from "react-router-dom";
 import {Box, Stack} from "@mui/material";
-import ProgressBarContext from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublickContext";
 import {toPersianNumber} from "../../Common/Utitlity";
 
 
@@ -34,7 +34,9 @@ const VoteResult = () => {
             setAllVotes(toPersianNumber(electionResult.allVoteCount));
             setShowProgressBar("none");
         }
-        response().catch(console.error);
+        response().catch(()=>{
+            setShowProgressBar("none")
+        });
     }, []);
 
     return (

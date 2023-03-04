@@ -16,7 +16,7 @@ import {
     TableRow
 } from "@mui/material";
 import {MainTitleText, RowBox, RowNumber, Section, TitleBox, VoteText, TitleText} from "../../StyledTags/VoteTags";
-import ProgressBarContext from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublickContext";
 import {toPersianNumber} from "../../Common/Utitlity";
 
 const VoteHistory = () => {
@@ -36,7 +36,9 @@ const VoteHistory = () => {
             setPageCount(result.total);
             setShowProgressBar("none");
         }
-        response().catch(console.error);
+        response().catch(()=>{
+            setShowProgressBar("none")
+        });
     }, [pageNumber, pageSize]);
 
     return (

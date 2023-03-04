@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Divider, List, ListItemButton, Stack} from "@mui/material";
 import {
     CollapseMenu,
@@ -20,24 +20,28 @@ import Document from "../images/Document.png";
 import circle2 from "../images/circle2.png";
 import Ellipse655 from "../images/Ellipse655.png";
 import {UserInfo} from "../Services/info";
+import {DashboardContext} from "../Contexts/PublickContext";
 
-const Dashboard = (props) => {
+const Dashboard = () => {
 
     const [openMyElectionCollapse, setOpenMyElectionCollapse] = useState(false);
 
     const imageProfile = (UserInfo.profile || [])?.filter((img) => img.type === "PersonalPhoto")[0];
+
+    const {setOpenDrawerDashboard} = useContext(DashboardContext);
+
     const handleCollapse = () => {
         setOpenMyElectionCollapse(!openMyElectionCollapse);
     };
 
     const handleCloseDrawer = () => {
-        // props.setOpenDrawerDashboard(false);
+        setOpenDrawerDashboard(false);
     };
 
     const logOut = () => {
         localStorage.clear();
         window.location.href = "/";
-        // props.setOpenDrawerDashboard(false);
+        setOpenDrawerDashboard(false);
     };
 
     return (

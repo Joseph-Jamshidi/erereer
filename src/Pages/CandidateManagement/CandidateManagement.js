@@ -26,7 +26,7 @@ import {useParams} from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
-import ProgressBarContext from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublickContext";
 import {toPersianNumber} from "../../Common/Utitlity";
 
 const CandidateManagement = () => {
@@ -60,7 +60,9 @@ const CandidateManagement = () => {
             setPageCount(result.total);
             setShowProgressBar("none");
         }
-        response().catch(console.error);
+        response().catch(()=>{
+            setShowProgressBar("none")
+        });
     }, [pageSize, pageNumber, isUpdating]);
 
     const deleteCandidate = (e) => {
@@ -76,7 +78,9 @@ const CandidateManagement = () => {
             setDelId("");
             setShowProgressBar("none");
         }
-        response().catch(console.error);
+        response().catch(()=>{
+            setShowProgressBar("none")
+        });
     };
 
     const editVoter = (e, id) => {
@@ -89,7 +93,9 @@ const CandidateManagement = () => {
             editRef.current.click();
             setShowProgressBar("none");
         }
-        response().catch(console.error);
+        response().catch(()=>{
+            setShowProgressBar("none")
+        });
     };
 
     const handleSelectedCandidate = (e, id) => {

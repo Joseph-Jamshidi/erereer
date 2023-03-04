@@ -28,7 +28,7 @@ import Dashboard from "../../Layout/Dashboard";
 import icon from "../../images/icon.png"
 import {VotingService} from "../../Services/VoteServices";
 import CloseIcon from '@mui/icons-material/Close';
-import ProgressBarContext from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublickContext";
 import {toPersianNumber} from "../../Common/Utitlity";
 
 const Vote = () => {
@@ -62,7 +62,9 @@ const Vote = () => {
             setPageCount(getCandidate.total);
             setShowProgressBar("none");
         };
-        response().catch(console.error);
+        response().catch(()=>{
+            setShowProgressBar("none")
+        });
 
     }, [pageSize, pageNumber]);
 
@@ -100,7 +102,9 @@ const Vote = () => {
                     handleCloseAlert();
                 }, 4000)
             }
-            response().catch(console.error);
+            response().catch(()=>{
+                setShowProgressBar("none")
+            });
         }
     };
 

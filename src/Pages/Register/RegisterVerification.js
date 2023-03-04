@@ -11,7 +11,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import CountDownTimer from "../../Component/CounterDownTimer";
 import CloseIcon from "@mui/icons-material/Close";
 import MessageIcon from '@mui/icons-material/Message';
-import ProgressBarContext from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublickContext";
 
 
 const RegisterVerification = () => {
@@ -47,7 +47,9 @@ const RegisterVerification = () => {
                 setShowProgressBar("none");
             }
         }
-        response().catch(console.error);
+        response().catch(() => {
+            setShowProgressBar("none")
+        });
     };
 
     const handleSendCodeAgain = (e) => {
@@ -62,7 +64,9 @@ const RegisterVerification = () => {
             setTimer({minutes: 2, seconds: 0});
             setShowProgressBar("none");
         }
-        response().catch(console.error);
+        response().catch(() => {
+            setShowProgressBar("none")
+        });
     };
 
     const onFinishTimer = () => {

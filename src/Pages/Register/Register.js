@@ -12,15 +12,17 @@ import Vector from "../../images/Vector.png";
 import Ellipse652 from "../../images/Ellipse652.png";
 import Profile1 from '../../images/Profile1.png';
 import CloseIcon from "@mui/icons-material/Close";
-import ProgressBarContext from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublickContext";
 
 const Register = () => {
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [nationalCode, setNationalCode] = useState('')
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [password, setPassword] = useState('');
+    const [registerForm, setRegisterForm] = useState({
+        firstName: '',
+        lastName: '',
+        nationalCode: '',
+        phoneNumber: '',
+        password: ''
+    });
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
@@ -31,24 +33,17 @@ const Register = () => {
     const handleSubmit = (e) => {
         setShowProgressBar("block");
         e.preventDefault()
-        const userData = {
-            firstName: firstName,
-            lastName: lastName,
-            nationalCode: nationalCode,
-            phoneNumber: phoneNumber,
-            password: password
-        };
         const response = async () => {
-            const checkDuplicate = await CheckUserDuplicateService(phoneNumber, nationalCode);
+            const checkDuplicate = await CheckUserDuplicateService(registerForm.phoneNumber, registerForm.nationalCode);
             if (checkDuplicate.data === true) {
                 setOpenAlert(true);
                 setMessage("شما قبلاً ثبت نام کرده اید");
                 setAlertType("error");
                 setShowProgressBar("none");
             } else {
-                const result = await RegisterService(userData);
+                const result = await RegisterService(registerForm);
                 if (result.statusCode === 'Success') {
-                    navigate("../RegisterVerification", {state: {phoneNumber: phoneNumber}});
+                    navigate("../RegisterVerification", {state: {phoneNumber: registerForm.phoneNumber}});
                     setShowProgressBar("none");
                 } else {
                     setOpenAlert(true);
@@ -58,23 +53,17 @@ const Register = () => {
                 }
             }
         }
-        response().catch(console.error);
+        response().catch(() => {
+            setShowProgressBar("none")
+        });
     };
 
-    const firstNameInput = (e) => {
-        setFirstName(e.target.value);
-    };
-    const lastNameInput = (e) => {
-        setLastName(e.target.value)
-    };
-    const nationalCodeInput = (e) => {
-        setNationalCode(e.target.value)
-    };
-    const phoneNumberInput = (e) => {
-        setPhoneNumber(e.target.value);
-    };
-    const passwordInput = (e) => {
-        setPassword(e.target.value);
+    const handleRegisterForm = (e) => {
+        const value = e.target.value;
+        setRegisterForm({
+            ...registerForm,
+            [e.target.name]: value
+        });
     };
 
     const handleCloseAlert = (e, reason) => {
@@ -103,9 +92,9 @@ const Register = () => {
                                 <Grid2 container sx={{pt: '4%'}}>
                                     <Grid2 container sx={{width: '100%', my: '1%'}}>
                                         <TextField
-                                            onInput={firstNameInput}
+                                            onInput={handleRegisterForm}
                                             label="نام"
-                                            id="firstName"
+                                            name='firstName'
                                             sx={{m: 1, width: '100%'}}
                                             InputProps={{
                                                 startAdornment:
@@ -117,9 +106,9 @@ const Register = () => {
                                     </Grid2>
                                     <Grid2 container sx={{width: '100%', my: '1%'}}>
                                         <TextField
-                                            onInput={lastNameInput}
+                                            onInput={handleRegisterForm}
                                             label="نام خانوادگی"
-                                            id="lastName"
+                                            name='lastName'
                                             sx={{m: 1, width: '100%'}}
                                             InputProps={{
                                                 startAdornment:
@@ -130,9 +119,9 @@ const Register = () => {
                                     </Grid2>
                                     <Grid2 container sx={{width: '100%', my: '1%'}}>
                                         <TextField
-                                            onInput={nationalCodeInput}
+                                            onInput={handleRegisterForm}
                                             label="کد ملی"
-                                            id="nationalCode"
+                                            name='nationalCode'
                                             sx={{m: 1, width: '100%'}}
                                             type="number"
                                             InputProps={{
@@ -144,9 +133,9 @@ const Register = () => {
                                     </Grid2>
                                     <Grid2 container sx={{width: '100%', my: '1%'}}>
                                         <TextField
-                                            onInput={phoneNumberInput}
+                                            onInput={handleRegisterForm}
                                             label="شماره تلفن"
-                                            id="phoneNumber"
+                                            name='phoneNumber'
                                             sx={{m: 1, width: '100%'}}
                                             type="tel"
                                             InputProps={{
@@ -158,9 +147,9 @@ const Register = () => {
                                     </Grid2>
                                     <Grid2 container sx={{width: '100%', my: '1%'}}>
                                         <TextField
-                                            onInput={passwordInput}
+                                            onInput={handleRegisterForm}
                                             label="کلمه عبور"
-                                            id="password"
+                                            name='password'
                                             sx={{m: 1, width: '100%'}}
                                             type="password"
                                             InputProps={{

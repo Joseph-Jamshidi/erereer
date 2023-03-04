@@ -11,15 +11,17 @@ import {
 import {useParams} from "react-router-dom";
 import {AddVoterService} from "../../Services/VoterServices";
 import CloseIcon from "@mui/icons-material/Close";
-import ProgressBarContext from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublickContext";
 
 
 const AddVoter = (props) => {
 
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [nationalCode, setNationalCode] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
+    const [userVoter, setUserVoter] = useState({
+        firstName: '',
+        lastName: '',
+        nationalCode: '',
+        phoneNumber: ''
+    });
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
@@ -31,20 +33,13 @@ const AddVoter = (props) => {
         setShowProgressBar("block");
         e.preventDefault();
         const addVoter = {
-            userVoters: [
-                {
-                    firstName: firstName,
-                    lastName: lastName,
-                    nationalCode: nationalCode,
-                    phoneNumber: phoneNumber
-                }
-            ],
+            userVoters: [userVoter],
             userIds: [],
             electionId: params.id
         };
         const response = async () => {
             const result = await AddVoterService(addVoter);
-            setMessage(result.message)
+            setMessage(result.message);
             setOpenAlert(true);
             setAlertType("info");
             props.setIsUpdating(!props.isUpdating);
@@ -59,7 +54,17 @@ const AddVoter = (props) => {
                 setShowProgressBar("none");
             }
         };
-        response().catch(console.error);
+        response().catch(() => {
+            setShowProgressBar("none")
+        });
+    };
+
+    const handleAddVoterInputs = (e) => {
+        const value = e.target.value;
+        setUserVoter({
+            ...userVoter,
+            [e.target.name]: value
+        });
     };
 
     const handleCloseForm = () => {
@@ -87,34 +92,38 @@ const AddVoter = (props) => {
                 <DialogContent>
                     <Box component="form" onSubmit={handleSubmit}>
                         <TextField
-                            onChange={(e) => setFirstName(e.target.value)}
+                            onInput={handleAddVoterInputs}
                             fullWidth variant="standard"
                             sx={{m: '10px'}}
                             margin="dense"
                             label="نام"
+                            name="firstName"
                         />
                         <TextField
-                            onChange={(e) => setLastName(e.target.value)}
+                            onInput={handleAddVoterInputs}
                             fullWidth variant="standard"
                             label="نام خانوادگی"
                             sx={{m: '10px'}}
                             margin="dense"
+                            name="lastName"
                         />
                         <TextField
-                            onChange={(e) => setNationalCode(e.target.value)}
+                            onInput={handleAddVoterInputs}
                             label="کد ملی" fullWidth
                             variant="standard"
                             sx={{m: '10px'}}
                             margin="dense"
                             type="number"
+                            name="nationalCode"
                         />
                         <TextField
-                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            onInput={handleAddVoterInputs}
                             fullWidth variant="standard"
                             label="شماره تلفن"
                             sx={{m: '10px'}}
                             margin="dense"
                             type="number"
+                            name="phoneNumber"
                         />
                     </Box>
                 </DialogContent>

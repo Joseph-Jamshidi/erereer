@@ -11,12 +11,14 @@ import Ellipse653 from '../images/Ellipse653.png';
 import Ellipse652 from '../images/Ellipse652.png';
 import Ellipse654 from '../images/Ellipse654.png';
 import CloseIcon from "@mui/icons-material/Close";
-import ProgressBarContext from "../Contexts/PublickContext";
+import {ProgressBarContext} from "../Contexts/PublickContext";
 
 const Login = () => {
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [loginForm, setLoginForm] = useState({
+        userName: '',
+        password: ''
+    });
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
@@ -26,13 +28,9 @@ const Login = () => {
     const handleSubmit = (e) => {
         setShowProgressBar("block");
         e.preventDefault();
-        const loginInfo = {
-            grant_type: "password",
-            userName: username,
-            password: password
-        };
+        Object.assign(loginForm, {grant_type: "password"});
         const response = async () => {
-            const result = await LoginService(loginInfo);
+            const result = await LoginService(loginForm);
             if (result.access_token) {
                 setOpenAlert(true);
                 setMessage("خوش آمدید");
@@ -41,7 +39,7 @@ const Login = () => {
                 const personalInfo = personalImage.data;
                 localStorage.setItem("Profile", JSON.stringify(personalInfo.attachments));
                 setTimeout(() => {
-                    handleCloseAlert();
+                    window.location.href="./";
                 }, 4000);
                 setShowProgressBar("none");
             } else {
@@ -51,15 +49,17 @@ const Login = () => {
                 setShowProgressBar("none");
             }
         };
-        response().catch(console.error);
+        response().catch(() => {
+            setShowProgressBar("none");
+        });
     };
 
-    const usernameInput = (e) => {
-        setUsername(e.target.value);
-    };
-
-    const passwordInput = (e) => {
-        setPassword(e.target.value);
+    const handleLoginInputs = (e) => {
+        const value = e.target.value;
+        setLoginForm({
+            ...loginForm,
+            [e.target.name]: value
+        });
     };
 
     const handleCloseAlert = (e, reason) => {
@@ -67,7 +67,6 @@ const Login = () => {
             return
         }
         setOpenAlert(false);
-        window.location.href="./";
     };
 
     const closeIcon = (
@@ -76,6 +75,7 @@ const Login = () => {
             <CloseIcon/>
         </IconButton>
     );
+
 
     return (
         <>
@@ -95,10 +95,10 @@ const Login = () => {
                                 <Grid2 container sx={{pt: '4%', pb: '3%'}}>
                                     <Grid2 container sx={{width: '100%', my: '5%'}}>
                                         <TextField
-                                            onInput={usernameInput}
+                                            onInput={handleLoginInputs}
                                             label="نام کاربری"
                                             sx={{m: 1, width: '100%'}}
-                                            id="input-with-sx"
+                                            name="userName"
                                             InputProps={{
                                                 startAdornment:
                                                     <InputAdornment position="start"><Pic
@@ -108,9 +108,10 @@ const Login = () => {
                                     </Grid2>
                                     <Grid2 container sx={{width: '100%', mb: '10%'}}>
                                         <TextField
-                                            onInput={passwordInput}
+                                            onInput={handleLoginInputs}
                                             label="کلمه عبور"
                                             sx={{m: 1, width: '100%'}}
+                                            name="password"
                                             type="password"
                                             InputProps={{
                                                 startAdornment:

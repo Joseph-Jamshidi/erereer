@@ -11,7 +11,7 @@ import Ellipse654 from "../images/Ellipse654.png";
 import Vector from "../images/Vector.png";
 import Ellipse652 from "../images/Ellipse652.png";
 import CloseIcon from "@mui/icons-material/Close";
-import ProgressBarContext from "../Contexts/PublickContext";
+import {ProgressBarContext} from "../Contexts/PublickContext";
 
 const ResetPassword = () => {
 
@@ -47,7 +47,9 @@ const ResetPassword = () => {
                 setShowProgressBar("none");
             }
         }
-        response().catch(console.error);
+        response().catch(() => {
+            setShowProgressBar("none")
+        });
     };
 
     const handlePassword = (e) => {

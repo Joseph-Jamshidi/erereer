@@ -25,18 +25,21 @@ import CloseIcon from "@mui/icons-material/Close";
 import AdapterJalali from '@date-io/date-fns-jalali';
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import ProgressBarContext from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublickContext";
 
 const CreateElection = () => {
 
-    const [name, setName] = useState("");
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
-    const [isEnabled, setIsEnabled] = useState(false);
-    const [isVoterHidden, setIsVoterHidden] = useState(false);
-    const [candidateCount, setCandidateCount] = useState("");
-    const [userVoteCount, setUserVoteCount] = useState("");
-    const [ownerId, setOwnerId] = useState("");
+    const [createElection, setCreateElection] = useState({
+        name: '',
+        startDate: '',
+        endDate: '',
+        isEnabled: false,
+        isVoterHidden: false,
+        candidateCount: '',
+        userVoteCount: '',
+        ownerId: 0,
+        id: 0
+    });
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
@@ -50,34 +53,28 @@ const CreateElection = () => {
             const response = async () => {
                 const result = await ChosenElectionService(params.id);
                 const selected = result.data;
-                setName(selected.name)
-                setCandidateCount(selected.candidateCount);
-                setUserVoteCount(selected.userVoteCount);
-                setIsEnabled(selected.isEnabled);
-                setIsVoterHidden(selected.isVoterHidden);
-                setOwnerId(selected.ownerId);
-                setStartDate(selected.startDate);
-                setEndDate(selected.endDate);
+                setCreateElection({
+                    name: selected.name,
+                    startDate: selected.startDate,
+                    endDate: selected.endDate,
+                    isEnabled: selected.isEnabled,
+                    isVoterHidden: selected.isVoterHidden,
+                    candidateCount: selected.candidateCount,
+                    userVoteCount: selected.userVoteCount,
+                    ownerId: selected.ownerId,
+                    id: params.id
+                })
                 setShowProgressBar("none");
             }
-            response().catch(console.error);
+            response().catch(() => {
+                setShowProgressBar("none")
+            });
         }
     }, []);
 
     const handleCreate = (e) => {
         setShowProgressBar("block");
         e.preventDefault();
-        const createElection = {
-            name: name,
-            startDate: startDate,
-            endDate: endDate,
-            isEnabled: isEnabled,
-            isVoterHidden: isVoterHidden,
-            candidateCount: candidateCount,
-            userVoteCount: userVoteCount,
-            id: params.id ? params.id : 0,
-            ownerId: params.id ? ownerId : 0
-        };
         if (createElection.id) {
             const response = async () => {
                 const result = await EditElectionService(createElection);
@@ -93,7 +90,9 @@ const CreateElection = () => {
                     setShowProgressBar("none");
                 }
             };
-            response().catch(console.error);
+            response().catch(() => {
+                setShowProgressBar("none")
+            });
         } else {
             const response = async () => {
                 const result = await AddElectionService(createElection);
@@ -101,11 +100,17 @@ const CreateElection = () => {
                     setMessage("انتخابات جدید ایجاد شد")
                     setOpenAlert(true);
                     setAlertType("success");
-                    setName("");
-                    setCandidateCount("");
-                    setUserVoteCount("");
-                    setIsEnabled(false);
-                    setIsVoterHidden(false);
+                    setCreateElection({
+                        name: '',
+                        startDate: '',
+                        endDate: '',
+                        isEnabled: false,
+                        isVoterHidden: false,
+                        candidateCount: '',
+                        userVoteCount: '',
+                        ownerId: 0,
+                        id: 0
+                    });
                     setShowProgressBar("none");
                 } else {
                     setMessage("لطفاً فرم را کامل کنید")
@@ -114,20 +119,36 @@ const CreateElection = () => {
                     setShowProgressBar("none");
                 }
             }
-            response().catch(console.error);
+            response().catch(() => {
+                setShowProgressBar("none")
+            });
         }
+    };
+
+    const handleCreateElectionInputs = (e) => {
+        const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+        setCreateElection({
+            ...createElection,
+            [e.target.name]: value
+        })
     };
 
     const onStartDateHandler = (date) => {
         const dateObject = new Date(date);
         const sDay = new Intl.DateTimeFormat('en-US').format(dateObject);
-        setStartDate(sDay);
+        setCreateElection({
+            ...createElection,
+            startDate: sDay
+        });
     };
 
     const onEndDateHandler = (date) => {
         const dateObject = new Date(date);
         const eDay = new Intl.DateTimeFormat('en-US').format(dateObject);
-        setEndDate(eDay);
+        setCreateElection({
+            ...createElection,
+            endDate: eDay
+        });
     };
 
     const handleCloseAlert = (e, reason) => {
@@ -165,11 +186,12 @@ const CreateElection = () => {
                                     <Stack direction={{xs: 'column', sm: 'row'}} spacing={3}>
                                         <Grid2 xs={12} sm={8}>
                                             <TextField
-                                                onChange={(e) => setName(e.target.value)}
+                                                onInput={handleCreateElectionInputs}
                                                 sx={{background: 'white', width: '100%'}}
                                                 label="عنوان انتخابات"
                                                 variant="outlined"
-                                                value={name}
+                                                value={createElection.name}
+                                                name="name"
                                             />
                                         </Grid2>
                                         <Grid2 xs={12} sm={4}>
@@ -177,7 +199,7 @@ const CreateElection = () => {
                                                 <DatePicker
                                                     label="تاریخ شروع انتخابات"
                                                     mask="____/__/__"
-                                                    value={startDate}
+                                                    value={createElection.startDate}
                                                     onChange={onStartDateHandler}
                                                     renderInput={(params) => <TextField {...params} />}
                                                 />
@@ -188,20 +210,22 @@ const CreateElection = () => {
                                         <Stack direction={{xs: 'column', sm: 'row'}} spacing={4}>
                                             <Grid2 xs={12} lg={4} md={5}>
                                                 <TextField
-                                                    onChange={(e) => setCandidateCount(e.target.value)}
+                                                    onInput={handleCreateElectionInputs}
                                                     sx={{background: 'white', width: {xs: '100%'}}}
                                                     label="تعداد کاندیدهای انتخابات"
-                                                    value={candidateCount}
+                                                    value={createElection.candidateCount}
                                                     type="number"
+                                                    name="candidateCount"
                                                 />
                                             </Grid2>
                                             <Grid2 xs={12} lg={4} md={5}>
                                                 <TextField
-                                                    onChange={(e) => setUserVoteCount(e.target.value)}
+                                                    onInput={handleCreateElectionInputs}
                                                     sx={{background: 'white', width: {xs: '100%'}}}
                                                     label="تعداد رأی برای هر کاربر"
-                                                    value={userVoteCount}
+                                                    value={createElection.userVoteCount}
                                                     type="number"
+                                                    name="userVoteCount"
                                                 />
                                             </Grid2>
                                         </Stack>
@@ -213,7 +237,7 @@ const CreateElection = () => {
                                                     <DatePicker
                                                         label="تاریخ پایان انتخابات"
                                                         mask="____/__/__"
-                                                        value={endDate}
+                                                        value={createElection.endDate}
                                                         onChange={onEndDateHandler}
                                                         renderInput={(params) => <TextField {...params} />}
                                                     />
@@ -225,8 +249,9 @@ const CreateElection = () => {
                                                     <FormGroup>
                                                         <Stack direction="row" spacing={1} alignItems="center">
                                                             <Typography>خیر</Typography>
-                                                            <Switch onChange={() => setIsVoterHidden(!isVoterHidden)}
-                                                                    checked={isVoterHidden === true}/>
+                                                            <Switch checked={createElection.isVoterHidden === true}
+                                                                    onChange={handleCreateElectionInputs}
+                                                                    name="isVoterHidden"/>
                                                             <Typography>بله</Typography>
                                                         </Stack>
                                                     </FormGroup>
@@ -241,8 +266,9 @@ const CreateElection = () => {
                                                     <FormGroup>
                                                         <Stack direction="row" spacing={1} alignItems="center">
                                                             <Typography>غیر فعال</Typography>
-                                                            <Switch onChange={() => setIsEnabled(!isEnabled)}
-                                                                    checked={isEnabled === true}/>
+                                                            <Switch checked={createElection.isEnabled === true}
+                                                                    onChange={handleCreateElectionInputs}
+                                                                    name="isEnabled"/>
                                                             <Typography>فعال</Typography>
                                                         </Stack>
                                                     </FormGroup>

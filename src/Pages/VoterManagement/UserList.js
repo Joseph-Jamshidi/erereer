@@ -13,7 +13,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {UserListByFirstNameService, UserListByLastNameService, UserListService} from "../../Services/UserServices";
 import {NameBox, NumberBox, UserBox} from "../../StyledTags/VoterManagementTags";
 import {AddVoterService} from "../../Services/VoterServices";
-import ProgressBarContext from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublickContext";
 import {toPersianNumber} from "../../Common/Utitlity";
 
 const UserList = (props) => {
@@ -38,7 +38,9 @@ const UserList = (props) => {
             setPageCount(result.total);
             setShowProgressBar("none");
         };
-        response().catch(console.error);
+        response().catch(()=>{
+            setShowProgressBar("none")
+        });
     }, [pageNumber, pageSize, isUpdating]);
 
     const handleSubmit = (e) => {
@@ -65,7 +67,9 @@ const UserList = (props) => {
                 setShowProgressBar("none");
             }
         }
-        response().catch(console.error)
+        response().catch(()=>{
+            setShowProgressBar("none")
+        });
     };
 
     const handleFirstNameSearch = (e) => {
@@ -74,7 +78,9 @@ const UserList = (props) => {
             setUsers(result.data);
             setPageCount(result.count);
         };
-        response().catch(console.error);
+        response().catch(()=>{
+            setShowProgressBar("none")
+        });
     };
 
     const handleLastNameSearch = (e) => {
@@ -83,7 +89,9 @@ const UserList = (props) => {
             setUsers(result.data);
             setPageCount(result.count);
         };
-        response().catch(console.error);
+        response().catch(()=>{
+            setShowProgressBar("none")
+        });
     };
 
     const handleCloseList = () => {

@@ -7,18 +7,21 @@ import {EditProfileService, ProfileService} from "../Services/UserServices";
 import {UserInfo} from "../Services/info";
 import CloseIcon from "@mui/icons-material/Close";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import ProgressBarContext from "../Contexts/PublickContext";
+import {ProgressBarContext} from "../Contexts/PublickContext";
 
 const UserProfile = () => {
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [nationalCode, setNationalCode] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [editedUser, setEditedUser] = useState({
+        firstName: '',
+        lastName: '',
+        nationalCode: '',
+        phoneNumber: '',
+        attachments: [],
+        gender: "Male"
+    });
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
     const [message, setMessage] = useState('');
-    const [attachments, setAttachments] = useState([]);
     const [isUpdating, setIsUpdating] = useState(false);
 
     const {setShowProgressBar} = useContext(ProgressBarContext);
@@ -29,26 +32,24 @@ const UserProfile = () => {
         const response = async () => {
             const result = await ProfileService(UserInfo.userId);
             const info = result.data
-            setFirstName(info.firstName);
-            setLastName(info.lastName);
-            setNationalCode(info.nationalCode);
-            setPhoneNumber(info.phoneNumber);
-            setAttachments(info.attachments);
+            setEditedUser({
+                firstName: info.firstName,
+                lastName: info.lastName,
+                nationalCode: info.nationalCode,
+                phoneNumber: info.phoneNumber,
+                attachments: info.attachments
+            })
             setShowProgressBar("none");
         };
-        response().catch(console.error);
+        response().catch(() => {
+            setShowProgressBar("none")
+        });
     }, [isUpdating]);
 
     const handleSubmit = (e) => {
         setShowProgressBar("block");
         e.preventDefault();
-        const editedUser = {
-            firstName: firstName,
-            lastName: lastName,
-            nationalCode: nationalCode,
-            gender: "Male",
-            attachments: attachments
-        };
+
         const response = async () => {
             await EditProfileService(editedUser);
             setMessage("اطلاعات کاربری با موفقیت تغییر یافت");
@@ -69,7 +70,17 @@ const UserProfile = () => {
             }, 4000);
             setShowProgressBar("none");
         };
-        response().catch(console.error);
+        response().catch(() => {
+            setShowProgressBar("none")
+        });
+    };
+
+    const handleEditedUserData = (e) => {
+        const value = e.target.value;
+        setEditedUser({
+            ...editedUser,
+            [e.target.name]: value
+        });
     };
 
     const handleNationalPhoto = async (e) => {
@@ -82,7 +93,10 @@ const UserProfile = () => {
             userId: UserInfo.userId,
             type: "NationalCard",
         };
-        setAttachments([...attachments, nationalPhotoAttachment]);
+        setEditedUser({
+            ...editedUser,
+            attachments: [...editedUser.attachments, nationalPhotoAttachment]
+        });
     };
 
     const handleIdentity = async (e) => {
@@ -95,7 +109,10 @@ const UserProfile = () => {
             userId: UserInfo.userId,
             type: "Identity",
         };
-        setAttachments([...attachments, nationalPhotoAttachment]);
+        setEditedUser({
+            ...editedUser,
+            attachments: [...editedUser.attachments, nationalPhotoAttachment]
+        });
     };
 
 
@@ -109,7 +126,10 @@ const UserProfile = () => {
             userId: UserInfo.userId,
             type: "PersonalPhoto",
         };
-        setAttachments([...attachments, personalPhotoAttachment]);
+        setEditedUser({
+            ...editedUser,
+            attachments: [...editedUser.attachments, personalPhotoAttachment]
+        });
     };
 
     const toBase64 = file => new Promise((resolve, reject) => {
@@ -120,8 +140,12 @@ const UserProfile = () => {
     });
 
     const handleDelete = (id) => {
-        const imageList = attachments.filter((i) => i.id !== id);
-        setAttachments(imageList);
+        const delAttachments = editedUser.attachments;
+        const imageList = delAttachments.filter((i) => i.id !== id);
+        setEditedUser({
+            ...editedUser,
+            attachments: imageList
+        });
     };
 
     const handleCloseAlert = (e, reason) => {
@@ -129,7 +153,7 @@ const UserProfile = () => {
             return
         }
         setOpenAlert(false);
-        window.location.href="./UserProfile"
+        window.location.href = "./UserProfile"
     };
 
     const closeIcon = (
@@ -137,7 +161,7 @@ const UserProfile = () => {
             <CloseIcon/>
         </IconButton>
     );
-
+    console.log(editedUser.attachments)
 
     return (
         <>
@@ -156,15 +180,17 @@ const UserProfile = () => {
                                        sx={{my: '8px'}}>
                                     <Grid2 xs={12} sm={6}>
                                         <Grid2 xs={12} sm={8}>
-                                            <TextField label="نام" margin="dense" value={firstName} variant="filled"
-                                                       onChange={(e) => setFirstName(e.target.value)} fullWidth/>
+                                            <TextField label="نام" value={editedUser.firstName} fullWidth
+                                                       variant="filled" name="firstName" margin="dense"
+                                                       onInput={handleEditedUserData}/>
                                         </Grid2>
                                     </Grid2>
                                     <Grid2 xs={12} sm={6}>
                                         <Grid2 xs={12} sm={8}>
                                             <TextField
-                                                label="نام خانوادگی" value={lastName} variant="filled" fullWidth
-                                                margin="dense" onChange={(e) => setLastName(e.target.value)}/>
+                                                label="نام خانوادگی" value={editedUser.lastName} variant="filled"
+                                                fullWidth name="lastName" margin="dense"
+                                                onInput={handleEditedUserData}/>
                                         </Grid2>
                                     </Grid2>
                                 </Stack>
@@ -175,15 +201,17 @@ const UserProfile = () => {
                                     <Grid2 xs={12} sm={6}>
                                         <Grid2 xs={12} sm={8}>
                                             <TextField
-                                                label="کد ملی" margin="dense" value={nationalCode} variant="filled"
-                                                fullWidth onChange={(e) => setNationalCode(e.target.value)}/>
+                                                label="کد ملی" margin="dense" value={editedUser.nationalCode}
+                                                variant="filled" name="nationalCode" fullWidth
+                                                onInput={handleEditedUserData}/>
                                         </Grid2>
                                     </Grid2>
                                     <Grid2 xs={12} sm={6}>
                                         <Grid2 xs={12} sm={8}>
                                             <TextField
-                                                label="شماره تلفن" value={phoneNumber} variant="filled" fullWidth
-                                                margin="dense" onChange={(e) => setPhoneNumber(e.target.value)}/>
+                                                label="شماره تلفن" value={editedUser.phoneNumber} variant="filled"
+                                                fullWidth name="phoneNumber" onInput={handleEditedUserData}
+                                                margin="dense"/>
                                         </Grid2>
                                     </Grid2>
                                 </Stack>
@@ -200,16 +228,18 @@ const UserProfile = () => {
                                                        onChange={handleNationalPhoto}/>
                                             </Button>
                                             {
-                                                (attachments || []).filter((img) => img.type === "NationalCard").map((image, index) =>
-                                                    <Badge key={index} badgeContent={
-                                                        <IconButton onClick={() => handleDelete(image.id)}>
-                                                            <CloseIcon/>
-                                                        </IconButton>
-                                                    }>
-                                                        <Avatar variant="rounded"
-                                                                src={image.base64}/>
-                                                    </Badge>
-                                                )
+                                                (editedUser.attachments || [])
+                                                    .filter((img) => img.type === "NationalCard")
+                                                    .map((image, index) =>
+                                                        <Badge key={index} badgeContent={
+                                                            <IconButton onClick={() => handleDelete(image.id)}>
+                                                                <CloseIcon/>
+                                                            </IconButton>
+                                                        }>
+                                                            <Avatar variant="rounded"
+                                                                    src={image.base64}/>
+                                                        </Badge>
+                                                    )
                                             }
                                         </Stack>
                                     </Card>
@@ -225,7 +255,9 @@ const UserProfile = () => {
                                                        onChange={handleIdentity}/>
                                             </Button>
                                             {
-                                                (attachments || []).filter((img) => img.type === "Identity").map((image, index) =>
+                                                (editedUser.attachments || [])
+                                                    .filter((img) => img.type === "Identity")
+                                                    .map((image, index) =>
                                                     <Badge key={index} badgeContent={
                                                         <IconButton onClick={() => handleDelete(image.id)}>
                                                             <CloseIcon/>
@@ -251,16 +283,18 @@ const UserProfile = () => {
                                                    onChange={handlePersonalPhoto}/>
                                         </Button>
                                         {
-                                            (attachments || []).filter((img) => img.type === "PersonalPhoto").map((image, index) =>
-                                                <Badge key={index} badgeContent={
-                                                    <IconButton onClick={() => handleDelete(image.id)}>
-                                                        <CloseIcon/>
-                                                    </IconButton>
-                                                }>
-                                                    <Avatar variant="rounded"
-                                                            src={image.base64}/>
-                                                </Badge>
-                                            )
+                                            (editedUser.attachments || [])
+                                                .filter((img) => img.type === "PersonalPhoto")
+                                                .map((image, index) =>
+                                                    <Badge key={index} badgeContent={
+                                                        <IconButton onClick={() => handleDelete(image.id)}>
+                                                            <CloseIcon/>
+                                                        </IconButton>
+                                                    }>
+                                                        <Avatar variant="rounded"
+                                                                src={image.base64}/>
+                                                    </Badge>
+                                                )
                                         }
                                     </Stack>
                                 </Card>

@@ -11,7 +11,7 @@ import Ellipse652 from "../../images/Ellipse652.png";
 import CloseIcon from "@mui/icons-material/Close";
 import Stroke from "../../images/Stroke.png";
 import Lock from "../../images/Lock.png";
-import ProgressBarContext from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublickContext";
 
 const SetNewPassword = () => {
 
@@ -61,7 +61,9 @@ const SetNewPassword = () => {
                 setShowProgressBar("none");
             }
         }
-        response().catch(console.error)
+        response().catch(()=>{
+            setShowProgressBar("none")
+        });
     };
 
     const handleCloseAlert = (e, reason) => {

@@ -13,42 +13,40 @@ import {AddCandidateService, EditCandidateService} from "../../Services/Candidat
 import {useParams} from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import ProgressBarContext from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublickContext";
 
 
 const AddCandidateForm = (props) => {
 
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [isEnabled, setIsEnabled] = useState(false);
+    const [addCandidate, setAddCandidate] = useState({
+        name: '',
+        description: '',
+        isEnabled: false,
+        attachments: [],
+        id: 0
+    });
     const [message, setMessage] = useState('');
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState("info");
-    const [attachments, setAttachments] = useState([]);
 
     const {setShowProgressBar} = useContext(ProgressBarContext);
     const params = useParams();
 
     useEffect(() => {
         const select = props.selectedCandidate;
-        setName(select.name);
-        setDescription(select.description);
-        setIsEnabled(select.isEnabled);
-        setAttachments(select.attachments);
-        setAttachments(select.attachments);
+        setAddCandidate({
+            name: select.name,
+            description: select.description,
+            isEnabled: select.isEnabled,
+            attachments: select.attachments,
+            id: props.selectedCandidate.id
+        })
     }, [props.selectedCandidate]);
 
     const handleSubmit = (e) => {
         setShowProgressBar("block");
         e.preventDefault();
-        const addCandidate = {
-            name: name,
-            description: description,
-            isEnabled: isEnabled,
-            electionId: params.id,
-            attachments: attachments,
-            id: props.selectedCandidate ? props.selectedCandidate.id : 0
-        };
+        Object.assign(addCandidate, {electionId: params.id});
 
         if (props.selectedCandidate.id) {
             const response = async () => {
@@ -62,7 +60,9 @@ const AddCandidateForm = (props) => {
                     props.setIsUpdating(!props.isUpdating);
                 }
             }
-            response().catch(console.error);
+            response().catch(() => {
+                setShowProgressBar("none")
+            });
         } else {
             const response = async () => {
                 const result = await AddCandidateService(addCandidate);
@@ -79,8 +79,18 @@ const AddCandidateForm = (props) => {
                     setAlertType("error");
                 }
             }
-            response().catch(console.error);
+            response().catch(() => {
+                setShowProgressBar("none")
+            });
         }
+    };
+
+    const handleAddCandidateInputs = (e) => {
+        const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+        setAddCandidate({
+            ...addCandidate,
+            [e.target.name]: value
+        })
     };
 
     const handleCloseForm = () => {
@@ -101,9 +111,11 @@ const AddCandidateForm = (props) => {
             extension: e.target.files[0].name.split('.').slice(-1)[0],
             name: e.target.files[0].name.split('.')[0]
         };
-
-        setAttachments([...attachments, newAttachment]);
-    }
+        setAddCandidate({
+            ...addCandidate,
+            attachments: [...addCandidate.attachments, newAttachment]
+        });
+    };
     const toBase64 = file => new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -112,10 +124,14 @@ const AddCandidateForm = (props) => {
     });
 
     const handleDelete = (id) => {
-        const imageList = attachments.filter((i) => i.id !== id);
-        setAttachments(imageList);
+        const attachment = addCandidate.attachments;
+        const imageList = attachment.filter((i) => i.id !== id);
+        setAddCandidate({
+            ...addCandidate,
+            attachments: imageList
+        });
     };
-
+    
     const handleCloseAlert = (e, reason) => {
         if (reason === "clickaway") {
             return
@@ -136,14 +152,11 @@ const AddCandidateForm = (props) => {
                     variant="h5">{props.selectedCandidate.id ? "ویرایش کاندید" : "اضافه کردن کاندید"}</DialogTitle>
                 <DialogContent>
                     <Box component="form" onSubmit={handleSubmit}>
-                        <TextField margin="dense" label="نام و نام خانوادگی" fullWidth variant="standard"
-                                   onChange={(e) => setName(e.target.value)}
-                                   sx={{m: '10px'}} value={name}
-                        />
-                        <TextField label="توضیحات" multiline minRows={3} fullWidth variant="standard"
-                                   onChange={(e) => setDescription(e.target.value)}
-                                   sx={{m: '10px'}} value={description}
-                        />
+                        <TextField margin="dense" label="نام و نام خانوادگی" fullWidth variant="standard" name="name"
+                                   onInput={handleAddCandidateInputs} sx={{m: '10px'}} value={addCandidate.name}/>
+                        <TextField label="توضیحات" multiline minRows={3} fullWidth variant="standard" sx={{m: '10px'}}
+                                   onInput={handleAddCandidateInputs} name="description"
+                                   value={addCandidate.description}/>
                         <Card sx={{width: "100%", my: 2, py: 1}}>
                             <Stack direction="row" spacing={3}>
                                 <Button sx={{background: '#425C81', pr: 0, pl: 1, m: 1}} variant="contained"
@@ -153,7 +166,7 @@ const AddCandidateForm = (props) => {
                                     <input hidden accept="image/*" multiple type="file" onChange={handleProfile}/>
                                 </Button>
                                 {
-                                    (attachments || []).map((image, index) =>
+                                    (addCandidate.attachments || []).map((image, index) =>
                                         <Badge key={index} anchorOrigin={{vertical: 'top', horizontal: 'left'}}
                                                badgeContent={
                                                    <IconButton onClick={() => handleDelete(image.id)}>
@@ -169,8 +182,8 @@ const AddCandidateForm = (props) => {
                         <FormGroup>
                             <Stack direction="row" spacing={1} alignItems="center">
                                 <Typography>غیر فعال</Typography>
-                                <Switch checked={isEnabled === true}
-                                        onChange={() => setIsEnabled(!isEnabled)}/>
+                                <Switch checked={addCandidate.isEnabled === true}
+                                        onChange={handleAddCandidateInputs} name="isEnabled"/>
                                 <Typography>فعال</Typography>
                             </Stack>
                         </FormGroup>

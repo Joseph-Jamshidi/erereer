@@ -7,7 +7,7 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {useNavigate} from "react-router-dom";
 import {CheckDuplicateVoteService} from "../../Services/VoteServices";
 import CloseIcon from "@mui/icons-material/Close";
-import ProgressBarContext from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublickContext";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
 import PollIcon from "@mui/icons-material/Poll";
 
@@ -34,13 +34,19 @@ const VotableElection = () => {
                     const checkDuplicate = await CheckDuplicateVoteService(el.id);
                     _checkElections[el.id] = checkDuplicate.data;
                     setShowProgressBar("none");
+                    setCheckElections(_checkElections);
                 }
-                checkEveryElection().catch(console.error);
+                checkEveryElection().catch(() => {
+                    setShowProgressBar("none");
+                });
             });
-            setCheckElections(_checkElections);
         };
-        response().catch(console.error);
+        response().catch(() => {
+            setShowProgressBar("none")
+        });
     }, []);
+
+    console.log(checkElections)
 
     const convertTime = (date) => {
         const dateObject = new Date(date);
@@ -67,7 +73,9 @@ const VotableElection = () => {
                 navigate(`../Vote/${id}`);
             }
         };
-        response().catch(console.error);
+        response().catch(() => {
+            setShowProgressBar("none")
+        });
     };
 
     const handleError = () => {

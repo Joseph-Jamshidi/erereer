@@ -30,7 +30,7 @@ import AddVoter from "./AddVoter";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import UserList from "./UserList";
-import ProgressBarContext from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublickContext";
 import {toPersianNumber} from "../../Common/Utitlity";
 
 
@@ -60,7 +60,9 @@ const VoterManagement = () => {
             setPageCount(result.total);
             setShowProgressBar("none");
         }
-        response().catch(console.error);
+        response().catch(()=>{
+            setShowProgressBar("none")
+        });
     }, [pageNumber, pageSize, isUpdating]);
 
     const deleteVoter = (e) => {
@@ -76,7 +78,9 @@ const VoterManagement = () => {
             setAlertType("success");
             setShowProgressBar("none");
         }
-        response().catch(console.error);
+        response().catch(()=>{
+            setShowProgressBar("none")
+        });
     };
 
     const handleSelectedVoter = (e, id) => {

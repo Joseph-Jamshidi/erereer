@@ -30,7 +30,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import GroupsIcon from '@mui/icons-material/Groups';
 import CloseIcon from "@mui/icons-material/Close";
 import {toPersianNumber} from "../../Common/Utitlity"
-import ProgressBarContext from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublickContext";
 
 const ElectionList = ({afterGetVotingList}) => {
 
@@ -64,7 +64,9 @@ const ElectionList = ({afterGetVotingList}) => {
             afterGetVotingList(result.count);
             setShowProgressBar("none");
         }
-        response().catch(console.error);
+        response().catch(()=>{
+            setShowProgressBar("none")
+        });
     }, [pageNumber, pageSize, isUpdating]);
 
     const prepareData = (elections) => {
@@ -115,7 +117,9 @@ const ElectionList = ({afterGetVotingList}) => {
             setAlertType("success");
             setShowProgressBar("none");
         };
-        response().catch(console.error);
+        response().catch(()=>{
+            setShowProgressBar("none")
+        });
     };
 
     const handleEdit = (e, id) => {

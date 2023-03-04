@@ -1,1 +1,1 @@
-export const API_BASE_URL = 'http://dermpath.ir:3300/api/v1/'
+export const API_BASE_URL = 'http://api.rayer.ir/api/v1/'
