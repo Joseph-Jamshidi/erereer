@@ -83,7 +83,7 @@ const ForgetPassword = () => {
                                         />
                                     </Grid2>
                                     <Grid2 container sx={{width: '100%', mb: '0', mt: '1%'}}>
-                                        <LoginButton variant="contained" type="submit">ثبت نام</LoginButton>
+                                        <LoginButton variant="contained" type="submit">بازیابی</LoginButton>
                                     </Grid2>
                                 </Grid2>
                             </Box>

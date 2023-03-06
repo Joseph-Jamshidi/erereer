@@ -124,6 +124,7 @@ const SetNewPassword = () => {
                                         <TextField
                                             onChange={(e) => setOtpCode(e.target.value)}
                                             sx={{m: 1, width: '100%'}}
+                                            label="کد پیامکی"
                                             type="number"
                                             InputProps={{
                                                 startAdornment:
@@ -134,7 +135,7 @@ const SetNewPassword = () => {
                                         />
                                     </Grid2>
                                     <Grid2 container sx={{width: '100%', mb: '0', mt: '1%'}}>
-                                        <LoginButton variant="contained" type="submit">ثبت نام</LoginButton>
+                                        <LoginButton variant="contained" type="submit">بازیابی</LoginButton>
                                     </Grid2>
                                 </Grid2>
                             </Box>

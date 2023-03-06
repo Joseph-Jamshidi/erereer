@@ -159,7 +159,7 @@ const Register = () => {
                                         />
                                     </Grid2>
                                     <Grid2 container sx={{width: '100%'}}>
-                                        <LoginLink>
+                                        <LoginLink to='../login'>
                                             <Typography align="center" sx={{color: 'blue'}}>ثبت نام کرده ام</Typography>
                                         </LoginLink>
                                     </Grid2>
