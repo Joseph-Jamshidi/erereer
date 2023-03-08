@@ -7,7 +7,7 @@ import {EditProfileService, ProfileService} from "../Services/UserServices";
 import {UserInfo} from "../Services/info";
 import CloseIcon from "@mui/icons-material/Close";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import {ProgressBarContext} from "../Contexts/PublickContext";
+import {ProgressBarContext} from "../Contexts/PublicContext";
 
 const UserProfile = () => {
 

@@ -13,7 +13,7 @@ import {AddCandidateService, EditCandidateService} from "../../Services/Candidat
 import {useParams} from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import {ProgressBarContext} from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublicContext";
 
 
 const AddCandidateForm = (props) => {

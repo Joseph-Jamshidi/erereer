@@ -11,7 +11,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import CountDownTimer from "../../Component/CounterDownTimer";
 import CloseIcon from "@mui/icons-material/Close";
 import MessageIcon from '@mui/icons-material/Message';
-import {ProgressBarContext} from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublicContext";
 
 
 const RegisterVerification = () => {

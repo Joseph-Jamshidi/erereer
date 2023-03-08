@@ -28,7 +28,7 @@ import Dashboard from "../../Layout/Dashboard";
 import icon from "../../images/icon.png"
 import {VotingService} from "../../Services/VoteServices";
 import CloseIcon from '@mui/icons-material/Close';
-import {ProgressBarContext} from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublicContext";
 import {toPersianNumber} from "../../Common/Utitlity";
 
 const Vote = () => {

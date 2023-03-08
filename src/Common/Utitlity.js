@@ -6,8 +6,4 @@ function toPersianNumber(n) {
         .replace(/\d/g, x => farsiDigits[x]);
 }
 
-function tool1(){
-
-}
-
-export  {toPersianNumber,tool1}
+export {toPersianNumber}

@@ -30,7 +30,7 @@ import AddVoter from "./AddVoter";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import UserList from "./UserList";
-import {ProgressBarContext} from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublicContext";
 import {toPersianNumber} from "../../Common/Utitlity";
 
 

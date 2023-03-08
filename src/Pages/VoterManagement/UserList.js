@@ -13,7 +13,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {UserListByFirstNameService, UserListByLastNameService, UserListService} from "../../Services/UserServices";
 import {NameBox, NumberBox, UserBox} from "../../StyledTags/VoterManagementTags";
 import {AddVoterService} from "../../Services/VoterServices";
-import {ProgressBarContext} from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublicContext";
 import {toPersianNumber} from "../../Common/Utitlity";
 
 const UserList = (props) => {

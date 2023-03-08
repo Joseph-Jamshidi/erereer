@@ -7,7 +7,7 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {useNavigate} from "react-router-dom";
 import {CheckDuplicateVoteService} from "../../Services/VoteServices";
 import CloseIcon from "@mui/icons-material/Close";
-import {ProgressBarContext} from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublicContext";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
 import PollIcon from "@mui/icons-material/Poll";
 

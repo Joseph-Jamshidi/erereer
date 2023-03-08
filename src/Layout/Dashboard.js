@@ -20,7 +20,7 @@ import Document from "../images/Document.png";
 import circle2 from "../images/circle2.png";
 import Ellipse655 from "../images/Ellipse655.png";
 import {UserInfo} from "../Services/info";
-import {DashboardContext} from "../Contexts/PublickContext";
+import {DashboardContext} from "../Contexts/PublicContext";
 
 const Dashboard = () => {
 

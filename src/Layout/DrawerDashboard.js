@@ -3,7 +3,7 @@ import {Button, Drawer, Stack} from "@mui/material";
 import Dashboard from "./Dashboard";
 import {MainDashboardDrawer} from "../StyledTags/DrawerDashboardTags";
 import MenuIcon from "@mui/icons-material/Menu";
-import {DashboardContext} from "../Contexts/PublickContext";
+import {DashboardContext} from "../Contexts/PublicContext";
 
 const DrawerDashboard = () => {
 

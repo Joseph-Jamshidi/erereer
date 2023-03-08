@@ -12,7 +12,7 @@ import Vector from "../../images/Vector.png";
 import Ellipse652 from "../../images/Ellipse652.png";
 import Profile1 from '../../images/Profile1.png';
 import CloseIcon from "@mui/icons-material/Close";
-import {ProgressBarContext} from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublicContext";
 
 const Register = () => {
 

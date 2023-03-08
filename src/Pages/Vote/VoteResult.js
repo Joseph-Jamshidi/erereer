@@ -13,7 +13,7 @@ import Dashboard from "../../Layout/Dashboard";
 import {ElectionResultService} from "../../Services/VoteServices";
 import {useParams} from "react-router-dom";
 import {Box, Stack} from "@mui/material";
-import {ProgressBarContext} from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublicContext";
 import {toPersianNumber} from "../../Common/Utitlity";
 
 

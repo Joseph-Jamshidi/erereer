@@ -11,7 +11,7 @@ import {
 import {useParams} from "react-router-dom";
 import {AddVoterService} from "../../Services/VoterServices";
 import CloseIcon from "@mui/icons-material/Close";
-import {ProgressBarContext} from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublicContext";
 
 
 const AddVoter = (props) => {
