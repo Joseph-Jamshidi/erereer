@@ -11,7 +11,7 @@ import Ellipse654 from "../images/Ellipse654.png";
 import Vector from "../images/Vector.png";
 import Ellipse652 from "../images/Ellipse652.png";
 import CloseIcon from "@mui/icons-material/Close";
-import {ProgressBarContext} from "../Contexts/PublickContext";
+import {ProgressBarContext} from "../Contexts/PublicContext";
 
 const ResetPassword = () => {
 

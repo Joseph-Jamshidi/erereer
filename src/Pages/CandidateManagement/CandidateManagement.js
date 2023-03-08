@@ -26,7 +26,7 @@ import {useParams} from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
-import {ProgressBarContext} from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublicContext";
 import {toPersianNumber} from "../../Common/Utitlity";
 
 const CandidateManagement = () => {

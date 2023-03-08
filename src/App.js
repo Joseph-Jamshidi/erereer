@@ -24,7 +24,7 @@ import {Box} from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
 import {ProgressBars} from "./StyledTags/HeaderTags";
 import VoteResult from "./Pages/Vote/VoteResult";
-import {ProgressBarContext} from "./Contexts/PublickContext";
+import {ProgressBarContext} from "./Contexts/PublicContext";
 
 const cacheRtl = createCache({
     key: 'muirtl',

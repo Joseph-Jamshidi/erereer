@@ -16,7 +16,7 @@ import {
     TableRow
 } from "@mui/material";
 import {MainTitleText, RowBox, RowNumber, Section, TitleBox, VoteText, TitleText} from "../../StyledTags/VoteTags";
-import {ProgressBarContext} from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublicContext";
 import {toPersianNumber} from "../../Common/Utitlity";
 
 const VoteHistory = () => {

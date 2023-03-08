@@ -30,7 +30,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import GroupsIcon from '@mui/icons-material/Groups';
 import CloseIcon from "@mui/icons-material/Close";
 import {toPersianNumber} from "../../Common/Utitlity"
-import {ProgressBarContext} from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublicContext";
 
 const ElectionList = ({afterGetVotingList}) => {
 

@@ -25,7 +25,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import AdapterJalali from '@date-io/date-fns-jalali';
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import {ProgressBarContext} from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublicContext";
 
 const CreateElection = () => {
 

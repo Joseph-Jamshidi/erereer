@@ -10,7 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {ForgetPasswordService} from "../../Services/UserServices";
 import {useNavigate} from "react-router-dom";
 import Stroke from "../../images/Stroke.png";
-import {ProgressBarContext} from "../../Contexts/PublickContext";
+import {ProgressBarContext} from "../../Contexts/PublicContext";
 
 const ForgetPassword = () => {
 

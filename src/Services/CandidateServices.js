@@ -49,14 +49,3 @@ export const DeleteCandidateService = async (id) => {
         }
     }
 };
-
-export const ChosenCandidateService = async (id) => {
-    try {
-        const result = await authedAxios.get(urls.candidate + `/${id}`);
-        return result.data;
-    } catch (error) {
-        if (error.response) {
-            return error.response.data;
-        }
-    }
-};
